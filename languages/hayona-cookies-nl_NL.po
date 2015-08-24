@@ -1,0 +1,265 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Hayona Cookies\n"
+"POT-Creation-Date: 2015-08-21 11:37+0200\n"
+"PO-Revision-Date: 2015-08-21 11:40+0200\n"
+"Last-Translator: Leon Korteweg <lkorteweg@hayona.nl>\n"
+"Language-Team: Hayona <info@hayona.nl>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: hayona-cookies.php:106
+#, php-format
+msgid ""
+"The cookie banner is not visible yet. Go to the %1$splugin page%2$s to "
+"review the settings and enable the plugin."
+msgstr ""
+"De cookie banner is nog niet zichtbaar. Ga naar de %1$splugin pagina%2$s om "
+"de instellingen na te kijken en de plugin in te schakelen."
+
+#: hayona-cookies.php:230 hayona-cookies.php:231 hayona-cookies.php:239
+msgid "Allowed"
+msgstr "Toegestaan"
+
+#: hayona-cookies.php:240
+msgid "Not allowed"
+msgstr "Niet toegestaan"
+
+#: hayona-cookies.php:247
+msgid "Cookie preferences"
+msgstr "Cookie voorkeuren"
+
+#: hayona-cookies.php:249
+msgid "Please select which cookies you want to accept from this website."
+msgstr "Selecteer welke cookies u wilt accepteren van deze website."
+
+#: hayona-cookies.php:262
+msgid "Option 1: Allow all cookies"
+msgstr "Optie 1: Accepteer alle cookies"
+
+#: hayona-cookies.php:265
+msgid ""
+"Option 2: Accept only functional and non privacy sensitive cookies (no PII)."
+msgstr ""
+"Optie 2: Accepteer alleen functionele en niet-privacygevoelige cookies (geen "
+"PII)."
+
+#: hayona-cookies.php:274
+msgid "Your choice"
+msgstr "Uw keuze"
+
+#: hayona-cookies.php:276
+msgid "Allow all cookies"
+msgstr "Alle cookies toestaan"
+
+#: hayona-cookies.php:279
+msgid "Accept only functional and non privacy sensitive cookies (no PII)"
+msgstr ""
+"Accepteer alleen functionele en niet-privacygevoelige cookies (geen PII)"
+
+#: hayona-cookies.php:325
+msgid "Hayona Cookies"
+msgstr "Hayona Cookies"
+
+#: hayona-cookies.php:331
+msgid "General settings"
+msgstr "Algemene instellingen"
+
+#: hayona-cookies.php:333
+msgid "You're almost there! Just a couple more things to do"
+msgstr "Je bent er bijna! Nog een paar kleine dingen"
+
+#: hayona-cookies.php:338
+#, php-format
+msgid "Install Google Tag Manager on your website (see %1$sdocumentation%2$s)"
+msgstr "Installeer Google Tag Manager op je website (zie %1$sdocumentatie%2$s)"
+
+#: hayona-cookies.php:343
+msgid "Review the settings below"
+msgstr "Controleer de onderstaande instellingen"
+
+#: hayona-cookies.php:344
+msgid "Enable the plugin"
+msgstr "Zet de plugin aan"
+
+#: hayona-cookies.php:349
+msgid "Privacy statement"
+msgstr "Privacy verklaring"
+
+#: hayona-cookies.php:369
+msgid ""
+"Please select the page that contains your privacy statement. A small cookie "
+"preferences form will be placed at the top of this page. This way your "
+"visitors can change their privacy settings on any given moment."
+msgstr ""
+"Selecteer de pagina die de privacy verklaring bevat. Er zal een klein "
+"formulier op geplaatst worden, bovenaan de pagina. Op deze manier kunnen je "
+"bezoekers hun privacy instellingen op elk moment aanpassen."
+
+#: hayona-cookies.php:375 hayona-cookies.php:383 hayona-cookies.php:385
+msgid "Enable plugin"
+msgstr "Plugin aanzetten"
+
+#: hayona-cookies.php:389
+msgid "You can enable the plugin if you have done the steps listed above."
+msgstr ""
+"Je kunt de plugin aanzetten als je bovenstaande stappen hebt doorlopen."
+
+#: hayona-cookies.php:398
+msgid "Banner settings"
+msgstr "Banner instellingen"
+
+#: hayona-cookies.php:401
+#, php-format
+msgid ""
+"Informing your visitors about cookies on your website is an important part "
+"of conforming to the EU cookie law. Use the banner text to provide this "
+"information. See the %1$sdocumentation%2$s for various examples in different "
+"situations."
+msgstr ""
+"Een belangrijk onderdeel van het voldoen aan de cookiewet in de EU is het "
+"informeren van je bezoekers over cookies. Gebruik de banner tekst om deze "
+"informatie te verstrekken. Zie de %1$sdocumentatie%2$s voor verschillende "
+"voorbeelden."
+
+#: hayona-cookies.php:409
+msgid "Banner text"
+msgstr "Banner tekst"
+
+#: hayona-cookies.php:418 hayona-cookies.php:499 hayona-cookies.php:518
+#, php-format
+msgid "Need some examples? See %1$sdocumentation%2$s."
+msgstr "Voorbeelden nodig? Lees de %1$sdocumentatie%2$s."
+
+#: hayona-cookies.php:427
+msgid "Implied consent"
+msgstr "Impliciete toestemming"
+
+#: hayona-cookies.php:435 hayona-cookies.php:437
+msgid "Enable implied consent"
+msgstr "Impliciete toestemming inschakelen"
+
+#: hayona-cookies.php:441
+msgid ""
+"Implied consent means if a user clicks through to the next page, it will "
+"count as permission."
+msgstr ""
+"Impliciete toestemming betekent dat als een gebruiker doorklikt naar de "
+"volgende pagina, dat ook telt als toestemming."
+
+#: hayona-cookies.php:447
+msgid "Color scheme"
+msgstr "Kleurenschema"
+
+#: hayona-cookies.php:456
+msgid "Dark color scheme"
+msgstr "Donker kleurenschema"
+
+#: hayona-cookies.php:460
+msgid "Light color scheme"
+msgstr "Licht kleurenschema"
+
+#: hayona-cookies.php:464
+msgid "No color scheme"
+msgstr "Geen kleurenschema"
+
+#: hayona-cookies.php:468
+msgid ""
+"We'll add more in time. Select 'No color scheme' if you prefer to write your "
+"own CSS."
+msgstr ""
+"Naar verloop van tijd zullen we er meer toevoegen. Selecteer 'Geen "
+"kleurenschema' als je liever je eigen CSS schrijft."
+
+#: hayona-cookies.php:477
+msgid "Cookie settings"
+msgstr "Cookie instellingen"
+
+#: hayona-cookies.php:479
+msgid ""
+"List all the cookies you use on your website. Place every cookie on a new "
+"line."
+msgstr ""
+"Noem alle cookies op die je gebruikt op je website. Plaats elk cookie op een "
+"nieuwe regel."
+
+#: hayona-cookies.php:482
+msgid "We distinguish between two different kinds of cookies."
+msgstr "We maken onderscheid tussen twee verschillende cookies."
+
+#: hayona-cookies.php:483
+msgid ""
+"The first category contains cookies that don't require permission (usually "
+"functional and non-PII cookies)."
+msgstr ""
+"De eerste categorie bevat cookies die geen toestemming vereisen (normaal "
+"gesproken zijn dit functionele cookies en niet-PII cookies)."
+
+#: hayona-cookies.php:484
+msgid ""
+"The second category contains cookies that do require permission. These are "
+"cookies used for tracking, profiling, advertising and cookies that store PII."
+msgstr ""
+"De tweede categorie bevat cookies die wel toestemming vereisen. Dit zijn "
+"cookies die gebruikt worden voor tracken, profileren, advertenties en "
+"cookies die PII opslaan."
+
+#: hayona-cookies.php:489
+msgid "No permission required"
+msgstr "Geen toestemming vereist"
+
+#: hayona-cookies.php:497 hayona-cookies.php:516
+msgid "List your cookies one by one. Place each cookie on a new line. "
+msgstr "Noem alle cookies op. Plaats elke cookie op een nieuwe regel."
+
+#: hayona-cookies.php:508
+msgid "Permission required"
+msgstr "Toestemming vereist"
+
+#: hayona-cookies.php:527 hayona-cookies.php:531
+msgid "Reset permissions"
+msgstr "Wis alle toestemmingen"
+
+#: hayona-cookies.php:535
+msgid ""
+"Did you just change anything to the cookies on your site? This means you'll "
+"need to ask every visitor for their permission again, even if they gave "
+"permission before."
+msgstr ""
+"Heb je zojuist iets veranderd aan de cookies op je website? Dat betekent dat "
+"je opnieuw toestemming moet vragen aan je bezoekers, ookal hebben ze eerder "
+"al toestemming gegeven."
+
+#: hayona-cookies.php:536
+msgid "Check this box and press save to do this."
+msgstr "Selecteer de checkbox en sla op om dit te doen."
+
+#: hayona-cookies.php:548
+msgid "About this plugin"
+msgstr "Over deze plugin"
+
+#: hayona-cookies.php:550
+msgid "Plugin info"
+msgstr "Plugin informatie"
+
+#: hayona-cookies.php:552
+msgid "Documentation"
+msgstr "Documentatie"
+
+#: hayona-cookies.php:554
+msgid "Read documentation"
+msgstr "Lees de documentatie"
+
+#~ msgid "Option 2: Allow only functional and non-pii cookies"
+#~ msgstr "Optie 2: Accepteer alleen functionele en niet-pii cookies"
+
+#~ msgid "Allow only functional and non-pii cookies"
+#~ msgstr "Alleen functionele en niet-pii cookies toestaan"
