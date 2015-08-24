@@ -4,22 +4,39 @@ Comply with EU cookie law: tell your visitors how you use cookies, obtain their 
 
 ## Description
 
-This simple and lightweight plugin helps you to comply with the EU cookie law:
+This simple and lightweight WordPress plugin helps you to comply with the EU cookie law:
 
 1. Insert a simple banner on your website to *inform users* about the cookies you are using, to *obtain consent* for the cookies and to offer them the possibility to *change their preferences*. 
 2. Block cookies for which permission is required until you obtain their consent.
 3. Enable visitors to adjust their *cookie preferences* through a small form on your site.
 4. Enable *implied consent* which means that visitors give consent by clicking to the next page. The cookies will be placed and the banner will disappear.
-5. Cookies that do not require permission are placed immediately. For instance *Google Analytics* under [certain conditions](http://www.interpedia.nl), affiliate cookies and functional cookies.
+5. Cookies that do not require permission are placed immediately. For instance *Google Analytics* under [certain conditions](https://www.interpedia.nl/analytics/beheer/google-analytics-instellen-cookiewetgeving), affiliate cookies and functional cookies.
+
 This plugin offers some unique characteristics:
+
 1. Scripts are placed through the Google Tag Manager
 2. Caching has no influence on this plugin or vice-versa
 3. PII cookies are blocked until visitors give consent
 4. Functional and non-PII cookies are placed immediately
 5. Implied consent is optional
+
 Using Google Tag Manager to place scripts on your website is a very simple and straightforward process. It only takes five minutes. Watch this video to see how it works:
 
 -- video --
+
+## Screenshots
+
+![Cookie banner](/assets/screenshot-1.png?raw=true)
+
+Add a customisable cookie banner to the top of your website
+
+![Privacy settings form](/assets/screenshot-2.png?raw=true)
+
+Add a privacy settings form to a page of your choice
+
+![WordPress plugin options](/assets/screenshot-3.png?raw=true)
+
+Customize the plugin through the options page under Settings » Hayona Cookies
 
 ## About the cookie law in the EU
 

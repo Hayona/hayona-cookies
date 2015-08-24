@@ -62,9 +62,7 @@ Examples of PII cookies – permission required:
 - Social media buttons
 - Etc.
 
-If you don't comply you risk enforcement action from regulators, including a very high fine.
-
-However, non-compliance could also have other consequences. There is evidence that consumers avoid engaging with websites where they believe their privacy is at risk. In general, consumers just don’t like cookies and they don’t like being tracked.
+If you don't comply you risk enforcement action from regulators, including a very high fine. However, non-compliance could also have other consequences. There is evidence that consumers avoid engaging with websites where they believe their privacy is at risk. In general, consumers just don’t like cookies and they don’t like being tracked.
 
 Hayona, the developer of this plugin, therefore believes that the ideal situation is a website that does not need this plugin at all! Most websites do not need PII cookies and without PII cookies the only thing you need is a page describing your privacy policy. No banner or visitor consent is needed.
 
@@ -82,3 +80,20 @@ This plugin does not block scripts that you have placed directly in your website
 # Translations
 
 We currently have support for two languages: English and Dutch. Would you like to help translating this plugin? Please contact us trough [this page](http://www.hayona.nl/contact).
+
+== Installation ==
+
+Follow these steps to install the plugin: 
+
+1. Upload the 'hayona-cookies' folder to the '/wp-content/plugins/' directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Go to Settings » Hayona Cookies to review the plugin settings and enable the plugin
+4. Install Google Tag Manager to your website 
+
+If you've never worked with the Google Tag Manager before, please watch [this short video]() to get started. It's really not that complicated. 
+
+== Screenshots ==
+
+1. Add a customisable banner to the top of your website. 
+2. Add a privacy settings form to a page of your choice
+3. Customize the plugin through the options page under Settings » Hayona Cookies
