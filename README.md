@@ -26,7 +26,7 @@ Using Google Tag Manager to place scripts on your website is a very simple and s
 
 ## Screenshots
 
-### Add a customisable cookie banner to the top of your website
+### Add a customizable cookie banner to the top of your website
 
 ![Cookie banner](/assets/screenshot-1.png?raw=true)
 

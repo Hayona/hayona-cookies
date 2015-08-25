@@ -94,6 +94,6 @@ If you've never worked with the Google Tag Manager before, please watch [this sh
 
 == Screenshots ==
 
-1. Add a customisable banner to the top of your website. 
+1. Add a customizable banner to the top of your website. 
 2. Add a privacy settings form to a page of your choice
 3. Customize the plugin through the options page under Settings » Hayona Cookies
