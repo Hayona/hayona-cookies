@@ -22,21 +22,21 @@ This plugin offers some unique characteristics:
 
 Using Google Tag Manager to place scripts on your website is a very simple and straightforward process. It only takes five minutes. Watch this video to see how it works:
 
--- video --
+[https://www.youtube.com/watch?v=buEZdno55SU](https://www.youtube.com/watch?v=buEZdno55SU)
 
 ## Screenshots
 
+### Add a customisable cookie banner to the top of your website
+
 ![Cookie banner](/assets/screenshot-1.png?raw=true)
 
-Add a customisable cookie banner to the top of your website
+### Add a privacy settings form to a page of your choice
 
 ![Privacy settings form](/assets/screenshot-2.png?raw=true)
 
-Add a privacy settings form to a page of your choice
+### Customize the plugin through the options page under Settings » Hayona Cookies
 
 ![WordPress plugin options](/assets/screenshot-3.png?raw=true)
-
-Customize the plugin through the options page under Settings » Hayona Cookies
 
 ## About the cookie law in the EU
 

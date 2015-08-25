@@ -90,7 +90,7 @@ Follow these steps to install the plugin:
 3. Go to Settings » Hayona Cookies to review the plugin settings and enable the plugin
 4. Install Google Tag Manager to your website 
 
-If you've never worked with the Google Tag Manager before, please watch [this short video]() to get started. It's really not that complicated. 
+If you've never worked with the Google Tag Manager before, please watch [this short video](https://www.youtube.com/watch?v=buEZdno55SU) to get started. It's really not that complicated. 
 
 == Screenshots ==
 
