@@ -255,8 +255,8 @@ var cookieBanner = function() {
 		// Check permission settings
 		if( self.hasPermission() ) {
 
-			// Fire Google Tag Manager 'permission' event
-			dataLayer.push({'event': 'permission'});
+			// Fire Google Tag Manager 'consent' event
+			dataLayer.push({'event': 'consent'});
 
 		} else if( self.hasRejection() ) {
 
@@ -270,8 +270,8 @@ var cookieBanner = function() {
 			// Store permission settings
 			self.storePermissionSettings( 'true', validPermissionToken );
 
-			// Fire Google Tag Manager 'permission' event
-			dataLayer.push({'event': 'permission'});
+			// Fire Google Tag Manager 'consent' event
+			dataLayer.push({'event': 'consent'});
 
 		} else { 
 
@@ -303,7 +303,7 @@ var cookieBanner = function() {
 				e.preventDefault();
 				self.closeBanner();
 				self.storePermissionSettings( 'true', validPermissionToken );
-				dataLayer.push({'event': 'permission'});
+				dataLayer.push({'event': 'consent'});
 			} );
 		}
 
