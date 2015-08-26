@@ -88,9 +88,16 @@ Follow these steps to install the plugin:
 1. Upload the 'hayona-cookies' folder to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to Settings » Hayona Cookies to review the plugin settings and enable the plugin
-4. Install Google Tag Manager to your website 
 
-If you've never worked with the Google Tag Manager before, please watch [this short video](https://www.youtube.com/watch?v=buEZdno55SU) to get started. It's really not that complicated. 
+The plugin needs Google Tag Manager installed on your site for it to work. If you've never worked with the Google Tag Manager before, please watch [this short video](https://www.youtube.com/watch?v=buEZdno55SU) to get started. It's really not that complicated. In the video we go through the following steps:
+
+1. Make sure Google Tag Manager (GMT) is installed on your website
+2. Go to triggers and add a new trigger
+3. Select 'Custom Event' and give it the name 'consent'.
+4. Add scripts to your website under 'Tags'. 
+5. Add the trigger from step 3 to each script that needs consent from your users. 
+
+If you're done adding scripts to GMT, don't forget to press publish to push the changes to your live website.
 
 == Screenshots ==
 
