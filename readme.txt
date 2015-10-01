@@ -31,6 +31,15 @@ Using Google Tag Manager to place scripts on your website is a very simple and s
 
 -- video --
 
+# Detect your cookies
+
+WordPress plugins are powerful tools to build amazing things in relatively short time. The downside of using someone else’s scripts is that you don't always know exactly what is happening when someone visits your website and which cookies are placed. We suggest that you use the [ghostery browser add-on](https://www.ghostery.com/en/our-solutions/ghostery-add-on/) to measure which cookies are placed on your website. 
+
+This plugin does not block scripts that you have placed directly in your website. This includes all default youtube videos and most social media buttons. Here are some suggestions on how to work around this issue: 
+
+- Enable privacy mode when embedding a YouTube video. This way the embedded video will not place cookies.
+- Do not use social media share buttons. Many well-known solutions place heaps of cookies. Some common examples are the Facebook like button and the AddThis toolbar.
+
 # About the cookie law in the EU
 
 **IMPORTANT NOTICE**: Implementing this plugin will NOT automatically make your website in compliance with the EU cookie law. It gives you all the functionality you need, but you will have to use it correctly:
@@ -39,7 +48,9 @@ Using Google Tag Manager to place scripts on your website is a very simple and s
 2. Provide complete and correct information in the banner
 3. Provide complete and correct information on the page with your privacy policy
 4. Do not place any scripts that place cookies outside the Google Tag manager
+
 Compliance with the EU cookie law comes down to three basic steps:
+
 1. Make sure you know exactly which cookies your site sets, what they are used for and if they are privacy sensitive, which means that they contain personal identifiable information (PII).
 2. Inform your visitors precisely how you use cookies.
 3. Obtain the visitor’s consent and give them some control over their preferences.
@@ -59,23 +70,16 @@ Examples of PII cookies – permission required:
 - Google Adwords remarketing
 - Facebook remarketing
 - All retargeting and advertising cookies
-- Social media buttons
+- Most social media buttons (Add-this toolbar, Facebook like box, etc.)
 - Etc.
+
+# Are you sure you want to use cookies?
 
 If you don't comply you risk enforcement action from regulators, including a very high fine. However, non-compliance could also have other consequences. There is evidence that consumers avoid engaging with websites where they believe their privacy is at risk. In general, consumers just don’t like cookies and they don’t like being tracked.
 
 Hayona, the developer of this plugin, therefore believes that the ideal situation is a website that does not need this plugin at all! Most websites do not need PII cookies and without PII cookies the only thing you need is a page describing your privacy policy. No banner or visitor consent is needed.
 
-Be therefore very critical towards your website builder and online marketing people; don’t accept any cookie-placing scripts unless you are absolutely sure it is needed for your business. Implement Google Analytics in non-PII mode by masking ip addresses and not sharing your data with Google or others. Do not use social media buttons with scripts; why would you help the social media to follow and track your website visitors? Use simple hyperlinks instead; it even improves the performance of your site. Think twice about remarketing; consumers will get the feeling they are being tracked. And if you embed YouTube videos, always enable the privacy mode!
-
-# Detect your cookies
-
-WordPress plugins are powerful tools to build amazing things in relatively short time. The downside of using someone else’s scripts is that you don't always know exactly what is happening when someone visits your website and which cookies are placed. We suggest that you use the [ghostery browser add-on](https://www.ghostery.com/en/our-solutions/ghostery-add-on/) to measure which cookies are placed on your website. 
-
-This plugin does not block scripts that you have placed directly in your website. This includes all default youtube videos and most social media buttons. Here are some suggestions on how to work around this issue: 
-
-- Enable privacy mode when embedding a YouTube video. This way the embedded video will not place cookies.
-- Do not use social media share buttons. Many well-known solutions place heaps of cookies. Some common examples are the Facebook like button and the AddThis toolbar. 
+Be therefore very critical towards your website builder and online marketing people; don’t accept any cookie-placing scripts unless you are absolutely sure it is needed for your business. Implement Google Analytics in non-PII mode by masking ip addresses and not sharing your data with Google or others. Do not use social media buttons with scripts; why would you help the social media to follow and track your website visitors? Use simple hyperlinks instead; it even improves the performance of your site. Think twice about remarketing; consumers will get the feeling they are being tracked. And if you embed YouTube videos, always enable the privacy mode! 
 
 # Translations
 
