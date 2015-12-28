@@ -1,43 +1,24 @@
+/** 
+ * Initialise the datalayer object if it doesnt' exist. This dataLayer is used 
+ * to send data to Google Tag Manager (e.g. the cookie consent)
+ */
+if(typeof dataLayer === 'undefined'){
+	var dataLayer = [];
+}
 
 
 var cookieBanner = function() {
 
-	this.validPermissionToken;
-
-	/*
-	 * Thanks to @ppk for his cookie scripts 
-	 *
-	 * Url: http://www.quirksmode.org/js/cookies.html 
-	 */
-
-	this.createCookie = function(name,value,days) {
-		if (days) {
-			var date = new Date();
-			date.setTime(date.getTime()+(days*24*60*60*1000));
-			var expires = "; expires="+date.toGMTString();
-		}
-		else var expires = "";
-		document.cookie = name+"="+value+expires+"; path=/";
-	};
-	
-	this.readCookie = function(name) {
-		var nameEQ = name + "=";
-		var ca = document.cookie.split(';');
-		for(var i=0;i < ca.length;i++) {
-			var c = ca[i];
-			while (c.charAt(0)==' ') c = c.substring(1,c.length);
-			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-		}
-		return null;
-	};
-	
-	this.eraseCookie = function(name) {
-		this.createCookie(name,"",-1);
+	this.settings = {
+		timestamp: 0,
+		isSettingsPage: false,
+		implicitConsentEnabled: false,
+		cookieExpiration: 365
 	};
 
-
-	/*
+	/**
 	 * Debounce function from David Walsh
+	 * 
 	 * http://davidwalsh.name/javascript-debounce-function
 	 */
 	this.debounce = function(func, wait, immediate) {
@@ -56,59 +37,16 @@ var cookieBanner = function() {
 	};
 
 
-	/*
+	/**
 	 * Checks if this pageload is the same as the previous url (refresh)
 	 *
 	 * @return true | false
 	 */
-
 	this.isRefresh = function() {
-		var previousUrl = this.readCookie( 'previousUrl' );
+		var landingUrl = Cookies.get( 'hc_landing_url' );
 		var currentUrl = window.location.href;
 
-		if( previousUrl != null &&
-				previousUrl === currentUrl ) {
-			this.eraseCookie( 'previousUrl' );
-			this.createCookie( 'previousUrl', currentUrl );
-			return true;
-		} else {
-			this.createCookie( 'previousUrl', currentUrl );
-			return false;
-		}
-	}
-
-
-	/*
-	 * Checks if permission is still valid
-	 *
-	 * @return true | false
-	 */
-
-	this.permissionIsValid = function() {
-		var self = this;
-		var cookiePermissionToken = Number( self.readCookie('cookiePermissionToken') );
-
-		if( cookiePermissionToken != null &&
-				cookiePermissionToken === self.validPermissionToken ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-
-	/*
-	 * Checks if permission has been given on earlier visits
-	 *
-	 * @return true | false
-	 */
-
-	this.hasPermission = function () {
-		var self = this;
-		var cookiePermission = self.readCookie('cookiePermission');
-
-		if( cookiePermission === "true" &&
-				self.permissionIsValid() ) {
+		if( landingUrl === currentUrl ) {
 			return true;
 		} else {
 			return false;
@@ -116,18 +54,80 @@ var cookieBanner = function() {
 	};
 
 
-	/*
+	/**
+	 * Checks if consent is still valid
+	 *
+	 * @return true | false
+	 */
+	this.consentIsValid = function() {
+		var self = this;
+		var cookie = Cookies.getJSON('hc_consent');
+		
+		if( cookie != null ) {
+			var timestamp = cookie.timestamp;
+
+			if( timestamp > self.settings.timestamp ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	};
+
+
+	/**
+	 * Checks if consent has been given on earlier visits
+	 *
+	 * @return true | false
+	 */
+	this.hasConsent = function () {
+		var self = this;
+		var cookie = Cookies.getJSON('hc_consent');
+		
+		if( cookie != null ) {
+			var consent = cookie.consent;
+
+			if( consent === true &&
+					self.consentIsValid() ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	};
+
+
+	/**
 	 * Checks if cookies have been rejected on earlier visits
 	 *
 	 * @return true | false
 	 */
-
 	this.hasRejection = function () {
 		var self = this;
-		var cookiePermission = self.readCookie('cookiePermission');
+		var cookie = Cookies.getJSON('hc_consent');
+		
+		if( cookie != null ) {
+			var consent = cookie.consent;
 
-		if( cookiePermission === 'false' &&
-				self.permissionIsValid() ) {
+			if( consent === false &&
+					self.consentIsValid() ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	};
+
+
+	/**
+	 * Checks if implicit consent has been given
+	 *
+	 * @return true | false
+	 */
+	this.hasImplicitConsent = function () {
+		var cookie = Cookies.get('hc_implicit');
+
+		if( cookie != null ) {
 			return true;
 		} else {
 			return false;
@@ -135,42 +135,42 @@ var cookieBanner = function() {
 	};
 
 
-	/*
-	 * Checks if user has given implicit permission
+	/**
+	 * Store consent settings in a cookie
 	 *
-	 * @return true | false
+	 * @return undefined
 	 */
-
-	this.hasImplicitPermission = function () {
-		var cookiePermission = this.readCookie('cookiePermission');
-
-		if( cookiePermission === 'implicit' ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-
-	// Store permission settings in a cookie
-	this.storePermissionSettings = function(cookiePermission, permissionToken, isSessionCookie) {
+	this.saveConsent = function(consent) {
+		var self = this;
 
 		// Erase old cookies if present
-		this.eraseCookie( 'cookiePermission' );
-		this.eraseCookie( 'cookiePermissionToken' );
+		Cookies.remove( 'hc_consent' );
 
-		if( isSessionCookie === true ) {
-			// Write permission to new session cookies
-			this.createCookie('cookiePermission', cookiePermission );
-		} else {
-			// Write permission to new cookies (stored for one year)
-			this.createCookie('cookiePermission', cookiePermission, 365);
-			this.createCookie('cookiePermissionToken', permissionToken, 365);
+		var cookie = {
+			timestamp: +new Date(),
+			consent: consent
+		};
+
+		console.log( self.settings.cookieExpiration );
+
+		Cookies.set( 'hc_consent', cookie, { expires: self.settings.cookieExpiration } );
+	};
+
+
+	/**
+	 * Store landingUrl
+	 *
+	 * @return undefined
+	 */
+	this.saveLandingUrl = function( cookie ) {
+		var currentUrl = window.location.href;
+		if( cookie == null ) {
+			Cookies.set( 'hc_landing_url', currentUrl);
 		}
 	};
 	
 
-	/*
+	/**
 	 * Place the banner at the top of the page
 	 * and put the website below the banner.
 	 */
@@ -237,96 +237,100 @@ var cookieBanner = function() {
 	};
 
 
-	/*
+	/**
 	 * Initialise cookie banner
 	 * 
-	 * @param validPermissionToken number
-	 * @param isSettingsPage number
+	 * @return undefined
 	 */
-	this.init = function( validPermissionToken, isSettingsPage, implicitConsentEnabled ) {
+	this.init = function( settings ) {
 		var self = this;
 
-		// Check if this pageview is a refresh or not
-		var isRefresh = self.isRefresh();
+		// Store plugin settings
+		$.extend(self.settings, self.settings, settings);
 
-		// Store the current (valid) permission token
-		self.validPermissionToken = validPermissionToken;
 
-		// Check permission settings
-		if( self.hasPermission() ) {
+		// Did a user give consent to place cookies?
+		if( self.hasConsent() ) {
+
+			// Yes: fire Google Tag Manager 'consent' event
+			dataLayer.push({'event': 'consent'});
+
+		} 
+
+		else if( self.hasRejection() ) {
+
+			// No: do nothing
+
+		} 
+
+		else if( self.hasImplicitConsent() && 
+				! self.settings.isSettingsPage && 
+				! self.isRefresh() &&
+				self.settings.implicitConsentEnabled ) {
+
+			// No, but implicit consent is enabled
+			// and the user has clicked to the next page
+
+			// Store consent settings
+			self.saveConsent( true );
 
 			// Fire Google Tag Manager 'consent' event
 			dataLayer.push({'event': 'consent'});
 
-		} else if( self.hasRejection() ) {
+		} 
 
-			// User has rejected cookies on earlier visit - do nothing
-
-		} else if( self.hasImplicitPermission() && 
-				! isSettingsPage && 
-				! isRefresh &&
-				implicitConsentEnabled ) {
-
-			// Store permission settings
-			self.storePermissionSettings( 'true', validPermissionToken );
-
-			// Fire Google Tag Manager 'consent' event
-			dataLayer.push({'event': 'consent'});
-
-		} else { 
+		else { 
 
 			// Show banner
 			self.showBanner();
 
-			if( implicitConsentEnabled ) {
+			// Store landing url in session cookie
+			self.saveLandingUrl( Cookies.get('hc_landing_url') );
 
-				/*
-				 * Store implicit permission. If the user does nothing the permission
+			if( self.settings.implicitConsentEnabled ) {
+
+				/**
+				 * Store implicit consent. If the user does nothing the consent
 				 * will be set to 'true' on the next page. Except for the privacy 
 				 * statement page and in case of a refresh. In those cases the
-				 * permission will remain set to 'implicit'.
+				 * consent will remain set to 'implicit'.
 				 */
-				self.storePermissionSettings( 'implicit', validPermissionToken, true );
+				Cookies.set( 'hc_implicit', true );
 			}
 		}
 
 
+		// Is the banner currently on the page?
 		if( jQuery('.accept-cookies').length ) {
 
-			/*
-			 * If a user clicks on accept, we: 
-			 * - Close the banner
-			 * - Store permission settings in a cookie
-			 * - Fire google tag manager 'permission' event
-			 */
+			// Yes, so if a user clicks on accept, we: 
+			// - Close the banner
+			// - Store consent settings in a cookie
+			// - Fire google tag manager 'consent' event
 			jQuery('.accept-cookies').on( 'click', function(e) {
 				e.preventDefault();
 				self.closeBanner();
-				self.storePermissionSettings( 'true', validPermissionToken );
+				self.saveConsent( true );
 				dataLayer.push({'event': 'consent'});
 			} );
-		}
 
-		if( jQuery('.reject-cookies').length ) {
-
-			/*
-			 * If a user rejects cookies: 
-			 * - Close the banner
-			 * - Store permission settings in a cookie
-			 */
+			// If a user rejects cookies: 
+			// - Close the banner
+			// - Store consent settings in a cookie
 			jQuery('.reject-cookies').on( 'click', function(e) {
 				e.preventDefault();
 				self.closeBanner();
-				self.storePermissionSettings( 'false', validPermissionToken );
+				self.saveConsent( false );
 			} );
 		}
 
 
-		/*
-		 * Toggle selected state on the settings page
-		 */
-		if( isSettingsPage ) {
+		// Are we on the settings page?
+		if( self.settings.isSettingsPage ) {
 
+			// Yes: Show the settings form
+			// (it is hidden by default for users that
+			// don't have javascript enabled)
 			jQuery( '.hc-settings' ).show();
 
 			var selectAcceptButton = function() {
@@ -334,16 +338,16 @@ var cookieBanner = function() {
 				jQuery( '.accept-cookies' ).removeClass( 'hc-button--grey' );
 				jQuery( '.reject-cookies span' ).html( '' );
 				jQuery( '.accept-cookies span' ).html( '✓ ' );
-			}
+			};
 
 			var selectRejectButton = function() {
 				jQuery( '.reject-cookies' ).removeClass( 'hc-button--grey' );
 				jQuery( '.accept-cookies' ).addClass( 'hc-button--grey' );
 				jQuery( '.reject-cookies span' ).html( '✓ ' );
 				jQuery( '.accept-cookies span' ).html( '' );
-			}
+			};
 
-			if( self.hasPermission() ) {
+			if( self.hasConsent() ) {
 				selectAcceptButton();
 			} else if( self.hasRejection() ) {
 				selectRejectButton();
@@ -353,9 +357,19 @@ var cookieBanner = function() {
 			jQuery( '.reject-cookies' ).on( 'click', selectRejectButton );
 
 		}
-
-
 	};
 };
 
 var hayonaCookies = new cookieBanner();
+
+
+/**
+ * Small utility functions for users that don't use the Google Tag Mager. 
+ */
+var hasHayonaCookieConsent = function() {
+	if( hayonaCookies.hasConsent() ) {
+		return true;
+	} else {
+		return false;
+	}
+};

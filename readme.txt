@@ -6,6 +6,7 @@ Requires at least:
 Tested up to: 
 Stable tag: 
 License: GPLv2
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
 
@@ -26,19 +27,6 @@ This plugin offers some unique characteristics:
 3. PII cookies are blocked until visitors give consent
 4. Functional and non-PII cookies are placed immediately
 5. Implied consent is optional
-
-Using Google Tag Manager to place scripts on your website is a very simple and straightforward process. It only takes five minutes. Watch this video to see how it works:
-
--- video --
-
-# Detect your cookies
-
-WordPress plugins are powerful tools to build amazing things in relatively short time. The downside of using someone else’s scripts is that you don't always know exactly what is happening when someone visits your website and which cookies are placed. We suggest that you use the [ghostery browser add-on](https://www.ghostery.com/en/our-solutions/ghostery-add-on/) to measure which cookies are placed on your website. 
-
-This plugin does not block scripts that you have placed directly in your website. This includes all default youtube videos and most social media buttons. Here are some suggestions on how to work around this issue: 
-
-- Enable privacy mode when embedding a YouTube video. This way the embedded video will not place cookies.
-- Do not use social media share buttons. Many well-known solutions place heaps of cookies. Some common examples are the Facebook like button and the AddThis toolbar.
 
 # About the cookie law in the EU
 
@@ -81,6 +69,15 @@ Hayona, the developer of this plugin, therefore believes that the ideal situatio
 
 Be therefore very critical towards your website builder and online marketing people; don’t accept any cookie-placing scripts unless you are absolutely sure it is needed for your business. Implement Google Analytics in non-PII mode by masking ip addresses and not sharing your data with Google or others. Do not use social media buttons with scripts; why would you help the social media to follow and track your website visitors? Use simple hyperlinks instead; it even improves the performance of your site. Think twice about remarketing; consumers will get the feeling they are being tracked. And if you embed YouTube videos, always enable the privacy mode! 
 
+# Detect your cookies
+
+WordPress plugins are powerful tools to build amazing things in relatively short time. The downside of using someone else’s scripts is that you don't always know exactly what is happening when someone visits your website and which cookies are placed. We suggest that you use the [ghostery browser add-on](https://www.ghostery.com/en/our-solutions/ghostery-add-on/) to measure which cookies are placed on your website. 
+
+This plugin does not block scripts that you have placed directly in your website. This includes all default youtube videos and most social media buttons. Here are some suggestions on how to work around this issue: 
+
+- Enable privacy mode when embedding a YouTube video. This way the embedded video will not place cookies.
+- Do not use social media share buttons. Many well-known solutions place heaps of cookies. Some common examples are the Facebook like button and the AddThis toolbar.
+
 # Translations
 
 We currently have support for two languages: English and Dutch. Would you like to help translating this plugin? Please contact us trough [this page](http://www.hayona.nl/contact).
@@ -93,6 +90,8 @@ Follow these steps to install the plugin:
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to Settings » Hayona Cookies to review the plugin settings and enable the plugin
 
+# Google Tag Manager
+
 The plugin needs Google Tag Manager installed on your site for it to work. If you've never worked with the Google Tag Manager before, please watch [this short video](https://www.youtube.com/watch?v=buEZdno55SU) to get started. It's really not that complicated. In the video we go through the following steps:
 
 1. Make sure Google Tag Manager (GMT) is installed on your website
@@ -103,8 +102,34 @@ The plugin needs Google Tag Manager installed on your site for it to work. If yo
 
 If you're done adding scripts to GMT, don't forget to press publish to push the changes to your live website.
 
+## Using the plugin without Google Tag Manager
+
+Web developers can check for cookie consent through a simple utility function called hasHayonaCookieConsent(). 
+
+	<script>
+
+	$(document).ready( function() {
+		if(hasHayonaCookieConsent()) {
+			// Place your cookie script here
+		}
+	} );
+
+	</script>
+
+# Banner text
+
+Here are some examples of content you can place in your banner. The parts with **bold emphasis** depend on your settings. Edit them to suit your situation. 
+
+## English example
+
+	We use cookies to ensure that we give you the best experience on our website. The European Law differentiates between functional or non-privacy sensitive cookies and cookies which could be privacy sensitive (PII). **This websites only uses functional or non-privacy sensitive cookies. / This website uses both types of cookies.** By clicking ‘OK, close’ **or by continuing to use our website,** you accept the cookies of our website. Choose ‘change settings’ if you want more information or to change your cookie preferences.
+
+## Dutch example
+
+	Wij gebruiken cookies om deze website zo gebruiksvriendelijk mogelijk te maken en u te voorzien van de beste informatie. De Europese wetgeving maakt onderscheid tussen cookies die functioneel of niet privacygevoelig zijn en cookies die mogelijk wel privacygevoelig kunnen zijn (PII). **Deze website gebruikt alleen functionele of niet-privacygevoelige cookies.  / Deze website gebruikt beide soorten cookies.** Door hiernaast op ‘OK, sluiten’ te klikken **of door gebruik te blijven maken van deze website,** geeft u toestemming voor het plaatsen van cookies. Klik op 'Instellingen wijzigen' om uw cookievoorkeuren aan te passen en voor meer informatie over het gebruik van cookies op deze website.
+
 == Screenshots ==
 
-1. Add a customizable banner to the top of your website. 
+1. Add a customizable cookie banner to the top of your website. 
 2. Add a privacy settings form to a page of your choice
 3. Customize the plugin through the options page under Settings » Hayona Cookies

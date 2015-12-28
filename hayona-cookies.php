@@ -14,7 +14,7 @@ Hayona Cookies is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
 any later version.
- 
+
 Hayona Cookies is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -30,16 +30,16 @@ class Hayona_Cookies {
 
 	public function __construct() {
 
-		// On activation, set a cookie token
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
+		// On activation, set a cookie timestamp
+		register_activation_hook( __FILE__, array( $this, 'reset_cookie_timestamp' ) );
 
 		// Load translations
 		add_action( 'plugins_loaded', array( $this, 'load_translations' ) );
 
 		// Is the plugin enabled via the settings page??
-		$is_enabled = esc_attr( get_option('is_enabled') );
+		$is_enabled = esc_attr( get_option( 'hc_is_enabled' ) );
 
-		/*
+		/**
 		 * Admin functions
 		 */
 		if ( is_admin() ){ 
@@ -54,25 +54,19 @@ class Hayona_Cookies {
 
 		} 
 
-		/*
+		/**
 		 * Frontend functions
 		 */
 		else {
 
 			if( $is_enabled == "on" ) {
 				add_action( 'wp_footer', array( $this, 'hc_banner' ), 100 );
-				add_action( 'wp_head', array( $this, 'hc_gtm_script' ) );
 				add_action( 'wp_enqueue_scripts', array( $this, 'hc_assets' ) );
 				add_filter( 'the_content', array( $this, 'hc_privacy_settings' ) );
 			}
 		}
 	}
 
-
-	// Generate and store a cookie token on activation
-	function activate() {
-	    $this->reset_cookie_token();
-	}
 
 	// Load translations
 	public function load_translations() {
@@ -86,57 +80,54 @@ class Hayona_Cookies {
 
 	// Insert front-end assets
 	public function hc_assets() {
-		wp_enqueue_style( 'hayona-cookies', plugins_url( 'css/style.css', __FILE__ ) );
-		wp_enqueue_script( 'hayona-cookies', plugins_url( 'js/main.js', __FILE__ ), array( 'jquery' ), null, true );
+		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/style.css', __FILE__ ) );
+		wp_enqueue_script( 'hayona-cookies', plugins_url( 'assets/js/min/main-min.js', __FILE__ ), array( 'jquery' ), null, true );
 	}
 
 	// Insert backend assets
 	public function admin_assets() {
-		wp_enqueue_style( 'hayona-cookies', plugins_url( 'css/admin.css', __FILE__ ) );
+		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/admin.css', __FILE__ ) );
 	}
 
 
-	/*
-	 * Reset cookie token
+	/**
+	 * Reset cookie timestamp
 	 *
-	 * The cookie token is stored in a cookie, together with the permission 
-	 * settings of the users. If the cookies on a site change, the cookie token
+	 * The cookie timestamp is stored in a cookie, together with the permission 
+	 * settings of the users. If the cookies on a site change, the cookie timestamp
 	 * changes also. This will invalidate the permission settings. 
 	 */
-	private function reset_cookie_token() {
-		$random_number = rand( 1000000, 9999999 );
-		update_option( 'cookie_token', $random_number );
+	public function reset_cookie_timestamp() {
+		$timestamp = intval( microtime( true ) * 1000 );
+		update_option( 'hc_consent_timestamp', $timestamp );
 	}
 
 
-	/*
+	/**
 	 * If the plugin is disabled, display a little notification
 	 */
-	function admin_notice_disabled() {
+	public function admin_notice_disabled() {
 		$class = "notice is-dismissible updated";
-		$message = sprintf( 
-				__('The cookie banner is not visible yet. Go to the %1$splugin page%2$s to review the settings and enable the plugin.', 'hayona-cookies'),
-				'<a href="' . admin_url( 'options-general.php?page=hayona-cookies' ) . '">',
-				'</a>' );
-	        echo"<div class=\"$class\"> <p>$message</p><button type=\"button\" class=\"notice-dismiss\"><span class=\"screen-reader-text\">Dismiss this notice.</span></button></div>"; 
+		$message = sprintf( wp_kses( __('The cookie banner is not visible yet. Go to the <a href="%s">plugin settings page</a> to review the settings and enable the plugin.', 'hayona-cookies'), 
+				array(  'a' => array( 'href' => array() ) ) ), esc_url( admin_url( 'options-general.php?page=hayona-cookies' ) ) );
+
+		echo 	"<div class=\"$class\"> 
+					<p>$message</p>
+					<button type=\"button\" class=\"notice-dismiss\">
+						<span class=\"screen-reader-text\">" . __( "Dismiss this notice.", 'hayona-cookies' ) . "</span>
+					</button>
+				</div>"; 
 	} 
 
 
-	// Insert google tag manager data layer script
-	public function hc_gtm_script() {
-		$html = "\r\n<!-- Hayona Cookies plugin -->\r\n<script type=\"text/javascript\">dataLayer = [];</script>\r\n<!-- End Hayona Cookies plugin -->\r\n";
-		echo $html;
-	}
-
-
-	/*
+	/**
 	 * Get color scheme class names. These are used in 
 	 *  - Cookie banner
 	 *  - Settings form
 	 */
-	public function get_color_scheme() {
+	private function get_color_scheme() {
 		// Get color scheme
-		$color_scheme = esc_attr( get_option( 'banner_color_scheme' ) );
+		$color_scheme = esc_attr( get_option( 'hc_banner_color_scheme' ) );
 		switch ($color_scheme) {
 			case 'light':
 				$color_scheme_class = 'hc-styling hc-styling--light';
@@ -157,14 +148,14 @@ class Hayona_Cookies {
 	// Generate banner HTML and insert it to the footer of every page
 	public function hc_banner() {
 
-		// Get permission token
-		$permission_token = esc_attr( get_option('cookie_token') );
+		// Get permission timestamp
+		$permission_timestamp = esc_attr( get_option('hc_consent_timestamp') );
 
 		// Get color scheme
 		$color_scheme = $this->get_color_scheme();
 
 		// Is implied consent enabled?
-		$implied_consent_enabled = esc_attr( get_option( 'implied_consent_enabled' ) ); 
+		$implied_consent_enabled = esc_attr( get_option( 'hc_implied_consent_enabled' ) ); 
 
 		if( $implied_consent_enabled == "on" ) {
 			$implied_consent_enabled = "true";
@@ -173,7 +164,7 @@ class Hayona_Cookies {
 		}
 
 		// Are we on a settings page?
-		$settings_page_id = esc_attr( get_option('privacy_statement_url') );
+		$settings_page_id = esc_attr( get_option( 'hc_privacy_statement_url' ) );
 		$current_page_id = get_the_id();
 		if( $settings_page_id == $current_page_id ) {
 			$is_settings_page = "true";
@@ -182,15 +173,21 @@ class Hayona_Cookies {
 		}
 
 		// Load banner html
+		$cookie_expiration = esc_attr( get_option('hc_cookie_expiration') );
 		$banner = '<div class="hc-banner ' . $color_scheme . '">
-						<div class="hc-banner__body">' . esc_attr( get_option('banner_text') ) . '</div>
+						<div class="hc-banner__body">' . esc_attr( get_option('hc_banner_text') ) . '</div>
 						<ul class="hc-toolbar">
 							<li><a class="hc-button accept-cookies" href="#">Oké, sluiten</a></li>
-							<li><a class="hc-dimmed" href="' . get_permalink( esc_attr( get_option('privacy_statement_url') ) ) . '">Instellingen wijzigen</a></li>
+							<li><a class="hc-dimmed" href="' . get_permalink( esc_attr( get_option( 'hc_privacy_statement_url' ) ) ) . '">Instellingen wijzigen</a></li>
 						</ul>
 					</div>';
 		$banner .= '<script type="text/javascript">
-						jQuery(document).ready( hayonaCookies.init( ' . $permission_token . ', ' . $is_settings_page . ', ' . $implied_consent_enabled . ' ) );
+						jQuery(document).ready( hayonaCookies.init( {
+							timestamp: ' . $permission_timestamp . ',
+							isSettingsPage: ' . $is_settings_page . ', 
+							implicitConsentEnabled: ' . $implied_consent_enabled . ',
+							cookieExpiration: ' . $cookie_expiration . '
+						} ) );
 					</script>';
 
 		// Print banner to page
@@ -198,29 +195,29 @@ class Hayona_Cookies {
 	}
 
 
-	/*
+	/**
 	 * Get cookie lists
 	 * 
 	 * @return nested array with all cookies that the user has specified
 	 */
-	public function get_cookies() {
+	private function get_cookies() {
 
-		$permission_needed = esc_attr( get_option('cookielist_permission_not_required') );
-		$permission_not_needed = esc_attr( get_option('cookielist_permission_required') );
+		$options = array( 'not_required', 'required' );
 
-		$get_cookies[0] 		= explode("\n", $permission_needed );
-		$get_cookies[1] 		= explode("\n", $permission_not_needed );
+		foreach( $options as $option ) {
+			$get_cookies[ $option ] = explode("\n", esc_attr( get_option( 'hc_cookielist_consent_' . $option ) ) );
+		}
 
 		return $get_cookies;
 	}
 
 
-	/*
+	/**
 	 * Insert cookie settings on privacy statement page
 	 */
 	public function hc_privacy_settings( $content ) {
 
-		$settings_page_id = esc_attr( get_option('privacy_statement_url') );
+		$settings_page_id = esc_attr( get_option('hc_privacy_statement_url') );
 		$current_page_id = get_the_id();
 
 		if( $settings_page_id == $current_page_id ) {
@@ -236,7 +233,7 @@ class Hayona_Cookies {
 
 			// Prepare table rows
 			// These cookies do not require permission
-			foreach( $cookies[0] as $cookie ) {
+			foreach( $cookies["not_required"] as $cookie ) {
 				$table_content .= '<tr>
 										<th>' . $cookie . '</th>
 										<td>✓ ' . __( 'Allowed', 'hayona-cookies' ) . '</td>
@@ -245,7 +242,7 @@ class Hayona_Cookies {
 			}
 
 			// These cookies DO require permission
-			foreach( $cookies[1] as $cookie ) {
+			foreach( $cookies["required"] as $cookie ) {
 				$table_content .= '<tr>
 										<th>' . $cookie . '</th>
 										<td>✓ ' . __( 'Allowed', 'hayona-cookies' ) . '</td>
@@ -303,34 +300,35 @@ class Hayona_Cookies {
 
 	// Register options page settings
 	public function admin_register_settings() { 
-		register_setting( 'hayona-cookies', 'privacy_statement_url' );
-		register_setting( 'hayona-cookies', 'is_enabled' );
-		register_setting( 'hayona-cookies', 'implied_consent_enabled' );
-		register_setting( 'hayona-cookies', 'banner_text' );
-		register_setting( 'hayona-cookies', 'banner_color_scheme' );
-		register_setting( 'hayona-cookies', 'cookielist_permission_required' );
-		register_setting( 'hayona-cookies', 'cookielist_permission_not_required' );
-		register_setting( 'hayona-cookies', 'reset_cookie_token' );
-		register_setting( 'hayona-cookies', 'cookie_token' );
+		register_setting( 'hayona-cookies', 'hc_privacy_statement_url' );
+		register_setting( 'hayona-cookies', 'hc_is_enabled' );
+		register_setting( 'hayona-cookies', 'hc_implied_consent_enabled' );
+		register_setting( 'hayona-cookies', 'hc_cookie_expiration' );
+		register_setting( 'hayona-cookies', 'hc_banner_text' );
+		register_setting( 'hayona-cookies', 'hc_banner_color_scheme' );
+		register_setting( 'hayona-cookies', 'hc_cookielist_consent_required' );
+		register_setting( 'hayona-cookies', 'hc_cookielist_consent_not_required' );
+		register_setting( 'hayona-cookies', 'hc_reset_consent_timestamp' );
+		register_setting( 'hayona-cookies', 'hc_consent_timestamp' );
 	}
 
 	// The actual options page
 	public function load_options_page() {
 
-		/*
+		/**
 		 * The options page is reloaded after the options have been saved.
 		 * That's why, every time the options page loads, we check if 'reset
 		 * permissions' has been selected. In that case we reset the cookie 
-		 * token to a new random number. This way everyone will be asked 
+		 * timestamp to a new random number. This way everyone will be asked 
 		 * again for permission to store cookies.
 		 */
-		$reset_cookie_token = esc_attr( get_option('reset_cookie_token') );
-		if( $reset_cookie_token == "on" ) {
+		$reset_cookie_timestamp = esc_attr( get_option('hc_reset_consent_timestamp') );
+		if( $reset_cookie_timestamp == "on" ) {
 
-			// Generate a random cookie token
-			$this->reset_cookie_token();
+			// Generate a random cookie timestamp
+			$this->reset_cookie_timestamp();
 
-			update_option( 'reset_cookie_token', "" );
+			update_option( 'hc_reset_consent_timestamp', "" );
 		}
 
 		// The HTML of our options page
@@ -340,31 +338,30 @@ class Hayona_Cookies {
 				
 <div class="hc-admin__settings">
 	<div class="hc-box">
-		<h3><?php _e( 'General settings', 'hayona-cookies' ); ?></h3>
+		<h3><?php _e( "General settings", 'hayona-cookies' ); ?></h3>
 		<p>
-			<?php _e( 'You\'re almost there! Just a couple more things to do', 'hayona-cookies' ); ?>:
+			<?php _e( "You're almost there! Just a couple more things to do", 'hayona-cookies' ); ?>:
 		</p>
 		<ol>
 			<li>
-				<?php printf( 
-					__( 'Install Google Tag Manager on your website (see %1$sdocumentation%2$s)', 'hayona-cookies' ), 
-					'<a href="#">', 
-					'</a>' ); 
+				<?php printf( wp_kses(
+					__( 'Install Google Tag Manager on your website (see <a href="%1$s">documentation</a>)', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
+					esc_url('#') ); 
 				?>
 			</li>
-			<li><?php _e( 'Review the settings below', 'hayona-cookies' ); ?></li>
-			<li><?php _e( 'Enable the plugin', 'hayona-cookies' ); ?></li>
+			<li><?php _e( "Review the settings below", 'hayona-cookies' ); ?></li>
+			<li><?php _e( "Enable the plugin", 'hayona-cookies' ); ?></li>
 		</ol>
 		<table class="form-table hc-form-table">
 			<tr>
 				<th>
-					<?php _e( 'Privacy statement', 'hayona-cookies' ); ?>
+					<?php _e( "Privacy statement", 'hayona-cookies' ); ?>
 				</th>
 				<td>
-					<select name="privacy_statement_url">
+					<select name="hc_privacy_statement_url">
 					<?php 
 						$hc_pages = get_pages();
-						$hc_current_page = esc_attr( get_option('privacy_statement_url') );
+						$hc_current_page = esc_attr( get_option('hc_privacy_statement_url') );
 						foreach( $hc_pages as $page ) :
 							echo $page->ID;
 							echo $page->post_title;
@@ -378,174 +375,187 @@ class Hayona_Cookies {
 					<?php endforeach; ?>
 					</select>
 					<p class="description">
-						<?php _e( 'Please select the page that contains your privacy statement. A small cookie preferences form will be placed at the top of this page. This way your visitors can change their privacy settings on any given moment.', 'hayona-cookies' ); ?>
+						<?php _e( "Please select the page that contains your privacy statement. A small cookie preferences form will be placed at the top of this page. This way your visitors can change their privacy settings on any given moment.", 'hayona-cookies' ); ?>
 					</p>
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<?php _e( 'Enable plugin', 'hayona-cookies' ); ?>
+					<?php _e( "Enable plugin", 'hayona-cookies' ); ?>
 				</th>
 				<td>
 					<?php 
-						$hc_is_enabled = esc_attr( get_option('is_enabled') );
+						$hc_is_enabled = esc_attr( get_option('hc_is_enabled') );
 					 ?>
 					<label for="hc-form__enable">
 						<?php if( $hc_is_enabled == "on" ): ?>
-						<input type="checkbox" name="is_enabled" id="hc-form__enable" checked="checked" /> <?php _e( 'Enable plugin', 'hayona-cookies' ); ?>
+						<input type="checkbox" name="hc_is_enabled" id="hc-form__enable" checked="checked" /> <?php _e( 'Enable plugin', 'hayona-cookies' ); ?>
 						<?php else: ?>
-						<input type="checkbox" name="is_enabled" id="hc-form__enable" /> <?php _e( 'Enable plugin', 'hayona-cookies' ); ?>
+						<input type="checkbox" name="hc_is_enabled" id="hc-form__enable" /> <?php _e( 'Enable plugin', 'hayona-cookies' ); ?>
 						<?php endif; ?>
 					</label>
 					<p class="description">
-						<?php _e( 'You can enable the plugin if you have done the steps listed above.', 'hayona-cookies' ); ?>
+						<?php _e( "You can enable the plugin if you have done the steps listed above.", 'hayona-cookies' ); ?>
 					</p>
 				</td>
 			</tr>
 		</table>
-		<?php submit_button(); ?>
 	</div>		
 
 	<div class="hc-box">
-		<h3><?php _e( 'Banner settings', 'hayona-cookies' ); ?></h3>
+		<h3><?php _e( "Banner settings", 'hayona-cookies' ); ?></h3>
 		<p>
-			<?php printf( 
-				__( 'Informing your visitors about cookies on your website is an important part of conforming to the EU cookie law. Use the banner text to provide this information. See the %1$sdocumentation%2$s for various examples in different situations.', 'hayona-cookies' ), 
-				'<a href="#">', 
-				'</a>' ); 
+			<?php _e( "Informing your visitors about cookies on your website is an important part of conforming to the EU cookie law. Use the banner text to provide this information.", 'hayona-cookies' ); ?>
+			<?php printf( wp_kses(
+				__( 'See the <a href="%1$s">documentation</a> for various examples in different situations.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
+				esc_url('#') ); 
 			?>
 		</p>
 		<table class="form-table hc-form-table">
 			<tr>
 				<th>
-					<?php _e( 'Banner text', 'hayona-cookies' ); ?>
+					<?php _e( "Banner text", 'hayona-cookies' ); ?>
 				</th>
 				<td>
-					<textarea name="banner_text" rows="5" cols="50"
+					<textarea name="hc_banner_text" rows="5" cols="50"
 							class="large-text" 
-							placeholder="<?php esc_attr__( 'Place your banner text here...', 'hayona-cookies' ); ?>"
-							><?php echo esc_attr( get_option('banner_text') ); ?></textarea>
+							placeholder="<?php esc_attr__( "Place your banner text here...", 'hayona-cookies' ); ?>"
+							><?php echo esc_attr( get_option('hc_banner_text') ); ?></textarea>
 					<p class="description">
-						<?php printf( 
-							__( 'Need some examples? See %1$sdocumentation%2$s.', 'hayona-cookies' ), 
-							'<a href="#">', 
-							'</a>' ); 
+						<?php printf( wp_kses(
+							__( 'Need some examples? See <a href="%1$s">documentation</a>.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
+							esc_url('#') ); 
 						?>
 					</p>
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<?php _e( 'Implied consent', 'hayona-cookies' ); ?>
+					<?php _e( "Implied consent", 'hayona-cookies' ); ?>
 				</th>
 				<td>
 					<?php 
-						$hc_implied_consent_enabled = esc_attr( get_option('implied_consent_enabled') );
+						$hc_implied_consent_enabled = esc_attr( get_option('hc_implied_consent_enabled') );
 					 ?>
 					<label>
 						<?php if( $hc_implied_consent_enabled == "on" ): ?>
-						<input type="checkbox" name="implied_consent_enabled" checked="checked" /> <?php _e( 'Enable implied consent', 'hayona-cookies' ); ?>
+						<input type="checkbox" name="hc_implied_consent_enabled" checked="checked" /> <?php _e( "Enable implied consent", 'hayona-cookies' ); ?>
 						<?php else: ?>
-						<input type="checkbox" name="implied_consent_enabled" /> <?php _e( 'Enable implied consent', 'hayona-cookies' ); ?>
+						<input type="checkbox" name="hc_implied_consent_enabled" /> <?php _e( "Enable implied consent", 'hayona-cookies' ); ?>
 						<?php endif; ?>
 					</label>
 					<p class="description">
-						<?php _e( 'Implied consent means if a user clicks through to the next page, it will count as permission.', 'hayona-cookies' ); ?>
+						<?php _e( "Implied consent means if a user clicks through to the next page, it will count as permission.", 'hayona-cookies' ); ?> 
+						<?php _e( "If this option is enabled you'll have to notify your site visitors about it throught the banner text.", 'hayona-cookies' ); ?>
 					</p>
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<?php _e( 'Color scheme', 'hayona-cookies' ); ?>
+					<?php _e( "Color scheme", 'hayona-cookies' ); ?>
 				</th>
 				<?php 
-					$hc_color_scheme = esc_attr( get_option('banner_color_scheme') );
+					$hc_color_scheme = esc_attr( get_option('hc_banner_color_scheme') );
 				 ?>
 				<td>
-					<select name="banner_color_scheme">
+					<select name="hc_banner_color_scheme">
 						<option value="dark" 
 								<?php if( $hc_color_scheme == "dark" ): ?>selected="selected"<?php endif; ?>>
-							<?php _e( 'Dark color scheme', 'hayona-cookies' ); ?>
+							<?php _e( "Dark color scheme", 'hayona-cookies' ); ?>
 						</option>
 						<option value="light" 
 								<?php if( $hc_color_scheme == "light" ): ?>selected="selected"<?php endif; ?>>
-							<?php _e( 'Light color scheme', 'hayona-cookies' ); ?>
+							<?php _e( "Light color scheme", 'hayona-cookies' ); ?>
 						</option>
 						<option value="none" 
 								<?php if( $hc_color_scheme == "none" ): ?>selected="selected"<?php endif; ?>>
-							<?php _e( 'No color scheme', 'hayona-cookies' ); ?>
+							<?php _e( "No color scheme", 'hayona-cookies' ); ?>
 						</option>
 					</select>
 					<p class="description">
-						<?php _e( 'We\'ll add more in time. Select \'No color scheme\' if you prefer to write your own CSS.', 'hayona-cookies' ); ?>
+						<?php _e( "We'll add more in time. Select 'No color scheme' if you prefer to write your own CSS.", 'hayona-cookies' ); ?>
 					</p>
 				</td>
 			</tr>
 		</table>
-		<?php submit_button(); ?>
 	</div>
 	
 	<div class="hc-box">
-		<h3><?php _e( 'Cookie settings', 'hayona-cookies' ); ?></h3>
+		<h3><?php _e( "Cookie settings", 'hayona-cookies' ); ?></h3>
 		<p>
-			<?php _e( 'List all the cookies you use on your website. Place every cookie on a new line.', 'hayona-cookies' ); ?>
+			<?php _e( "List all the cookies you use on your website. Place every cookie on a new line.", 'hayona-cookies' ); ?>
 		</p>
 		<p>
-			<?php _e( 'We distinguish between two different kinds of cookies.', 'hayona-cookies' ); ?>
-			<?php _e( 'The first category contains cookies that don\'t require permission (usually functional and non-PII cookies).', 'hayona-cookies' ); ?>
-			<?php _e( 'The second category contains cookies that do require permission. These are cookies used for tracking, profiling, advertising and cookies that store PII.', 'hayona-cookies' ); ?>
+			<?php _e( "We distinguish between two different kinds of cookies.", 'hayona-cookies' ); ?>
+			<?php _e( "The first category contains cookies that don't require permission (usually functional and non-PII cookies).", 'hayona-cookies' ); ?>
+			<?php _e( "The second category contains cookies that do require permission. These are cookies used for tracking, profiling, advertising and cookies that store PII.", 'hayona-cookies' ); ?>
 		</p>
 		<table class="form-table hc-form-table">
 			<tr>
 				<th>
-					<?php _e( 'No permission required', 'hayona-cookies' ); ?>
+					<?php _e( "No permission required", 'hayona-cookies' ); ?>
 				</th>
 				<td>
-					<textarea name="cookielist_permission_not_required" 
+					<textarea name="hc_cookielist_consent_not_required" 
 						rows="5" cols="50" class="large-text" 
 						placeholder="<?php esc_attr__( 'List your cookies one by one...', 'hayona-cookies' ); ?>"
-						><?php echo esc_attr( get_option('cookielist_permission_not_required') ); ?></textarea>
+						><?php echo esc_attr( get_option('hc_cookielist_consent_not_required') ); ?></textarea>
 					<p class="description">
-						<?php _e( 'List your cookies one by one. Place each cookie on a new line. ', 'hayona-cookies' ); ?>
-						<?php printf( 
-							__( 'Need some examples? See %1$sdocumentation%2$s.', 'hayona-cookies' ), 
-							'<a href="#">', 
-							'</a>' ); 
+						<?php _e( "List your cookies one by one. Place each cookie on a new line.", 'hayona-cookies' ); ?>
+						<?php printf( wp_kses(
+							__( 'Need some examples? See <a href="%1$s">documentation</a>.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ), 
+							esc_url('#') );  
 						?>
 					</p>
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<?php _e( 'Permission required', 'hayona-cookies' ); ?>
+					<?php _e( "Permission required", 'hayona-cookies' ); ?>
 				</th>
 				<td>
-					<textarea name="cookielist_permission_required" 
+					<textarea name="hc_cookielist_consent_required" 
 						rows="5" cols="50" class="large-text" 
 						placeholder="<?php esc_attr__( 'List your cookies one by one...', 'hayona-cookies' ); ?>" 
-						><?php echo esc_attr( get_option('cookielist_permission_required') ); ?></textarea>
+						><?php echo esc_attr( get_option('hc_cookielist_consent_required') ); ?></textarea>
 					<p class="description">
-						<?php _e( 'List your cookies one by one. Place each cookie on a new line. ', 'hayona-cookies' ); ?>
-						<?php printf( 
-							__( 'Need some examples? See %1$sdocumentation%2$s.', 'hayona-cookies' ), 
-							'<a href="#">', 
-							'</a>' ); 
+						<?php _e( "List your cookies one by one. Place each cookie on a new line.", 'hayona-cookies' ); ?>
+						<?php printf( wp_kses( 
+							__( 'Need some examples? See <a href="%1$s">documentation</a>.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
+							esc_url('#') );  
 						?>
 					</p>
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<?php _e( 'Reset permissions', 'hayona-cookies' ); ?>
+					<?php _e( "Cookie expiration time", 'hayona-cookies' ); ?>
+				</th>
+				<td>
+					<input name="hc_cookie_expiration" 
+						type="number"
+						class="small-text" 
+						value="<?php echo esc_attr( get_option('hc_cookie_expiration') ); ?>">
+					<p class="description">
+						<?php _e( "How long would you like to remember the cookie consent of your users?  Default is 365 days.", 'hayona-cookies' ); ?>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<?php _e( "Reset permissions", 'hayona-cookies' ); ?>
 				</th>
 				<td>
 					<label>
-						<input type="checkbox" name="reset_cookie_token" /> <?php _e( 'Reset permissions', 'hayona-cookies' ); ?>
+						<input type="checkbox" name="hc_reset_consent_timestamp" /> <?php _e( "Reset permissions", 'hayona-cookies' ); ?>
 					</label>
-					<input type="hidden" name="cookie_token" value="<?php echo esc_attr( get_option('cookie_token') ); ?>">
+					<input type="hidden" name="hc_consent_timestamp" value="<?php echo esc_attr( get_option('hc_consent_timestamp') ); ?>">
 					<p class="description">
-						<?php _e( 'Did you just change anything to the cookies on your site? This means you\'ll need to ask every visitor for their permission again, even if they gave permission before.', 'hayona-cookies' ); ?>
-						<?php _e( 'Check this box and press save to do this.', 'hayona-cookies' ); ?>
+						<?php _e( "Did you just change anything to the cookies on your site? This means you'll need to ask every visitor for their permission again, even if they gave permission before.", 'hayona-cookies' ); ?>
+						<?php _e( "Check this box and press save to do this.", 'hayona-cookies' ); ?>
+						<strong style="color: red; display: block; padding-top: 10px;">
+							<?php _e( "Warning: this option will delete all cookie consents. ", 'hayona-cookies' ); ?>
+						</strong>
 					</p>
 				</td>
 			</tr>
@@ -557,13 +567,13 @@ class Hayona_Cookies {
 <div class="hc-admin__sidebar">
 	
 	<div class="hc-box">
-		<h2><?php _e( 'About this plugin', 'hayona-cookies' ); ?></h2>
+		<h2><?php _e( "About this plugin", 'hayona-cookies' ); ?></h2>
 		<ul>
-			<li><a href="#"><?php _e( 'Plugin info', 'hayona-cookies' ); ?></a></li>
+			<li><a href="#"><?php _e( "Plugin info", 'hayona-cookies' ); ?></a></li>
 		</ul>
-		<h3><?php _e( 'Documentation', 'hayona-cookies' ); ?></h3>
+		<h3><?php _e( "Documentation", 'hayona-cookies' ); ?></h3>
 		<ul>
-			<li><a href="#"><?php _e( 'Read documentation', 'hayona-cookies' ); ?></a></li>
+			<li><a href="#"><?php _e( "Read documentation", 'hayona-cookies' ); ?></a></li>
 		</ul>
 	</div>
 
