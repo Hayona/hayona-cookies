@@ -46,6 +46,8 @@ Follow these steps to install the plugin:
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to Settings » Hayona Cookies to review the plugin settings and enable the plugin
 
+### Google Tag Manager
+
 The plugin needs Google Tag Manager installed on your site for it to work. If you've never worked with the Google Tag Manager before, please watch [this short video](https://www.youtube.com/watch?v=buEZdno55SU) to get started. It's really not that complicated. In the video we go through the following steps:
 
 1. Make sure Google Tag Manager (GMT) is installed on your website
@@ -55,6 +57,32 @@ The plugin needs Google Tag Manager installed on your site for it to work. If yo
 5. Add the trigger from step 3 to each script that needs consent from your users. 
 
 If you're done adding scripts to GMT, don't forget to press publish to push the changes to your live website.
+
+### Using the plugin without Google Tag Manager
+
+Web developers can check for cookie consent through a simple utility function called hasHayonaCookieConsent(). 
+
+	<script>
+
+	$(document).ready( function() {
+		if(hasHayonaCookieConsent()) {
+			// Place your cookie script here
+		}
+	} );
+
+	</script>
+
+## Banner text examples
+
+Here are some examples of content you can place in your banner. The parts with **bold emphasis** depend on your settings. Edit them to suit your situation. 
+
+### English example
+
+	We use cookies to ensure that we give you the best experience on our website. The European Law differentiates between functional or non-privacy sensitive cookies and cookies which could be privacy sensitive (PII). **This websites only uses functional or non-privacy sensitive cookies. / This website uses both types of cookies.** By clicking ‘OK, close’ **or by continuing to use our website,** you accept the cookies of our website. Choose ‘change settings’ if you want more information or to change your cookie preferences.
+
+### Dutch example
+
+	Wij gebruiken cookies om deze website zo gebruiksvriendelijk mogelijk te maken en u te voorzien van de beste informatie. De Europese wetgeving maakt onderscheid tussen cookies die functioneel of niet privacygevoelig zijn en cookies die mogelijk wel privacygevoelig kunnen zijn (PII). **Deze website gebruikt alleen functionele of niet-privacygevoelige cookies.  / Deze website gebruikt beide soorten cookies.** Door hiernaast op ‘OK, sluiten’ te klikken **of door gebruik te blijven maken van deze website,** geeft u toestemming voor het plaatsen van cookies. Klik op 'Instellingen wijzigen' om uw cookievoorkeuren aan te passen en voor meer informatie over het gebruik van cookies op deze website.
 
 ## About the cookie law in the EU
 
