@@ -195,7 +195,6 @@ var cookieBanner = function() {
 		// Apply this value to the faux-padding element
 		jQuery( '.hc-banner__faux-padding' ).css( 'height', bannerHeight );
 
-
 		// Calculate the offset of the faux-padding element
 		var offset = jQuery('.hc-banner__faux-padding').offset();
 
@@ -246,7 +245,7 @@ var cookieBanner = function() {
 		var self = this;
 
 		// Store plugin settings
-		$.extend(self.settings, self.settings, settings);
+		jQuery.extend(self.settings, self.settings, settings); 
 
 
 		// Did a user give consent to place cookies?

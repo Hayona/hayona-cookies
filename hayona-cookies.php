@@ -4,7 +4,7 @@ Plugin Name: Hayona Cookies
 Plugin URI: 
 Description: Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
 Author: Hayona
-Version: 1.0
+Version: 1.0.2
 Author URI: http://www.hayona.nl
 License: GPLv2
 Domain Path: /languages
@@ -30,18 +30,14 @@ class Hayona_Cookies {
 
 	public function __construct() {
 
+		$is_enabled = esc_attr( get_option( 'hc_is_enabled' ) );
+
 		// On activation, set a cookie timestamp
 		register_activation_hook( __FILE__, array( $this, 'reset_cookie_timestamp' ) );
 
 		// Load translations
 		add_action( 'plugins_loaded', array( $this, 'load_translations' ) );
 
-		// Is the plugin enabled via the settings page??
-		$is_enabled = esc_attr( get_option( 'hc_is_enabled' ) );
-
-		/**
-		 * Admin functions
-		 */
 		if ( is_admin() ){ 
 
 			add_action( 'admin_init', array( $this, 'admin_register_settings' ) );
@@ -54,9 +50,7 @@ class Hayona_Cookies {
 
 		} 
 
-		/**
-		 * Frontend functions
-		 */
+
 		else {
 
 			if( $is_enabled == "on" ) {
@@ -68,25 +62,11 @@ class Hayona_Cookies {
 	}
 
 
-	// Load translations
+	/**
+	 * Load translations
+	 */
 	public function load_translations() {
 		load_plugin_textdomain('hayona-cookies', false, basename( dirname( __FILE__ ) ) . '/languages' );
-	}
-
-	// Add options page (actual options page is at the bottom of this file)
-	public function admin_options_page() {
-		add_options_page( 'Hayona Cookies', 'Hayona Cookies', 'manage_options', 'hayona-cookies', array( $this, 'load_options_page' ) ); 
-	}
-
-	// Insert front-end assets
-	public function hc_assets() {
-		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/style.css', __FILE__ ) );
-		wp_enqueue_script( 'hayona-cookies', plugins_url( 'assets/js/min/main-min.js', __FILE__ ), array( 'jquery' ), null, true );
-	}
-
-	// Insert backend assets
-	public function admin_assets() {
-		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/admin.css', __FILE__ ) );
 	}
 
 
@@ -104,26 +84,26 @@ class Hayona_Cookies {
 
 
 	/**
-	 * If the plugin is disabled, display a little notification
+	 * Get cookie lists
+	 * 
+	 * @return nested array with all cookies that the user has specified
 	 */
-	public function admin_notice_disabled() {
-		$class = "notice is-dismissible updated";
-		$message = sprintf( wp_kses( __('The cookie banner is not visible yet. Go to the <a href="%s">plugin settings page</a> to review the settings and enable the plugin.', 'hayona-cookies'), 
-				array(  'a' => array( 'href' => array() ) ) ), esc_url( admin_url( 'options-general.php?page=hayona-cookies' ) ) );
+	private function get_cookies() {
 
-		echo 	"<div class=\"$class\"> 
-					<p>$message</p>
-					<button type=\"button\" class=\"notice-dismiss\">
-						<span class=\"screen-reader-text\">" . __( "Dismiss this notice.", 'hayona-cookies' ) . "</span>
-					</button>
-				</div>"; 
-	} 
+		$options = array( 'not_required', 'required' );
+
+		foreach( $options as $option ) {
+			$get_cookies[ $option ] = explode("\n", esc_attr( get_option( 'hc_cookielist_consent_' . $option ) ) );
+		}
+
+		return $get_cookies;
+	}
 
 
 	/**
-	 * Get color scheme class names. These are used in 
-	 *  - Cookie banner
-	 *  - Settings form
+	 * Get color scheme class names. 
+	 *
+	 * These are used in the cookie banner and the privacy settings form.
 	 */
 	private function get_color_scheme() {
 		// Get color scheme
@@ -145,7 +125,19 @@ class Hayona_Cookies {
 	}
 
 
-	// Generate banner HTML and insert it to the footer of every page
+
+	/**
+	 * Front end: Enqueue assets
+	 */
+	public function hc_assets() {
+		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/style.css', __FILE__ ) );
+		wp_enqueue_script( 'hayona-cookies', plugins_url( 'assets/js/min/main-min.js', __FILE__ ), array( 'jquery' ), null, true );
+	}
+
+
+	/**
+	 * Front end: Cookie banner
+	 */
 	public function hc_banner() {
 
 		// Get permission timestamp
@@ -196,24 +188,7 @@ class Hayona_Cookies {
 
 
 	/**
-	 * Get cookie lists
-	 * 
-	 * @return nested array with all cookies that the user has specified
-	 */
-	private function get_cookies() {
-
-		$options = array( 'not_required', 'required' );
-
-		foreach( $options as $option ) {
-			$get_cookies[ $option ] = explode("\n", esc_attr( get_option( 'hc_cookielist_consent_' . $option ) ) );
-		}
-
-		return $get_cookies;
-	}
-
-
-	/**
-	 * Insert cookie settings on privacy statement page
+	 * Front end: Privacy settings page
 	 */
 	public function hc_privacy_settings( $content ) {
 
@@ -298,7 +273,35 @@ class Hayona_Cookies {
 	}
 
 
-	// Register options page settings
+
+	/**
+	 * Admin: Enqueue Assets
+	 */
+	public function admin_assets() {
+		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/admin.css', __FILE__ ) );
+	}
+
+
+	/**
+	 * Admin: Notification
+	 */
+	public function admin_notice_disabled() {
+		$class = "notice is-dismissible updated";
+		$message = sprintf( wp_kses( __('The cookie banner is not visible yet. Go to the <a href="%s">plugin settings page</a> to review the settings and enable the plugin.', 'hayona-cookies'), 
+				array(  'a' => array( 'href' => array() ) ) ), esc_url( admin_url( 'options-general.php?page=hayona-cookies' ) ) );
+
+		echo 	"<div class=\"$class\"> 
+					<p>$message</p>
+					<button type=\"button\" class=\"notice-dismiss\">
+						<span class=\"screen-reader-text\">" . __( "Dismiss this notice.", 'hayona-cookies' ) . "</span>
+					</button>
+				</div>"; 
+	}
+
+
+	/**
+	 * Admin: Options page
+	 */
 	public function admin_register_settings() { 
 		register_setting( 'hayona-cookies', 'hc_privacy_statement_url' );
 		register_setting( 'hayona-cookies', 'hc_is_enabled' );
@@ -312,7 +315,10 @@ class Hayona_Cookies {
 		register_setting( 'hayona-cookies', 'hc_consent_timestamp' );
 	}
 
-	// The actual options page
+	public function admin_options_page() {
+		add_options_page( 'Hayona Cookies', 'Hayona Cookies', 'manage_options', 'hayona-cookies', array( $this, 'load_options_page' ) ); 
+	}
+
 	public function load_options_page() {
 
 		/**
@@ -346,7 +352,7 @@ class Hayona_Cookies {
 			<li>
 				<?php printf( wp_kses(
 					__( 'Install Google Tag Manager on your website (see <a href="%1$s">documentation</a>)', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
-					esc_url('#') ); 
+					esc_url('https://wordpress.org/plugins/hayona-cookies/installation/') ); 
 				?>
 			</li>
 			<li><?php _e( "Review the settings below", 'hayona-cookies' ); ?></li>
@@ -408,7 +414,7 @@ class Hayona_Cookies {
 			<?php _e( "Informing your visitors about cookies on your website is an important part of conforming to the EU cookie law. Use the banner text to provide this information.", 'hayona-cookies' ); ?>
 			<?php printf( wp_kses(
 				__( 'See the <a href="%1$s">documentation</a> for various examples in different situations.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
-				esc_url('#') ); 
+				esc_url('https://wordpress.org/plugins/hayona-cookies/installation/') ); 
 			?>
 		</p>
 		<table class="form-table hc-form-table">
@@ -424,7 +430,7 @@ class Hayona_Cookies {
 					<p class="description">
 						<?php printf( wp_kses(
 							__( 'Need some examples? See <a href="%1$s">documentation</a>.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
-							esc_url('#') ); 
+							esc_url('https://wordpress.org/plugins/hayona-cookies/installation/') ); 
 						?>
 					</p>
 				</td>
@@ -504,7 +510,7 @@ class Hayona_Cookies {
 						<?php _e( "List your cookies one by one. Place each cookie on a new line.", 'hayona-cookies' ); ?>
 						<?php printf( wp_kses(
 							__( 'Need some examples? See <a href="%1$s">documentation</a>.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ), 
-							esc_url('#') );  
+							esc_url('https://wordpress.org/plugins/hayona-cookies/') );  
 						?>
 					</p>
 				</td>
@@ -522,7 +528,7 @@ class Hayona_Cookies {
 						<?php _e( "List your cookies one by one. Place each cookie on a new line.", 'hayona-cookies' ); ?>
 						<?php printf( wp_kses( 
 							__( 'Need some examples? See <a href="%1$s">documentation</a>.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
-							esc_url('#') );  
+							esc_url('https://wordpress.org/plugins/hayona-cookies/') );  
 						?>
 					</p>
 				</td>
@@ -535,7 +541,7 @@ class Hayona_Cookies {
 					<input name="hc_cookie_expiration" 
 						type="number"
 						class="small-text" 
-						value="<?php echo esc_attr( get_option('hc_cookie_expiration') ); ?>">
+						value="<?php echo esc_attr( get_option( 'hc_cookie_expiration', 365 ) ); ?>">
 					<p class="description">
 						<?php _e( "How long would you like to remember the cookie consent of your users?  Default is 365 days.", 'hayona-cookies' ); ?>
 					</p>
@@ -569,11 +575,11 @@ class Hayona_Cookies {
 	<div class="hc-box">
 		<h2><?php _e( "About this plugin", 'hayona-cookies' ); ?></h2>
 		<ul>
-			<li><a href="#"><?php _e( "Plugin info", 'hayona-cookies' ); ?></a></li>
+			<li><a href="https://wordpress.org/plugins/hayona-cookies/"><?php _e( "Plugin info", 'hayona-cookies' ); ?></a></li>
 		</ul>
 		<h3><?php _e( "Documentation", 'hayona-cookies' ); ?></h3>
 		<ul>
-			<li><a href="#"><?php _e( "Read documentation", 'hayona-cookies' ); ?></a></li>
+			<li><a href="https://wordpress.org/plugins/hayona-cookies/"><?php _e( "Read documentation", 'hayona-cookies' ); ?></a></li>
 		</ul>
 	</div>
 
