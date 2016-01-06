@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Hayona Cookies
+Plugin Name: Hayona Cookie Consent
 Plugin URI: 
 Description: Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
 Author: Hayona

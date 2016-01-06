@@ -1,4 +1,4 @@
-=== Hayona Cookies ===
+﻿=== Hayona Cookie Consent ===
 Contributors: lkorteweg@hayona.nl
 Donate link: http://www.hayona.com
 Tags: eu cookie law, cookie consent, cookie banner, privacy settings, google tag manager
@@ -8,7 +8,7 @@ Stable tag: 1.0.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
+A straightforward plugin to comply with the EU cookie law: Inform your visitors about cookies, obtain their consent and give them some control.
 
 == Description ==
 
@@ -93,6 +93,15 @@ We currently have support for two languages: English and Dutch. Would you like t
 == Installation ==
 
 Follow these steps to install the plugin: 
+
+1. Go to Plugins » Add new
+2. Search for 'Hayona Cookie Consent'
+3. Click 'Install now'
+4. Click 'Activate Plugin'
+
+### Manual installation
+
+Follow these steps to install the plugin manually: 
 
 1. Upload the 'hayona-cookies' folder to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
