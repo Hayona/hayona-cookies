@@ -1,16 +1,20 @@
-﻿=== Hayona Cookie Consent ===
+=== Hayona Cookie Consent ===
 Contributors: lkorteweg@hayona.nl
 Donate link: http://www.hayona.com
 Tags: eu cookie law, cookie consent, cookie banner, privacy settings, google tag manager
 Requires at least: 4.0
-Tested up to: 4.4
-Stable tag: 1.0.2
+Tested up to: 4.4.1
+Stable tag: 1.0.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 A straightforward plugin to comply with the EU cookie law: Inform your visitors about cookies, obtain their consent and give them some control.
 
 == Description ==
+
+This plugin adds a simple and customizable cookie banner to your website. It gives your users the option to allow or deny cookies that contain personal identifiable information (PII). They can change their cookie preferences at any time. Place all scripts on your site trough the Google Tag Manager and run them based on these preferences. 
+
+### Features
 
 This simple and lightweight plugin helps you to comply with the EU cookie law:
 
@@ -28,7 +32,32 @@ This plugin offers some unique characteristics:
 4. Functional and non-PII cookies are placed immediately
 5. Implied consent is optional
 
-For a step by step guide on how to configure this plugin with the Google Tag Manager, see the [installation page](https://wordpress.org/plugins/hayona-cookies/installation/).
+### Installation
+
+**Step 1**: Search for 'Hayona Cookie Consent' in the plugin database to install and activate this plugin. 
+
+**Step 2**: Configure the plugin under 'Settings » Hayona Cookies'. Here are some tips: 
+
+- If you don't have a privacy settings page, make one and select it under 'General Settings'.
+- Use the 'banner text' field to inform your users about cookies on your site. For examples see the [installation](https://wordpress.org/plugins/hayona-cookies/installation/) tab. 
+- List all the cookies cookies in the proper category.
+
+**Step 3**: Install the Google Tag Manager. There is a [short video](https://www.youtube.com/watch?v=buEZdno55SU) on this, but here are all the steps you'll need to take: 
+
+1. Don't have Google Tag Manager yet? Get a [free account](https://www.google.com/analytics/tag-manager/) and place the tracking code in your site. 
+2. [Log in](https://www.google.com/analytics/tag-manager/) and select your site.
+3. Click on 'Triggers' and click 'New'. 
+4. Select 'Custom Event' and give it the event name 'consent'. Save the trigger and click 'Publish'. 
+
+**Step 4**: Add scripts to your site via Google Tag Manager. This is easy:
+
+1. [Log in](https://www.google.com/analytics/tag-manager/) and select your site.
+2. Click on 'Tags' and click 'New'. 
+3. You have the option to select different products. If you just want to add a piece of code, select 'custom HTML tag' and paste your code in. 
+4. Under 'Fire on' you can click 'More' to select the 'consent' trigger from step 3. This way the script will be loaded after consent has been given. If you want to load the script right away, just select 'All Pages' instead.
+5. Save you tag and click 'Publish'.
+
+Read the [installation page](https://wordpress.org/plugins/hayona-cookies/installation/) for more information and examples.
 
 ### About the cookie law in the EU
 
@@ -46,24 +75,6 @@ Compliance with the EU cookie law comes down to three basic steps:
 3. Obtain the visitor’s consent and give them some control over their preferences.
 
 PII stands for Personable Identifiable Information and is a key element of the EU cookie law.
-
-### Cookie examples
-
-Examples of functional and non-PII cookies for which you don’t need the visitor’s consent:
-
-- Language choice
-- Shopping basket
-- Google Analytics – only if implemented correctly in non-PII mode!
-
-Examples of PII cookies – permission required:
-
-- Comscore
-- Google Adsense
-- Google Adwords remarketing
-- Facebook remarketing
-- All retargeting and advertising cookies
-- Most social media buttons (Add-this toolbar, Facebook like box, etc.)
-- Etc.
 
 ### Detect your cookies
 
@@ -90,6 +101,10 @@ Thanks to David from [Admin Columns](https://www.admincolumns.com/) for his tech
 
 We currently have support for two languages: English and Dutch. Would you like to help translating this plugin? Please contact us trough [this page](http://www.hayona.com).
 
+### Development
+
+Development for this plugin takes place at [GitHub](https://github.com/Hayona/hayona-cookies). Please let us know if you have any feature requests / bugs or if you would like to contribute. 
+
 == Installation ==
 
 Follow these steps to install the plugin: 
@@ -107,19 +122,37 @@ Follow these steps to install the plugin manually:
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to Settings » Hayona Cookies to review the plugin settings and enable the plugin
 
-### Google Tag Manager
+### Banner text examples
 
-The plugin needs Google Tag Manager installed on your site for it to work. If you've never worked with the Google Tag Manager before, please watch [this short video](https://www.youtube.com/watch?v=buEZdno55SU) to get started. It's really not that complicated. In the video we go through the following steps:
+Here are some examples of content you can place in your banner. The parts with **bold emphasis** depend on your settings. Edit them to suit your situation. 
 
-1. Make sure Google Tag Manager (GMT) is installed on your website
-2. Go to triggers and add a new trigger
-3. Select 'Custom Event' and give it the name 'consent'.
-4. Add scripts to your website under 'Tags'. 
-5. Add the trigger from step 3 to each script that needs consent from your users. 
+English example:
 
-If you're done adding scripts to GMT, don't forget to press publish to push the changes to your live website.
+> We use cookies to ensure that we give you the best experience on our website. The European Law differentiates between functional or non-privacy sensitive cookies and cookies which could be privacy sensitive (PII). **This websites only uses functional or non-privacy sensitive cookies. / This website uses both types of cookies.** By clicking ‘OK, close’ **or by continuing to use our website,** you accept the cookies of our website. Choose ‘change settings’ if you want more information or to change your cookie preferences.
 
-### Using the plugin without Google Tag Manager
+Dutch example: 
+
+> Wij gebruiken cookies om deze website zo gebruiksvriendelijk mogelijk te maken en u te voorzien van de beste informatie. De Europese wetgeving maakt onderscheid tussen cookies die functioneel of niet privacygevoelig zijn en cookies die mogelijk wel privacygevoelig kunnen zijn (PII). **Deze website gebruikt alleen functionele of niet-privacygevoelige cookies.  / Deze website gebruikt beide soorten cookies.** Door hiernaast op ‘OK, sluiten’ te klikken **of door gebruik te blijven maken van deze website,** geeft u toestemming voor het plaatsen van cookies. Klik op 'Instellingen wijzigen' om uw cookievoorkeuren aan te passen en voor meer informatie over het gebruik van cookies op deze website.
+
+### Cookie examples
+
+Examples of functional and non-PII cookies for which you don’t need the visitor’s consent:
+
+- Language choice
+- Shopping basket
+- Google Analytics – only if implemented correctly in non-PII mode!
+
+Examples of PII cookies – permission required:
+
+- Comscore
+- Google Adsense
+- Google Adwords remarketing
+- Facebook remarketing
+- All retargeting and advertising cookies
+- Most social media buttons (Add-this toolbar, Facebook like box, etc.)
+- Etc.
+
+### Add scripts outside of the Google Tag Manager
 
 Web developers can check for cookie consent through a simple utility function called hasHayonaCookieConsent(). 
 
@@ -132,18 +165,6 @@ Web developers can check for cookie consent through a simple utility function ca
 	} );
 
 	</script>
-
-### Banner text examples
-
-Here are some examples of content you can place in your banner. The parts with **bold emphasis** depend on your settings. Edit them to suit your situation. 
-
-English example:
-
-> We use cookies to ensure that we give you the best experience on our website. The European Law differentiates between functional or non-privacy sensitive cookies and cookies which could be privacy sensitive (PII). **This websites only uses functional or non-privacy sensitive cookies. / This website uses both types of cookies.** By clicking ‘OK, close’ **or by continuing to use our website,** you accept the cookies of our website. Choose ‘change settings’ if you want more information or to change your cookie preferences.
-
-Dutch example: 
-
-> Wij gebruiken cookies om deze website zo gebruiksvriendelijk mogelijk te maken en u te voorzien van de beste informatie. De Europese wetgeving maakt onderscheid tussen cookies die functioneel of niet privacygevoelig zijn en cookies die mogelijk wel privacygevoelig kunnen zijn (PII). **Deze website gebruikt alleen functionele of niet-privacygevoelige cookies.  / Deze website gebruikt beide soorten cookies.** Door hiernaast op ‘OK, sluiten’ te klikken **of door gebruik te blijven maken van deze website,** geeft u toestemming voor het plaatsen van cookies. Klik op 'Instellingen wijzigen' om uw cookievoorkeuren aan te passen en voor meer informatie over het gebruik van cookies op deze website.
 
 == Screenshots ==
 
@@ -164,3 +185,9 @@ Dutch example:
 = 1.0.2 =
 * Translation link now to our international site on readme page.
 * Moved banner text examples to /installation
+
+= 1.0.3 =
+* Minor changes to readme.txt
+
+= 1.0.4 =
+* Improved installation instructions

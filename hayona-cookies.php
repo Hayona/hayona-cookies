@@ -4,7 +4,7 @@ Plugin Name: Hayona Cookie Consent
 Plugin URI: 
 Description: Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
 Author: Hayona
-Version: 1.0.2
+Version: 1.0.4
 Author URI: http://www.hayona.nl
 License: GPLv2
 Domain Path: /languages
