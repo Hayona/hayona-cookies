@@ -168,14 +168,14 @@ class Hayona_Cookies {
 
 		// Load banner html
 		$cookie_expiration = esc_attr( get_option('hc_cookie_expiration') );
-		$banner = '<div class="hc-banner ' . $color_scheme . '">
+		$banner_markup = '<div class="hc-banner ' . $color_scheme . '">
 						<div class="hc-banner__body">' . esc_attr( get_option('hc_banner_text') ) . '</div>
 						<ul class="hc-toolbar">
-							<li><a class="hc-button accept-cookies" href="#">Oké, sluiten</a></li>
-							<li><a class="hc-dimmed" href="' . get_permalink( esc_attr( get_option( 'hc_privacy_statement_url' ) ) ) . '">Instellingen wijzigen</a></li>
+							<li><a class="hc-button accept-cookies" href="#">' . __( "All right, close", 'hayona-cookies' ) . '</a></li>
+							<li><a class="hc-dimmed" href="' . get_permalink( esc_attr( get_option( 'hc_privacy_statement_url' ) ) ) . '"> ' . __( "Change your settings", 'hayona-cookies' ) . ' </a></li>
 						</ul>
 					</div>';
-		$banner .= '<script type="text/javascript">
+		$banner_script = '<script type="text/javascript">
 						jQuery(document).ready( hayonaCookies.init( {
 							timestamp: ' . $permission_timestamp . ',
 							isSettingsPage: ' . $is_settings_page . ', 
@@ -184,8 +184,11 @@ class Hayona_Cookies {
 						} ) );
 					</script>';
 
+		$banner_markup = apply_filters( 'hc_banner_markup', $banner_markup );
+		$banner_script = apply_filters( 'hc_banner_script', $banner_script );
+
 		// Print banner to page
-		echo $banner;
+		echo $banner_markup . $banner_script;
 	}
 
 
