@@ -17,9 +17,9 @@ var cookieBanner = function() {
 	};
 
 	/**
-	 * Debounce function from David Walsh
+	 * Debounce
 	 * 
-	 * http://davidwalsh.name/javascript-debounce-function
+	 * @source: http://davidwalsh.name/javascript-debounce-function
 	 */
 	this.debounce = function(func, wait, immediate) {
 		var timeout;
@@ -38,9 +38,9 @@ var cookieBanner = function() {
 
 
 	/**
-	 * Checks if this pageload is the same as the previous url (refresh)
+	 * Is refresh
 	 *
-	 * @return true | false
+	 * @description: Is this pageload a refresh
 	 */
 	this.isRefresh = function() {
 		var landingUrl = Cookies.get( 'hc_landing_url' );
@@ -55,9 +55,9 @@ var cookieBanner = function() {
 
 
 	/**
-	 * Checks if consent is still valid
+	 * Consent is valid
 	 *
-	 * @return true | false
+	 * @description: Is consent still valid?
 	 */
 	this.consentIsValid = function() {
 		var self = this;
@@ -76,9 +76,9 @@ var cookieBanner = function() {
 
 
 	/**
-	 * Checks if consent has been given on earlier visits
+	 * Has consent
 	 *
-	 * @return true | false
+	 * @description: Checks if consent has been given on earlier visits
 	 */
 	this.hasConsent = function () {
 		var self = this;
@@ -98,9 +98,9 @@ var cookieBanner = function() {
 
 
 	/**
-	 * Checks if cookies have been rejected on earlier visits
+	 * Has rejection
 	 *
-	 * @return true | false
+	 * @description: Checks if cookies have been rejected on earlier visits
 	 */
 	this.hasRejection = function () {
 		var self = this;
@@ -120,9 +120,9 @@ var cookieBanner = function() {
 
 
 	/**
-	 * Checks if implicit consent has been given
+	 * Has implicit consent
 	 *
-	 * @return true | false
+	 * @description: Checks if implicit consent has been given
 	 */
 	this.hasImplicitConsent = function () {
 		var cookie = Cookies.get('hc_implicit');
@@ -136,9 +136,9 @@ var cookieBanner = function() {
 
 
 	/**
-	 * Store consent settings in a cookie
+	 * Save consent
 	 *
-	 * @return undefined
+	 * @description: Store consent settings in a cookie
 	 */
 	this.saveConsent = function(consent) {
 		var self = this;
@@ -158,9 +158,7 @@ var cookieBanner = function() {
 
 
 	/**
-	 * Store landingUrl
-	 *
-	 * @return undefined
+	 * Save landing url
 	 */
 	this.saveLandingUrl = function( cookie ) {
 		var currentUrl = window.location.href;

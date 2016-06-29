@@ -4,7 +4,7 @@ Plugin Name: Hayona Cookie Consent
 Plugin URI: 
 Description: Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
 Author: Hayona
-Version: 1.0.4
+Version: 1.0.5
 Author URI: http://www.hayona.nl
 License: GPLv2
 Domain Path: /languages
@@ -73,9 +73,7 @@ class Hayona_Cookies {
 	/**
 	 * Reset cookie timestamp
 	 *
-	 * The cookie timestamp is stored in a cookie, together with the permission 
-	 * settings of the users. If the cookies on a site change, the cookie timestamp
-	 * changes also. This will invalidate the permission settings. 
+	 * @description: Invalidates all permissions
 	 */
 	public function reset_cookie_timestamp() {
 		$timestamp = intval( microtime( true ) * 1000 );
@@ -84,9 +82,9 @@ class Hayona_Cookies {
 
 
 	/**
-	 * Get cookie lists
+	 * Get cookies
 	 * 
-	 * @return nested array with all cookies that the user has specified
+	 * @description: Returns nested array with all cookies that the user has specified
 	 */
 	private function get_cookies() {
 
@@ -101,9 +99,9 @@ class Hayona_Cookies {
 
 
 	/**
-	 * Get color scheme class names. 
+	 * Get color scheme  
 	 *
-	 * These are used in the cookie banner and the privacy settings form.
+	 * @description: Return color scheme classname
 	 */
 	private function get_color_scheme() {
 		// Get color scheme
@@ -127,16 +125,20 @@ class Hayona_Cookies {
 
 
 	/**
-	 * Front end: Enqueue assets
+	 * HC Assets
+	 *
+	 * @description: Enqueue front-end assets
 	 */
 	public function hc_assets() {
-		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/style.css', __FILE__ ) );
+		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/style.css', __FILE__ ), array(), '1.0.5', 'screen' );
 		wp_enqueue_script( 'hayona-cookies', plugins_url( 'assets/js/min/main-min.js', __FILE__ ), array( 'jquery' ), null, true );
 	}
 
 
 	/**
-	 * Front end: Cookie banner
+	 * HC Banner
+	 *
+	 * @description: Include banner in page
 	 */
 	public function hc_banner() {
 
@@ -188,7 +190,9 @@ class Hayona_Cookies {
 
 
 	/**
-	 * Front end: Privacy settings page
+	 * HC Privacy Settings
+	 *
+	 * @description: Output privacy settings to the right page
 	 */
 	public function hc_privacy_settings( $content ) {
 
@@ -206,7 +210,6 @@ class Hayona_Cookies {
 			// Define table content
 			$table_content = "";
 
-			// Prepare table rows
 			// These cookies do not require permission
 			foreach( $cookies["not_required"] as $cookie ) {
 				$table_content .= '<tr>
@@ -266,6 +269,7 @@ class Hayona_Cookies {
 		</tfoot>
 	</table>
 </div>';
+			$privacy_settings = apply_filters( 'hc_privacy_settings_form', $privacy_settings );
 			$content = $privacy_settings . $content;
 		} 
 
@@ -275,7 +279,9 @@ class Hayona_Cookies {
 
 
 	/**
-	 * Admin: Enqueue Assets
+	 * Admin assets
+	 *
+	 * @description: Enqueue admin assets
 	 */
 	public function admin_assets() {
 		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/admin.css', __FILE__ ) );
@@ -283,7 +289,9 @@ class Hayona_Cookies {
 
 
 	/**
-	 * Admin: Notification
+	 * Admin notice disabled
+	 *
+	 * @description: Notify user if the banner is disabled
 	 */
 	public function admin_notice_disabled() {
 		$class = "notice is-dismissible updated";
@@ -300,7 +308,9 @@ class Hayona_Cookies {
 
 
 	/**
-	 * Admin: Options page
+	 * Admin register settings
+	 *
+	 * @description: Register all plugin settings
 	 */
 	public function admin_register_settings() { 
 		register_setting( 'hayona-cookies', 'hc_privacy_statement_url' );
@@ -315,10 +325,22 @@ class Hayona_Cookies {
 		register_setting( 'hayona-cookies', 'hc_consent_timestamp' );
 	}
 
+
+	/**
+	 * Admin options page
+	 *
+	 * @description: Load options page
+	 */
 	public function admin_options_page() {
 		add_options_page( 'Hayona Cookies', 'Hayona Cookies', 'manage_options', 'hayona-cookies', array( $this, 'load_options_page' ) ); 
 	}
 
+
+	/**
+	 * Load options page
+	 *
+	 * @description: Options page markup
+	 */
 	public function load_options_page() {
 
 		/**
