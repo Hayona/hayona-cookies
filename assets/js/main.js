@@ -6,8 +6,7 @@ if(typeof dataLayer === 'undefined'){
 	var dataLayer = [];
 }
 
-
-var cookieBanner = function() {
+var CookieBanner = function() {
 
 	this.settings = {
 		timestamp: 0,
@@ -150,8 +149,6 @@ var cookieBanner = function() {
 			timestamp: +new Date(),
 			consent: consent
 		};
-
-		console.log( self.settings.cookieExpiration );
 
 		Cookies.set( 'hc_consent', cookie, { expires: self.settings.cookieExpiration } );
 	};
@@ -357,7 +354,7 @@ var cookieBanner = function() {
 	};
 };
 
-var hayonaCookies = new cookieBanner();
+var hayonaCookies = new CookieBanner();
 
 
 /**
