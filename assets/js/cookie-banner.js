@@ -23,8 +23,7 @@ var CookieBanner = function() {
 		isSettingsPage: false,
 		implicitConsentEnabled: false,
 		cookieExpiration: 365,
-		bannerType: 'default',
-		callback: function() {}
+		bannerType: 'default'
 	};
 
 
@@ -224,15 +223,15 @@ var CookieBanner = function() {
 			// Push page down or add mask
 			fauxPadding.className = 'hc-banner__faux-padding';
 			document.body.insertBefore( fauxPadding, document.body.firstChild );
-			
-			if( self.settings.bannerType === 'default' ) {
-				document.addEventListener("DOMContentLoaded", setHeightAndOffset, false);
-				window.addEventListener('resize', resizeDebounce);
-			}
 
-			else if( self.settings.bannerType === 'cookiewall' ) {
+			if( self.settings.bannerType === 'cookiewall' ) {
 				buttonClose[0].onclick = function() { self.closeBanner(); }
 				fauxPadding.onclick = function() { self.closeBanner(); }
+			}
+
+			else {
+				document.addEventListener("DOMContentLoaded", setHeightAndOffset, false);
+				window.addEventListener('resize', resizeDebounce);
 			}
 		}
 	};
@@ -306,7 +305,6 @@ var CookieBanner = function() {
 	 */
 	this.fireCookieScripts = function() {
 		dataLayer.push({'event': 'consent'});
-		self.settings.callback();
 	};
 
 
@@ -335,7 +333,8 @@ var CookieBanner = function() {
 				self.fireCookieScripts();
 				break;
 			case null :
-				self.showBanner();
+				if( ! self.settings.isSettingsPage )
+					self.showBanner();
 				sessionStorage.setItem( 'hcImplicitConsent', true );
 				break;
 		}
