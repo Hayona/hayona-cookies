@@ -6,14 +6,27 @@ if(typeof dataLayer === 'undefined'){
 	var dataLayer = [];
 }
 
-var CookieBanner = function() {
+var CookieBanner = function() { 
+
+	var self = this;
+
+	// Elements
+	var banner = document.getElementsByClassName( 'hc-banner' );
+	var buttonAccept = document.getElementsByClassName( 'accept-cookies' );
+	var buttonReject = document.getElementsByClassName( 'reject-cookies' );
+	var buttonClose = document.getElementsByClassName( 'hc-banner__close' );
+	var fauxPadding = document.createElement( 'div' );
+	var settingsForm = document.getElementsByClassName( 'hc-settings' );
 
 	this.settings = {
 		timestamp: 0,
 		isSettingsPage: false,
 		implicitConsentEnabled: false,
-		cookieExpiration: 365
+		cookieExpiration: 365,
+		bannerType: 'default',
+		callback: function() {}
 	};
+
 
 	/**
 	 * Debounce
@@ -37,19 +50,69 @@ var CookieBanner = function() {
 
 
 	/**
+	 * Extend
+	 *
+	 * @description: Extend an object
+	 * @source: http://stackoverflow.com/questions/11197247/javascript-equivalent-of-jquerys-extend-method
+	 */
+	this.extend = function(){
+	    for(var i=1; i<arguments.length; i++)
+	        for(var key in arguments[i])
+	            if(arguments[i].hasOwnProperty(key))
+	                arguments[0][key] = arguments[i][key];
+	    return arguments[0];
+	};
+
+
+	/**
+	 * Remove class
+	 *
+	 * @source: http://blog.adtile.me/2014/01/16/a-dive-into-plain-javascript/
+	 */
+	this.removeClass = function(el, cls) {
+		var reg = new RegExp("(\\s|^)" + cls + "(\\s|$)");
+		el.className = el.className.replace(reg, " ").replace(/(^\s*)|(\s*$)/g,"");
+	};
+
+
+	/**
+	 * Add class
+	 *
+	 * @source: http://blog.adtile.me/2014/01/16/a-dive-into-plain-javascript/
+	 */
+	this.addClass = function(el, cls) {
+		var hasClass = el.className && new RegExp("(\\s|^)" + cls + "(\\s|$)").test(el.className);
+		if( ! hasClass ) 
+			el.className += ' ' + cls;
+	};
+
+
+	/**
+	 * Feature test
+	 *
+	 * @description: Return true if browser can handle the awsomeness
+	 * @source: Idea taken from http://responsivenews.co.uk/post/18948466399/cutting-the-mustard
+	 */
+	this.featureTest = function() {
+		
+		if( 'querySelector' in document
+				&& 'localStorage' in window
+				&& 'addEventListener' in window ) {
+			return true;
+		}
+	};
+
+
+	/**
 	 * Is refresh
 	 *
 	 * @description: Is this pageload a refresh
 	 */
 	this.isRefresh = function() {
-		var landingUrl = Cookies.get( 'hc_landing_url' );
-		var currentUrl = window.location.href;
-
-		if( landingUrl === currentUrl ) {
+		if( sessionStorage.getItem( 'hcLandingUrl' ) === window.location.href ) 
 			return true;
-		} else {
+		else 
 			return false;
-		}
 	};
 
 
@@ -59,77 +122,14 @@ var CookieBanner = function() {
 	 * @description: Is consent still valid?
 	 */
 	this.consentIsValid = function() {
-		var self = this;
 		var cookie = Cookies.getJSON('hc_consent');
 		
 		if( cookie != null ) {
-			var timestamp = cookie.timestamp;
 
-			if( timestamp > self.settings.timestamp ) {
+			if( cookie.timestamp > self.settings.timestamp ) 
 				return true;
-			} else {
-				return false;
-			}
-		}
-	};
-
-
-	/**
-	 * Has consent
-	 *
-	 * @description: Checks if consent has been given on earlier visits
-	 */
-	this.hasConsent = function () {
-		var self = this;
-		var cookie = Cookies.getJSON('hc_consent');
-		
-		if( cookie != null ) {
-			var consent = cookie.consent;
-
-			if( consent === true &&
-					self.consentIsValid() ) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	};
-
-
-	/**
-	 * Has rejection
-	 *
-	 * @description: Checks if cookies have been rejected on earlier visits
-	 */
-	this.hasRejection = function () {
-		var self = this;
-		var cookie = Cookies.getJSON('hc_consent');
-		
-		if( cookie != null ) {
-			var consent = cookie.consent;
-
-			if( consent === false &&
-					self.consentIsValid() ) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	};
-
-
-	/**
-	 * Has implicit consent
-	 *
-	 * @description: Checks if implicit consent has been given
-	 */
-	this.hasImplicitConsent = function () {
-		var cookie = Cookies.get('hc_implicit');
-
-		if( cookie != null ) {
-			return true;
-		} else {
-			return false;
+			else 
+			 	return false;
 		}
 	};
 
@@ -155,79 +155,158 @@ var CookieBanner = function() {
 
 
 	/**
-	 * Save landing url
+	 * Has consent
+	 *
+	 * @description: Checks if consent has been given on earlier visits
+	 * @return: true|false|'implicit'|null
 	 */
-	this.saveLandingUrl = function( cookie ) {
-		var currentUrl = window.location.href;
-		if( cookie == null ) {
-			Cookies.set( 'hc_landing_url', currentUrl);
+	this.hasConsent = function () {
+		var cookie = Cookies.getJSON( 'hc_consent' );
+		
+		if( cookie != null && 
+				cookie.consent === true &&
+				self.consentIsValid() ) {
+			return true;
+		} 
+
+		else if( cookie != null &&
+				cookie.consent === false &&
+				self.consentIsValid() ) {
+			return false;
+		} 
+
+		else if( sessionStorage.getItem( 'hcImplicitConsent' ) && 
+					self.settings.implicitConsentEnabled &&
+					! self.settings.isSettingsPage &&
+					! self.isRefresh() ) {
+			return 'implicit';
+		} 
+
+		else {
+			return null;
 		}
 	};
-	
+
+
+	/** 
+	 * Close banner
+	 *
+	 * @description: Hide the banner
+	 */
+	this.closeBanner = function() {
+		banner[0].style.display = 'none';
+		fauxPadding.style.height = '0px';
+	};
+
 
 	/**
-	 * Place the banner at the top of the page
-	 * and put the website below the banner.
+	 * Show banner
+	 *
+	 * @description: Display and setup cookie banner
 	 */
-	this.resetBodyPadding = function() {
-
-		/* 
-		 * We use a faux-padding <div> element to push the webpage down in
-		 * order to create space for the cookie-banner. We give the 
-		 * faux-padding element exactly the same dimensions as the
-		 * cookie-banner. 
-		 * 
-		 * The cookie-banner is positioned on top of the faux-padding element.
-		 * 
-		 * We could use a padding-top on the body element to create this space,
-		 * but this will almost certainly lead to conflicting styles from other
-		 * themes and/or plugins. 
-		 */
-
-		// Calculate the height of the banner
-		var bannerHeight = jQuery( '.hc-banner' ).outerHeight();
-
-		// Apply this value to the faux-padding element
-		jQuery( '.hc-banner__faux-padding' ).css( 'height', bannerHeight );
-
-		// Calculate the offset of the faux-padding element
-		var offset = jQuery('.hc-banner__faux-padding').offset();
-
-		// Apply this offset to the cookie-banner
-		jQuery( '.hc-banner' ).css( 'top', offset.top );
-	};
-
-
-	// Show the banner
 	this.showBanner = function() {
-		var self = this;
 
-		// Display banner
-		jQuery('.hc-banner').show();
+		var setHeightAndOffset = function() {
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+			fauxPadding.style.height = banner[0].clientHeight + 'px';
+			banner[0].style.top = fauxPadding.getBoundingClientRect().top + scrollTop + 'px';
+		};
 
-		// Insert faux-padding <div> element just after body
-		jQuery('body').prepend( '<div class="hc-banner__faux-padding"></div>' );
-
-		jQuery(window).on( 'load', self.resetBodyPadding );
-
-		var debounceThis = self.debounce(function() {
-			self.resetBodyPadding();
+		var resizeDebounce = self.debounce(function() {
+			setHeightAndOffset();
 		}, 250);
 
-		window.addEventListener('resize', debounceThis );
+		if( banner[0] !== undefined ) {
 
+			// Show banner
+			banner[0].style.display = 'block';
+
+			// Push page down or add mask
+			fauxPadding.className = 'hc-banner__faux-padding';
+			document.body.insertBefore( fauxPadding, document.body.firstChild );
+			
+			if( self.settings.bannerType === 'default' ) {
+				document.addEventListener("DOMContentLoaded", setHeightAndOffset, false);
+				window.addEventListener('resize', resizeDebounce);
+			}
+
+			else if( self.settings.bannerType === 'cookiewall' ) {
+				buttonClose[0].onclick = function() { self.closeBanner(); }
+				fauxPadding.onclick = function() { self.closeBanner(); }
+			}
+		}
 	};
 
-	// Close the banner
-	this.closeBanner = function() {
-		jQuery('.hc-banner').hide();
-		jQuery('.hc-banner__faux-padding').hide();
 
-		/*
-		 * @todo solve bug with eventlistener 
-		 * (i.e. add class detection to debounce function)
-		 */
-		// jQuery('.hc-banner__faux-padding').css( 'height', 0 );			
+	/** 
+	 * Set selected state
+	 *
+	 * @description: Displays selected options on privacy settings form
+	 */
+	this.setSelectedState = function() {
+
+		if( self.settings.isSettingsPage &&
+				self.hasConsent() === true ) {
+			self.addClass( buttonReject[0], 'hc-button--grey' );
+			self.removeClass( buttonAccept[0], 'hc-button--grey' );
+			buttonReject[0].children[0].innerHTML = '';
+			buttonAccept[0].children[0].innerHTML = '✓ ';
+		} 
+		
+		else if( self.settings.isSettingsPage &&
+				self.hasConsent() === false ) {
+			self.removeClass( buttonReject[0], 'hc-button--grey' );
+			self.addClass( buttonAccept[0], 'hc-button--grey' );
+			buttonReject[0].children[0].innerHTML = '✓ ';
+			buttonAccept[0].children[0].innerHTML = '';
+		}
+	};
+
+
+	/**
+	 * Button setup
+	 *
+	 * @description: Manage actions on plugin buttons
+	 */
+	this.buttonSetup = function() {
+
+		if( buttonAccept[0] !== undefined ) {
+
+			[].forEach.call( buttonAccept, function( button ) {
+
+				button.onclick = function(e) {
+					e.preventDefault();
+					self.closeBanner();
+					self.saveConsent( true );
+					self.fireCookieScripts();
+					self.setSelectedState();
+				};
+			} );
+		}
+
+		if( buttonReject[0] !== undefined ) {
+			
+			[].forEach.call( buttonReject, function( button ) {
+
+				button.onclick = function(e) {
+					e.preventDefault();
+					self.closeBanner();
+					self.saveConsent( false );
+					self.setSelectedState();
+				};
+			} );
+		}
+	};
+
+
+	/**
+	 * Fire cookie scripts
+	 *
+	 * @description: This method is fired when consent is available or when it is given.
+	 */
+	this.fireCookieScripts = function() {
+		dataLayer.push({'event': 'consent'});
+		self.settings.callback();
 	};
 
 
@@ -237,120 +316,40 @@ var CookieBanner = function() {
 	 * @return undefined
 	 */
 	this.init = function( settings ) {
-		var self = this;
 
-		// Store plugin settings
-		jQuery.extend(self.settings, self.settings, settings); 
+		if( ! self.featureTest() )
+			return;
 
+		self.extend( self.settings, self.settings, settings);
+		self.buttonSetup();
 
-		// Did a user give consent to place cookies?
-		if( self.hasConsent() ) {
-
-			// Yes: fire Google Tag Manager 'consent' event
-			dataLayer.push({'event': 'consent'});
-
-		} 
-
-		else if( self.hasRejection() ) {
-
-			// No: do nothing
-
-		} 
-
-		else if( self.hasImplicitConsent() && 
-				! self.settings.isSettingsPage && 
-				! self.isRefresh() &&
-				self.settings.implicitConsentEnabled ) {
-
-			// No, but implicit consent is enabled
-			// and the user has clicked to the next page
-
-			// Store consent settings
-			self.saveConsent( true );
-
-			// Fire Google Tag Manager 'consent' event
-			dataLayer.push({'event': 'consent'});
-
-		} 
-
-		else { 
-
-			// Show banner
-			self.showBanner();
-
-			// Store landing url in session cookie
-			self.saveLandingUrl( Cookies.get('hc_landing_url') );
-
-			if( self.settings.implicitConsentEnabled ) {
-
-				/**
-				 * Store implicit consent. If the user does nothing the consent
-				 * will be set to 'true' on the next page. Except for the privacy 
-				 * statement page and in case of a refresh. In those cases the
-				 * consent will remain set to 'implicit'.
-				 */
-				Cookies.set( 'hc_implicit', true );
-			}
-		}
-
-
-		// Is the banner currently on the page?
-		if( jQuery('.accept-cookies').length ) {
-
-			// Yes, so if a user clicks on accept, we: 
-			// - Close the banner
-			// - Store consent settings in a cookie
-			// - Fire google tag manager 'consent' event
-			jQuery('.accept-cookies').on( 'click', function(e) {
-				e.preventDefault();
-				self.closeBanner();
+		switch( self.hasConsent() ) {
+			case true :
+				self.fireCookieScripts();
+				break;
+			case false :
+				// Do nothing
+				break;
+			case 'implicit' :
 				self.saveConsent( true );
-				dataLayer.push({'event': 'consent'});
-			} );
-
-			// If a user rejects cookies: 
-			// - Close the banner
-			// - Store consent settings in a cookie
-			jQuery('.reject-cookies').on( 'click', function(e) {
-				e.preventDefault();
-				self.closeBanner();
-				self.saveConsent( false );
-			} );
+				self.fireCookieScripts();
+				break;
+			case null :
+				self.showBanner();
+				sessionStorage.setItem( 'hcImplicitConsent', true );
+				break;
 		}
 
-
-		// Are we on the settings page?
 		if( self.settings.isSettingsPage ) {
-
-			// Yes: Show the settings form
-			// (it is hidden by default for users that
-			// don't have javascript enabled)
-			jQuery( '.hc-settings' ).show();
-
-			var selectAcceptButton = function() {
-				jQuery( '.reject-cookies' ).addClass( 'hc-button--grey' );
-				jQuery( '.accept-cookies' ).removeClass( 'hc-button--grey' );
-				jQuery( '.reject-cookies span' ).html( '' );
-				jQuery( '.accept-cookies span' ).html( '✓ ' );
-			};
-
-			var selectRejectButton = function() {
-				jQuery( '.reject-cookies' ).removeClass( 'hc-button--grey' );
-				jQuery( '.accept-cookies' ).addClass( 'hc-button--grey' );
-				jQuery( '.reject-cookies span' ).html( '✓ ' );
-				jQuery( '.accept-cookies span' ).html( '' );
-			};
-
-			if( self.hasConsent() ) {
-				selectAcceptButton();
-			} else if( self.hasRejection() ) {
-				selectRejectButton();
-			}
-
-			jQuery( '.accept-cookies' ).on( 'click', selectAcceptButton );
-			jQuery( '.reject-cookies' ).on( 'click', selectRejectButton );
-
+			settingsForm[0].style.display = 'block';
+			self.setSelectedState();
 		}
+
+		if( self.settings.bannerType === 'cookiewall' ) {
+			self.addClass( document.body, 'hc-cookiewall' );
+		}
+
+		sessionStorage.setItem( 'hcLandingUrl', window.location.href );
 	};
 };
 
@@ -358,12 +357,14 @@ var hayonaCookies = new CookieBanner();
 
 
 /**
- * Small utility functions for users that don't use the Google Tag Mager. 
+ * Has Hayona Cookie Consent
+ *
+ * @description: Small utility functions for users that don't use the Google Tag Mager.
+ * @return: true|false 
  */
 var hasHayonaCookieConsent = function() {
-	if( hayonaCookies.hasConsent() ) {
+	if( hayonaCookies.hasConsent() ) 
 		return true;
-	} else {
+	else 
 		return false;
-	}
 };

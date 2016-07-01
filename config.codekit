@@ -68,10 +68,10 @@
 		},
 	"\/assets\/bower_components\/js-cookie\/src\/js.cookie.js": {
 		"fileType": 64,
-		"ignore": 1,
+		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/bower_components\/js-cookie\/src\/js.cookie.js",
-		"outputAbbreviatedPath": "\/assets\/bower_components\/js-cookie\/src\/min\/js.cookie-min.js",
+		"outputAbbreviatedPath": "\/assets\/bower_components\/js-cookie\/src\/min\/js.cookie.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -82,7 +82,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/cycle.js",
-		"outputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/min\/cycle-min.js",
+		"outputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/min\/cycle.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -90,10 +90,10 @@
 		},
 	"\/assets\/bower_components\/JSON-js\/json2.js": {
 		"fileType": 64,
-		"ignore": 1,
+		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/json2.js",
-		"outputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/min\/json2-min.js",
+		"outputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/min\/json2.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -104,7 +104,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/json_parse.js",
-		"outputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/min\/json_parse-min.js",
+		"outputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/min\/json_parse.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -115,7 +115,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/json_parse_state.js",
-		"outputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/min\/json_parse_state-min.js",
+		"outputAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/min\/json_parse_state.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -132,7 +132,7 @@
 		"outputAbbreviatedPath": "\/assets\/css\/min\/admin.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
-		"outputStyle": 0,
+		"outputStyle": 3,
 		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0,
 		"useLibsass": 0
@@ -167,7 +167,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
 		"outputStyle": 3,
-		"shouldRunAutoprefixer": 1,
+		"shouldRunAutoprefixer": 0,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -182,23 +182,23 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/assets\/js\/main.js": {
+	"\/assets\/js\/cookie-banner.js": {
 		"fileType": 64,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/assets\/js\/main.js",
-		"outputAbbreviatedPath": "\/assets\/js\/min\/main-min.js",
+		"inputAbbreviatedPath": "\/assets\/js\/cookie-banner.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/cookie-banner.min.js",
 		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
+		"outputPathIsSetByUser": 1,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/assets\/js\/min\/main-min.js": {
+	"\/assets\/js\/min\/cookie-banner.min.js": {
 		"fileType": 64,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/assets\/js\/min\/main-min.js",
-		"outputAbbreviatedPath": "\/assets\/js\/min\/min\/main-min-min.js",
+		"inputAbbreviatedPath": "\/assets\/js\/min\/cookie-banner.min.js",
+		"outputAbbreviatedPath": "\/assets\/js\/min\/min\/cookie-banner.min.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -272,7 +272,7 @@
 	],
 "lastSavedByUser": "Leon Korteweg",
 "manualImportLinks": {
-	"\/assets\/js\/main.js": [
+	"\/assets\/js\/cookie-banner.js": [
 		{
 			"followForSyntaxChecking": 1,
 			"linkedFileAbbreviatedPath": "\/assets\/bower_components\/JSON-js\/json2.js",
@@ -294,7 +294,7 @@
 	"iconImageName": "pencil_brown"
 	},
 "projectSettings": {
-	"alwaysUseExternalServer": 0,
+	"alwaysUseExternalServer": 1,
 	"animateCSSInjections": 1,
 	"autoApplyPSLanguageSettingsStyle": 0,
 	"autoprefixerBrowserString": "> 1%, last 2 versions, Firefox ESR, Opera 12.1",
@@ -473,7 +473,7 @@
 	"jadeCompileDebug": 1,
 	"jadeOutputStyle": 0,
 	"javascriptAutoOutputPathEnabled": 1,
-	"javascriptAutoOutputPathFilenamePattern": "*-min.js",
+	"javascriptAutoOutputPathFilenamePattern": "*.min.js",
 	"javascriptAutoOutputPathRelativePath": "\/min",
 	"javascriptAutoOutputPathReplace1": "",
 	"javascriptAutoOutputPathReplace2": "",
@@ -887,7 +887,7 @@
 	"sassCreateSourceMap": 0,
 	"sassDebugStyle": 0,
 	"sassDecimalPrecision": 10,
-	"sassOutputStyle": 0,
+	"sassOutputStyle": 3,
 	"sassUseLibsass": 0,
 	"shouldRunAutoprefixer": 0,
 	"shouldRunBless": 0,

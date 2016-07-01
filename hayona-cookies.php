@@ -149,7 +149,7 @@ class Hayona_Cookies {
 	 */
 	public function front_end_assets() {
 		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/style.css', __FILE__ ), array(), '1.0.5', 'screen' );
-		wp_enqueue_script( 'hayona-cookies', plugins_url( 'assets/js/min/main-min.js', __FILE__ ), array( 'jquery' ), null, true );
+		wp_enqueue_script( 'hayona-cookies', plugins_url( 'assets/js/min/cookie-banner.min.js', __FILE__ ), array( 'jquery' ), null, true );
 	}
 
 
@@ -186,19 +186,24 @@ class Hayona_Cookies {
 
 		// Load banner html
 		$cookie_expiration = esc_attr( get_option('hc_cookie_expiration') );
+		$banner_type = esc_attr( get_option( 'hc_banner_type' ) );
 		$banner_markup = '<div class="hc-banner ' . $color_scheme . '">
 						<div class="hc-banner__body">' . esc_attr( get_option('hc_banner_text') ) . '</div>
 						<ul class="hc-toolbar">
 							<li><a class="hc-button accept-cookies" href="#">' . __( "All right, close", 'hayona-cookies' ) . '</a></li>
 							<li><a class="hc-dimmed" href="' . get_permalink( esc_attr( get_option( 'hc_privacy_statement_url' ) ) ) . '"> ' . __( "Change your settings", 'hayona-cookies' ) . ' </a></li>
 						</ul>
+						<div class="hc-banner__close">
+							<span class="hc-banner__close__icon"></span> ' . __( 'Cancel', 'hayona-cookies' ) . '
+						</div>
 					</div>';
 		$banner_script = '<script type="text/javascript">
 						jQuery(document).ready( hayonaCookies.init( {
 							timestamp: ' . $permission_timestamp . ',
 							isSettingsPage: ' . $is_settings_page . ', 
 							implicitConsentEnabled: ' . $implied_consent_enabled . ',
-							cookieExpiration: ' . $cookie_expiration . '
+							cookieExpiration: ' . $cookie_expiration . ',
+							bannerType: "' . $banner_type . '"
 						} ) );
 					</script>';
 
@@ -346,9 +351,11 @@ class Hayona_Cookies {
 		register_setting( 'hc_banner', 'hc_implied_consent_enabled' );
 		register_setting( 'hc_banner', 'hc_banner_text' );
 		register_setting( 'hc_banner', 'hc_banner_color_scheme' );
+		register_setting( 'hc_banner', 'hc_banner_type' );
 		add_settings_field('hc_banner_text', __( 'Banner text', 'hayona-cookies' ), array( $this, 'field_banner_text_callback'), 'hc_banner', 'hc_section_banner');
 		add_settings_field('hc_implied_consent_enabled', __( 'Implied consent', 'hayona-cookies' ), array( $this, 'field_implied_consent_enabled_callback'), 'hc_banner', 'hc_section_banner');
 		add_settings_field('hc_banner_color_scheme', __( 'Color scheme', 'hayona-cookies' ), array( $this, 'field_banner_color_scheme_callback'), 'hc_banner', 'hc_section_banner');
+		add_settings_field('hc_banner_type', __( 'Banner type', 'hayona-cookies' ), array( $this, 'field_banner_type_callback'), 'hc_banner', 'hc_section_banner');
 
 		// Cookie settings 
 		add_settings_section( 'hc_section_cookie', __('Cookie settings', 'hayona-cookies'), array( $this, 'section_cookie_callback'), 'hc_cookies' );
@@ -387,7 +394,7 @@ class Hayona_Cookies {
 						array(  'a' => array( 'href' => array() ) ) ),
 						esc_url('https://wordpress.org/plugins/hayona-cookies/installation/') ) .
 				'</li>' .
-				'<li>' . __( "Review the settings below", 'hayona-cookies' ) . '</li>' .
+				'<li>' . __( "Review the plugin settings", 'hayona-cookies' ) . '</li>' .
 				'<li>' . __( "Enable the plugin", 'hayona-cookies' ) . '</li>' .
 				'</ol>';
 	}
@@ -498,6 +505,33 @@ class Hayona_Cookies {
 		echo '</p>';
 	}
 
+	public function field_banner_type_callback() {
+		$hc_color_scheme = esc_attr( get_option('hc_banner_type') );
+		echo '<select name="hc_banner_type">';
+		echo '<option value="default" ';
+			if( $hc_color_scheme == "default" ) {
+				echo 'selected="selected"';
+			}
+			echo '>';
+			_e( "Default banner", 'hayona-cookies' );
+		echo '</option>';
+		echo '<option value="cookiewall" ';
+				if( $hc_color_scheme == "cookiewall" ) {
+					echo 'selected="selected"';
+				}
+				echo '>';
+			_e( "Cookie wall", 'hayona-cookies' ); 
+		echo '</option>';
+		echo '</select>';
+		echo '<p class="description">';
+			_e( "Default banner is recommended, because the website remains accessible from the first pageview.", 'hayona-cookies' ); 
+			echo ' ';
+			_e( "However, the default banner sometimes conflicts with styles from within a theme.", 'hayona-cookies' ); 
+			echo ' ';
+			_e( "In those cases, use the cookie wall.", 'hayona-cookies' ); 
+		echo '</p>';
+	}
+
 	public function section_cookie_callback() {
 		echo '<p>';
 			_e( "List all the cookies you use on your website. Place every cookie on a new line.", 'hayona-cookies' );
@@ -601,11 +635,14 @@ class Hayona_Cookies {
 
 		submit_button(); 
 
-		echo '<div class="hc-admin__footer">';
-			echo '<a href="https://wordpress.org/plugins/hayona-cookies/">';
-						_e( "Plugin info", 'hayona-cookies' );
-			echo '</a>';
-		echo '</div>';
+		echo '<div class="hc-admin__footer">
+				<a href="https://wordpress.org/plugins/hayona-cookies/">' .
+					__( "Documentation", 'hayona-cookies' ) .
+				'</a> —
+				<a href="http://www.hayona.com">' . 
+				__( "Plugin by Hayona", 'hayona-cookies' ) . 
+				'</a>
+			</div>';
 
 		echo '</form>';
 		echo '</div>';
