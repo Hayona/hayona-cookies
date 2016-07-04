@@ -191,3 +191,10 @@ Web developers can check for cookie consent through a simple utility function ca
 
 = 1.0.4 =
 * Improved installation instructions
+
+= 1.1 =
+* Settings page now with WordPress Settings API
+* Added cookiewall option (in case when a theme has conflicting sticky header styles)
+* Removed jQuery dependancy
+* Added couple of filters (see README.md)
+* Added CSS specificity to cookie preference table 
