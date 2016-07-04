@@ -4,7 +4,7 @@
  * Plugin URI: 
  * Description: Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
  * Author: Hayona
- * Version: 1.0.5
+ * Version: 1.1
  * Author URI: http://www.hayona.nl
  * License: GPLv2
  * Domain Path: /languages
@@ -148,7 +148,7 @@ class Hayona_Cookies {
 	 * @description: Enqueue front-end assets
 	 */
 	public function front_end_assets() {
-		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/style.css', __FILE__ ), array(), '1.0.5', 'screen' );
+		wp_enqueue_style( 'hayona-cookies', plugins_url( 'assets/css/min/style.css', __FILE__ ), array(), '1.1', 'screen' );
 		wp_enqueue_script( 'hayona-cookies', plugins_url( 'assets/js/min/cookie-banner.min.js', __FILE__ ), array( 'jquery' ), null, true );
 	}
 
