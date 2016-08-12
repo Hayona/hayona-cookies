@@ -168,8 +168,8 @@ class Hayona_Cookies {
 		wp_enqueue_script( 
 			'hayona-cookies', 
 			plugins_url( 'assets/js/min/cookie-banner.min.js', __FILE__ ), 
-			array( 'jquery' ), 
-			null, 
+			array(), 
+			'1.1', 
 			true 
 		);
 	}
@@ -288,7 +288,7 @@ class Hayona_Cookies {
 					<ul class="hc-settings__options">
 						<li><div class="hc-settings__option">
 							<span class="hc-h3"> ' .
-								__( 'Option 1' ) . '
+								__( 'Option 1', 'hayona-cookies' ) . '
 							</span>
 							<p> ' .
 								__( 'Allow all cookies', 'hayona-cookies' ) . '
@@ -305,10 +305,11 @@ class Hayona_Cookies {
 						</div></li>
 						<li><div class="hc-settings__option">
 							<span class="hc-h3"> ' .
-								__( 'Option 2' ) . '
+								__( 'Option 2', 'hayona-cookies' ) . '
 							</span>
 							<p>' .
 								__( 'Accept only functional and non privacy sensitive cookies (no PII)', 'hayona-cookies' ) . '
+							</p>
 							<table class="hc-cookielist">
 								'. $cookielist[1] . '
 							</table>

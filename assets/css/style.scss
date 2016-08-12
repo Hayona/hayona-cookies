@@ -48,6 +48,11 @@ body.hc-styling {
 		background-color: #f5f5f5;
 		color: #333;
 		font: 16px/1.5 BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
+		
+
+		&, & * {
+			box-sizing: border-box;
+		}
 
 		@include lt-s {
 			font-size: 12px;
@@ -163,6 +168,7 @@ body.hc-styling {
 			li {
 				float: left;
 				margin-left: 20px;
+				list-style: none;
 
 				&:first-child {
 					margin-left: 0;
@@ -186,13 +192,14 @@ body.hc-styling {
 			margin: 0 0 10px;
 			padding: 0;
 			border-collapse: collapse;
-			border: 1px solid 1px solid #d1d1d1;
+			border: 1px solid #d1d1d1;
 			border-width: 1px 0 0 1px;
 
 			td {
 				padding: 7px;
-				border: 1px solid 1px solid #d1d1d1;
+				border: 1px solid #d1d1d1;
 				border-width: 0 1px 1px 0;
+				background-color: transparent;
 			}
 		}
 	}
@@ -364,6 +371,7 @@ body.hc-styling {
 				float: left;
 				width: 50%;
 				padding-left: 10px;
+				list-style: none;
 
 				&:first-child {
 					padding-right: 10px;
@@ -384,7 +392,6 @@ body.hc-styling {
 			// border: 1px solid #ccc;
 			border-radius: 3px;
 			background-color: #fff;
-			position: relative;
 
 			.hc-button {
 				display: block;
@@ -429,7 +436,7 @@ body.hc-styling--dark {
  	table.hc-cookielist {
 		
 		&, tr, td {
-			border-color: #444
+			border-color: #444;
 		}
  	}
 
