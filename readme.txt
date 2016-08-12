@@ -3,8 +3,8 @@ Contributors: lkorteweg@hayona.nl
 Donate link: http://www.hayona.com
 Tags: eu cookie law, cookie consent, cookie banner, privacy settings, google tag manager
 Requires at least: 4.0
-Tested up to: 4.4.1
-Stable tag: 1.0.4
+Tested up to: 4.6
+Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ A straightforward plugin to comply with the EU cookie law: Inform your visitors 
 
 == Description ==
 
-This plugin adds a simple and customizable cookie banner to your website. It gives your users the option to allow or deny cookies that contain personal identifiable information (PII). They can change their cookie preferences at any time. Place all scripts on your site trough the Google Tag Manager and run them based on these preferences. 
+This plugin adds a simple cookie banner to your website. It gives your users the option to allow or deny cookies that contain personal identifiable information (PII). They can change their cookie preferences at any time. Place all scripts on your site trough the Google Tag Manager and run them based on these preferences. 
 
 ### Features
 
@@ -32,32 +32,9 @@ This plugin offers some unique characteristics:
 4. Functional and non-PII cookies are placed immediately
 5. Implied consent is optional
 
-### Installation
+### Installation 
 
-**Step 1**: Search for 'Hayona Cookie Consent' in the plugin database to install and activate this plugin. 
-
-**Step 2**: Configure the plugin under 'Settings » Hayona Cookies'. Here are some tips: 
-
-- If you don't have a privacy settings page, make one and select it under 'General Settings'.
-- Use the 'banner text' field to inform your users about cookies on your site. For examples see the [installation](https://wordpress.org/plugins/hayona-cookies/installation/) tab. 
-- List all the cookies cookies in the proper category.
-
-**Step 3**: Install the Google Tag Manager. There is a [short video](https://www.youtube.com/watch?v=buEZdno55SU) on this, but here are all the steps you'll need to take: 
-
-1. Don't have Google Tag Manager yet? Get a [free account](https://www.google.com/analytics/tag-manager/) and place the tracking code in your site. 
-2. [Log in](https://www.google.com/analytics/tag-manager/) and select your site.
-3. Click on 'Triggers' and click 'New'. 
-4. Select 'Custom Event' and give it the event name 'consent'. Save the trigger and click 'Publish'. 
-
-**Step 4**: Add scripts to your site via Google Tag Manager. This is easy:
-
-1. [Log in](https://www.google.com/analytics/tag-manager/) and select your site.
-2. Click on 'Tags' and click 'New'. 
-3. You have the option to select different products. If you just want to add a piece of code, select 'custom HTML tag' and paste your code in. 
-4. Under 'Fire on' you can click 'More' to select the 'consent' trigger from step 3. This way the script will be loaded after consent has been given. If you want to load the script right away, just select 'All Pages' instead.
-5. Save you tag and click 'Publish'.
-
-Read the [installation page](https://wordpress.org/plugins/hayona-cookies/installation/) for more information and examples.
+Read the [installation page](https://wordpress.org/plugins/hayona-cookies/installation/) for a step by step guide.
 
 ### About the cookie law in the EU
 
@@ -107,6 +84,7 @@ Development for this plugin takes place at [GitHub](https://github.com/Hayona/ha
 
 == Installation ==
 
+### Step 1: Install the plugin 
 Follow these steps to install the plugin: 
 
 1. Go to Plugins » Add new
@@ -114,13 +92,50 @@ Follow these steps to install the plugin:
 3. Click 'Install now'
 4. Click 'Activate Plugin'
 
-### Manual installation
+Search for 'Hayona Cookie Consent' in the plugin database to install and activate this plugin. 
 
-Follow these steps to install the plugin manually: 
+### Step 2: Make a privacy settings page
 
-1. Upload the 'hayona-cookies' folder to the '/wp-content/plugins/' directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to Settings » Hayona Cookies to review the plugin settings and enable the plugin
+1. Add a new page under 'Pages » Add New'
+2. Name it 'Privacy statement' and paste in your privacy statement
+3. Go to 'Settings » Cookie Consent' 
+4. Select your 'Privacy Statement' and hit 
+
+### Step 3: Review banner text
+
+1. Go to 'Settings » Cookie Consent' 
+2. Go to the tab 'Banner settings'
+3. Review the banner text and adjust if needed
+
+### Step 4: Name all your cookies
+
+1. Go to 'Settings » Cookie Consent' 
+2. Go to the tab 'Cookie settings'
+3. List all the cookies cookies in the proper category
+
+>Tip: Use the [ghostery browser add-on](https://www.ghostery.com/en/our-solutions/ghostery-add-on/) to find out which cookies are placed on your website. 
+
+### Step 5: Install the Google Tag Manager. 
+
+1. Get a [free account here](https://www.google.com/analytics/tag-manager/) 
+2. Place the trackingcode in your site using [DuracellTomi's plugin](https://wordpress.org/plugins/duracelltomi-google-tag-manager/)
+2. [Log in](https://tagmanager.google.com/) and select your site.
+3. Click on 'Triggers' and click 'New'. 
+4. Select 'Custom Event' and give it the event name 'consent'. Save the trigger and click 'Publish'. Name this trigger 'Cookie Consent'
+
+[Watch a video](https://www.youtube.com/watch?v=buEZdno55SU) to see these steps in a little screencast.
+
+### Congratulations!
+
+By now you're ready to add all kinds of tracking scripts to your site. You will need to do this via Google Tag Manager. This is easy:
+
+- [Log in](https://tagmanager.google.com/) and select your site.
+- Click on 'Tags' and click 'New'. 
+- Select the product you would like to add. If you just have a piece of code to add, select 'custom HTML tag' and paste your code in. 
+
+Under 'Fire on' you can configure if the script will be loaded before or after consent has been given by the user. Use the 'All Pages' trigger on tracking scripts that you want to load before consent has been given, Use the 'Cookie Consent' trigger from step 5 on tracking scripts that need consent. 
+
+Save you tag and click 'Publish'.
 
 ### Banner text examples
 
@@ -169,8 +184,9 @@ Web developers can check for cookie consent through a simple utility function ca
 == Screenshots ==
 
 1. Add a customizable cookie banner to the top of your website. 
-2. Add a privacy settings form to a page of your choice
-3. Customize the plugin through the options page under Settings » Hayona Cookies
+2. Use a 'cookiewall' if your theme doesn't work well with the banner.
+3. Add a privacy settings form to a page of your choice
+4. Customize the plugin through the options page under Settings » Cookie Consent
 
 == Changelog ==
 
@@ -196,5 +212,8 @@ Web developers can check for cookie consent through a simple utility function ca
 * Settings page now with WordPress Settings API
 * Added cookiewall option (in case when a theme has conflicting sticky header styles)
 * Removed jQuery dependancy
-* Added couple of filters (see README.md)
-* Added CSS specificity to cookie preference table 
+* Added couple of filters (see [github](https://github.com/Hayona/hayona-cookies))
+* Use system default font instead of Arial
+* Simplified 'cookie settings' page
+* Cookie consent is now stored in localStorage.hayonaCookieConsent (instead of cookie)
+* Improved installation guide

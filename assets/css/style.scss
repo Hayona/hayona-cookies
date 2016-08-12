@@ -26,111 +26,127 @@
 	}
 }
 
-
-/**
- * General styles
- */
-
-.hc-styling {
-	font: 16px/1.5 Helvetica, Arial, sans-serif;
-
-	@include lt-s {
-		font-size: 12px;
-	}
-
-
-	// Headings
-	
-	span.hc-h2,
-	span.hc-h3 {
+.clearfix {
+	&:after {
+		content: "";
 		display: block;
-		margin: 0 0 10px;
-		line-height: 1.2;
+		height: 0;
+		visibility: hidden;
+		clear: both;
 	}
+}
 
-	span.hc-h2 {
-		margin-bottom: 30px;
-		font-size: 25px;
-		font-weight: bold;
-		color: #eee;
+body.hc-styling {
+
+
+	/**
+	 * General styles
+	 */
+	
+	.hc-banner,
+	.hc-settings {
+		background-color: #f5f5f5;
+		color: #333;
+		font: 16px/1.5 BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
 
 		@include lt-s {
-			font-size: 20px;
+			font-size: 12px;
 		}
-	}
-
-	span.hc-h3 {
-		text-transform: uppercase;
-		font-size: 16px;
-
-		@include lt-s {
-			font-size: 14px;
-		}
-	}
 
 
-	// Table
-
-	.hc-table {
-		width: 100%;
-		border-collapse: collapse;
-		border: 0;
-
-		th,
-		td {
-			padding: 10px 10px;
-			vertical-align: top;
-			border: 0;
-			text-align: left;
-			font-size: 14px;
+		// Headings
+		
+		span.hc-h2,
+		span.hc-h3 {
+			display: block;
+			margin: 0 0 10px;
 			line-height: 1.2;
+		}
+
+		span.hc-h2 {
+			margin-bottom: 30px;
+			font-size: 25px;
+			font-weight: bold;
+			color: #222;
 
 			@include lt-s {
-				font-size: 12px;
+				font-size: 20px;
 			}
 		}
+
+		span.hc-h3 {
+			text-transform: uppercase;
+			font-size: 16px;
+
+			@include lt-s {
+				font-size: 14px;
+			}
+		}
+
+
+		// Buttons
 
 		.hc-button {
-			display: block;
+			display: inline-block;
+			padding: 10px 15px;
+			border-radius: 3px;
+			position: relative;
+			background-color: #228B22;
+			text-decoration: none;
+			text-align: center;
+			line-height: 1.2;
+			font-weight: normal;
+			outline: none;
+			color: #fff;
+
+			border: 0;
+			box-shadow: none;
 		}
 
-		tfoot tr:first-child td,
-		tfoot tr:first-child th {
-			padding-top: 20px;
+		.hc-button:after {
+			content: "";
+			border-radius: 3px;
+			background-color: #fff;
+			position: absolute;
+			top: 0; right: 0; bottom: 0; left: 0;
+			opacity: 0;
+			transition: all 0.1s linear 0s;
 		}
 
-		@include lt-xs {
+		.hc-button:hover:after {
+			opacity: 0.15;
+		}
 
-			th,
-			td,
-			table,
-			tr,
-			thead,
-			tbody,
-			tfoot,
-			col {
-				display: block;
-				width: 100%;
-			}
 
-			td,
-			th {
-				padding: 5px 10px;
-			}
+		.hc-button--grey {
+			background-color: #ccc;
+			color: #222;
+		}
 
-			th {
-				padding-top: 15px;
-			}
+		.hc-button--grey:after {
+			background-color: #000;
+		}
 
-			td {
-				padding-bottom: 15px;
-			}
 
-			.hc-empty-cell {
-				display: none;
-			}
+		.hc-dimmed {
+			text-decoration: none;
+			color: inherit;
+			opacity: 0.6;
+		}
 
-			tr:after {
+		.hc-dimmed:hover {
+			opacity: 1;
+		}
+
+
+		// Toolbar
+
+		.hc-toolbar {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+
+			&:after {
 				content: ".";
 				display: block;
 				height: 0;
@@ -138,145 +154,71 @@
 				clear: both;
 			}
 
-			td,
-			th {
+			a {
+				display: block;
+				line-height: 40px;
+				transition: all 0.1s linear 0s;
+			}
+
+			li {
 				float: left;
-				width: 50%;
-				box-sizing: border-box;
+				margin-left: 20px;
+
+				&:first-child {
+					margin-left: 0;
+				}
+
+				@include lt-s {
+					margin-left: 10px;
+				}
 			}
 
-			tfoot td,
-			th:first-child {
-				float: none;
-				width: 100%;
+			.hc-button {
+				padding-top: 0;
+				padding-bottom: 0;
 			}
+		}
 
-			tfoot td {
-				padding: 0 10px 10px;
+		
+		// Cookielist
+
+		table.hc-cookielist {
+			margin: 0 0 10px;
+			padding: 0;
+			border-collapse: collapse;
+			border: 1px solid 1px solid #d1d1d1;
+			border-width: 1px 0 0 1px;
+
+			td {
+				padding: 7px;
+				border: 1px solid 1px solid #d1d1d1;
+				border-width: 0 1px 1px 0;
 			}
 		}
 	}
 
 
-	// Buttons
+	/**
+	 * Cookie banner
+	 */
 
-	.hc-button {
-		display: inline-block;
-		padding: 10px 15px;
-		border-radius: 3px;
-		position: relative;
-		background-color: #228B22;
-		text-decoration: none;
-		text-align: center;
-		line-height: 1.2;
-		font-weight: bold;
-		color: #fff;
-
-		border: 0;
-		box-shadow: none;
-	}
-
-	.hc-button:after {
-		content: "";
-		border-radius: 3px;
-		background-color: #fff;
+	.hc-banner {
+		display: none;			/* It is set to block by JavaScript */
 		position: absolute;
-		top: 0; right: 0; bottom: 0; left: 0;
-		opacity: 0;
-		transition: all 0.1s linear 0s;
-	}
-
-	.hc-button:hover:after {
-		opacity: 0.15;
-	}
-
-
-	.hc-button--grey {
-		background-color: #ccc;
-		color: #222;
-	}
-
-	.hc-button--grey:after {
-		background-color: #000;
-	}
-
-
-	.hc-dimmed {
-		text-decoration: none;
-		color: inherit;
-		opacity: 0.6;
-	}
-
-	.hc-dimmed:hover {
-		opacity: 1;
-	}
-
-
-	// Toolbar
-
-	.hc-toolbar {
-		margin: 0;
-		padding: 0;
-		list-style: none;
-
-		&:after {
-			content: ".";
-			display: block;
-			height: 0;
-			visibility: hidden;
-			clear: both;
-		}
-
-		a {
-			display: block;
-			line-height: 40px;
-			transition: all 0.1s linear 0s;
-		}
-
-		li {
-			float: left;
-			margin-left: 20px;
-
-			&:first-child {
-				margin-left: 0;
-			}
-
-			@include lt-s {
-				margin-left: 10px;
-			}
-		}
-
-		.hc-button {
-			padding-top: 0;
-			padding-bottom: 0;
-		}
-	}
-}
-
-
-/**
- * Cookie banner
- */
-
-.hc-banner {
-	display: none;			/* It is set to block by JavaScript */
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-	z-index: 100;
-
-	&__faux-padding {
-		clear: both;
-		transition: all 0.2s;
-	}
-
-	&__close {
-		display: none;
-	}
-
-	&.hc-styling {
 		padding: 40px;
+		top: 0;
+		right: 0;
+		left: 0;
+		z-index: 100;
+
+		&__faux-padding {
+			clear: both;
+			transition: all 0.2s;
+		}
+
+		&__close {
+			display: none;
+		}
 
 		@include lt-s {
 			padding: 20px;
@@ -291,10 +233,9 @@
 		}
 	}
 
-
 	// Cookie wall
 
-	body.hc-cookiewall & {
+	&.hc-cookiewall .hc-banner {
 		top: 150px;
 		right: 20%;
 		left: 20%;
@@ -373,130 +314,126 @@
 			}
 		}
 	}
-}
 
-body.hc-cookiewall {
-	position: relative;
+	&.hc-cookiewall {
+		position: relative;
+	}
+
+
+	/**
+	 * Privacy settings form
+	 */
+
+	.hc-settings {
+		display: none;			// It is set to block by JavaScript 
+
+		clear: both;
+		margin: 0 0 40px;
+		padding: 20px;
+		border-radius: 3px;
+
+		@include lt-s {
+			padding: 10px;
+		}
+
+		&__header {
+			margin: 0 0 20px;
+			text-align: center;
+
+			span.hc-h2 {
+				margin: 0 0 5px;
+			}
+
+			p {
+				margin: 0 0 20px;
+
+				@include lt-xs {
+					margin: 0;
+				}
+			}
+		}
+
+		&__options {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+
+			@extend .clearfix;
+
+			& > li {
+				float: left;
+				width: 50%;
+				padding-left: 10px;
+
+				&:first-child {
+					padding-right: 10px;
+					padding-left: 0;
+				}
+
+				@include lt-l {
+					float: none;
+					width: auto;
+					margin: 0 0 10px;
+					padding: 0 !important;
+				}
+			}
+		}
+
+		&__option {
+			padding: 20px;
+			// border: 1px solid #ccc;
+			border-radius: 3px;
+			background-color: #fff;
+			position: relative;
+
+			.hc-button {
+				display: block;
+			}
+
+			p {
+				margin: 0 0 10px;
+				height: 40px;
+				line-height: 20px;
+				color: #999;
+			}
+
+			.hc-status {
+				display: block;
+				padding: 10px 15px;
+				text-align: center;
+				line-height: 1.2;
+			}
+		}
+	}
 }
 
 
 /**
- * Privacy settings form
- */
-
-.hc-styling.hc-settings {
-	clear: both;
-	display: none;			/* It is set to block by JavaScript */
-	margin: 0 0 40px;
-	padding: 20px 0 0;
-	border-radius: 3px;
-}
-
-@include lt-s {
-	.hc-styling.hc-settings {
-		padding: 10px 0 0;
-	}
-}
-
-.hc-styling.hc-settings col:nth-child(2),
-.hc-styling.hc-settings col:nth-child(3) {
-	width: 35%;
-}
-
-.hc-styling .hc-settings__header {
-	padding: 10px;
-	text-align: center;
-}
-
-.hc-styling .hc-settings__header span.hc-h2 {
-	margin: 0 0 5px;
-}
-
-.hc-styling .hc-settings__header p {
-	margin: 0 0 20px;
-}
-
-@include lt-xs {
-	.hc-styling .hc-settings__header p {
-		margin: 0;
-	}
-}
-
-
-/*
  * Color schemes
  */
 
+// Dark color scheme
 
-/* Dark color scheme */
+body.hc-styling--dark {
+ 	
+ 	.hc-banner,
+ 	.hc-settings {
+ 		background-color: #222;
+ 		color: #bbb;
 
-.hc-styling--dark {
- 	background-color: #222;
- 	color: #aaa;
+ 		span.hc-h2 {
+ 			color: #eee;
+ 		}
+ 	}
+
+ 	table.hc-cookielist {
+		
+		&, tr, td {
+			border-color: #444
+		}
+ 	}
+
+ 	.hc-settings__option {
+ 		background-color: #333;
+ 	}
 }
-
-.hc-styling--dark .hc-table tbody tr:nth-child(odd) td,
-.hc-styling--dark .hc-table tbody tr:nth-child(odd) th {
-	background-color: rgba(255,255,255,0.03);
-}
-
-.hc-styling--dark .hc-table col:nth-child(2) {
-	background-color: rgba(255,255,255,0.05);
-}
-
-.hc-styling--dark .hc-table col:nth-child(1),
-.hc-styling--dark .hc-table col:nth-child(3) {
-	background-color: rgba(255,255,255,0.03);
-}
-
-.hc-styling--dark.hc-settings thead td,
-.hc-styling--dark.hc-settings thead th {
-	color: #eee;
-}
-
-
-/* Light color scheme */
-
-.hc-styling--light {
- 	background-color: #f5f5f5;
- 	// box-shadow: 0 0 10px rgba(0,0,0,0.05), 1px 1px 4px rgba(0,0,0,0.2);
- 	color: #333;
-}
-
-.hc-styling--light .hc-table tbody tr:nth-child(odd) td,
-.hc-styling--light .hc-table tbody tr:nth-child(odd) th {
-	background-color: rgba(0,0,0,0.02);
-}
-
-.hc-styling--light .hc-table col:nth-child(2) {
-	background-color: rgba(0,0,0,0.03);
-}
-
-.hc-styling--light .hc-table col:nth-child(1),
-.hc-styling--light .hc-table col:nth-child(3) {
-	background-color: rgba(0,0,0,0.02);
-}
-
-.hc-styling--light span.hc-h2 {
-	color: #222;
-}
-
-.hc-styling--light.hc-settings thead td,
-.hc-styling--light.hc-settings thead th {
-	color: #222;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
