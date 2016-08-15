@@ -92,8 +92,6 @@ Follow these steps to install the plugin:
 3. Click 'Install now'
 4. Click 'Activate Plugin'
 
-Search for 'Hayona Cookie Consent' in the plugin database to install and activate this plugin. 
-
 ### Step 2: Make a privacy settings page
 
 1. Add a new page under 'Pages » Add New'
@@ -180,6 +178,16 @@ Web developers can check for cookie consent through a simple utility function ca
 	} );
 
 	</script>
+
+== Frequently Asked Questions ==
+
+= Why do I need to install Google Tag Manager to use this plugin? =
+
+This plugin does not handle the actual loading of tracking scripts. We use a dedicated tool for that, called [Google Tag Manager](https://www.google.nl/tagmanager/). Here's why:
+
+- **No more conflicts with caching plugins**. Loading tracking scripts based on user consent on the server side (within WordPress) usually does not work together with caching plugins. This is the case with many other cookie banner plugins.  This is a no go for us. Google Tag Manager enables us to do all this on the client side. That means that caching plugins do not get in the way anymore. 
+- **To make this plugin as fast as possible**. Small plugins are fast plugins. The less our plugin has to do, the faster it will be. 
+- **To fit the workflow of online marketers**. Tracking scripts are usually placed by marketing people. Since many of them are already using Google Tag Manager (like we do) we thought it would make sense to utilize that.
 
 == Screenshots ==
 
