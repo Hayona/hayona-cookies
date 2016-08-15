@@ -87,29 +87,29 @@ Development for this plugin takes place at [GitHub](https://github.com/Hayona/ha
 ### Step 1: Install the plugin 
 Follow these steps to install the plugin: 
 
-1. Go to Plugins » Add new
-2. Search for 'Hayona Cookie Consent'
-3. Click 'Install now'
-4. Click 'Activate Plugin'
+1. Go to 'Plugins » Add new'.
+2. Search for 'Hayona Cookie Consent'.
+3. Click 'Install now'.
+4. Click 'Activate Plugin'.
 
 ### Step 2: Make a privacy settings page
 
-1. Add a new page under 'Pages » Add New'
-2. Name it 'Privacy statement' and paste in your privacy statement
-3. Go to 'Settings » Cookie Consent' 
-4. Select your 'Privacy Statement' and hit 'Save changes'
+1. Add a new page under 'Pages » Add New'.
+2. Name it 'Privacy statement' and paste in your privacy statement. In this statement you explain your users in detail which cookies you use and what you are using them for.
+3. Go to 'Settings » Cookie Consent'. 
+4. Select your 'Privacy Statement' and hit 'Save changes'. 
 
 ### Step 3: Review banner text
 
-1. Go to 'Settings » Cookie Consent' 
-2. Go to the tab 'Banner settings'
-3. Review the banner text and adjust if needed
+1. Go to 'Settings » Cookie Consent'.
+2. Go to the tab 'Banner settings'.
+3. Review the banner text and adjust if needed. See some examples further down this page under 'Banner text examples'.
 
 ### Step 4: Name all your cookies
 
-1. Go to 'Settings » Cookie Consent' 
-2. Go to the tab 'Cookie settings'
-3. List all the cookies cookies in the proper category
+1. Go to 'Settings » Cookie Consent'.
+2. Go to the tab 'Cookie settings'.
+3. List all the cookies cookies in the proper category. See some examples further down this page under 'Cookie examples'.
 
 >Tip: Use the [ghostery browser add-on](https://www.ghostery.com/en/our-solutions/ghostery-add-on/) to find out which cookies are placed on your website. 
 
@@ -149,21 +149,21 @@ Dutch example:
 
 ### Cookie examples
 
-Examples of functional and non-PII cookies for which you don’t need the visitor’s consent:
+Below are some examples of functional and cookies that do **not** store personal identifiable information (non-PII cookies). You don't need the visitor’s consent for these cookies:
 
 - Language choice
 - Shopping basket
 - Google Analytics – only if implemented correctly in non-PII mode!
+- Affiliate cookies
 
-Examples of PII cookies – permission required:
+Here are some examples of cookies that do store personal identifiable information (PII cookies). You need the visitor's consent to place these cookies:
 
 - Comscore
 - Google Adsense
 - Google Adwords remarketing
 - Facebook remarketing
 - All retargeting and advertising cookies
-- Most social media buttons (Add-this toolbar, Facebook like box, etc.)
-- Etc.
+- Many social media buttons (Add-this toolbar, Facebook like box, etc.)
 
 ### Add scripts outside of the Google Tag Manager
 
