@@ -97,7 +97,7 @@ Follow these steps to install the plugin:
 1. Add a new page under 'Pages » Add New'
 2. Name it 'Privacy statement' and paste in your privacy statement
 3. Go to 'Settings » Cookie Consent' 
-4. Select your 'Privacy Statement' and hit 
+4. Select your 'Privacy Statement' and hit 'Save changes'
 
 ### Step 3: Review banner text
 
@@ -125,7 +125,7 @@ Follow these steps to install the plugin:
 
 ### Congratulations!
 
-By now you're ready to add all kinds of tracking scripts to your site. You will need to do this via Google Tag Manager. This is easy:
+By now you're ready to add all kinds of tracking scripts to your site. You will need to do this via Google Tag Manager. 
 
 - [Log in](https://tagmanager.google.com/) and select your site.
 - Click on 'Tags' and click 'New'. 
