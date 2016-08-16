@@ -4,7 +4,7 @@ Donate link: http://www.hayona.com
 Tags: eu cookie law, cookie consent, cookie banner, privacy settings, google tag manager
 Requires at least: 4.0
 Tested up to: 4.6
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -222,3 +222,6 @@ This plugin does not handle the actual loading of tracking scripts. We use a ded
 
 = 1.1.1 =
 * Fix error in cookie settings admin
+
+= 1.1.2 =
+* Add compatibility for PHP 5.3

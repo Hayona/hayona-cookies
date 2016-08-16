@@ -249,7 +249,7 @@ class Hayona_Cookies {
 			// Get all cookies
 			$cookies = $this->get_cookies();
 
-			$cookielist = ["", ""]; 
+			$cookielist = array("", ""); 
 			foreach( $cookies["not_required"] as $cookie ) {
 				$cookielist[0] .= '
 					<tr>
