@@ -219,3 +219,6 @@ This plugin does not handle the actual loading of tracking scripts. We use a ded
 * Simplified 'cookie settings' page
 * Cookie consent is now stored in localStorage.hayonaCookieConsent (instead of cookie)
 * Improved installation guide
+
+= 1.1.1 =
+* Fix error in cookie settings admin
