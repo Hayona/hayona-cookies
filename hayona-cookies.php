@@ -4,7 +4,7 @@
  * Plugin URI: 
  * Description: Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
  * Author: Hayona
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author URI: http://www.hayona.nl
  * License: GPLv2
  * Domain Path: /languages
