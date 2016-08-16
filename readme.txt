@@ -8,79 +8,73 @@ Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A straightforward plugin to comply with the EU cookie law: Inform your visitors about cookies, obtain their consent and give them some control.
+A straightforward plugin to comply with the EU cookie law, including implied consent.
 
 == Description ==
 
-This plugin adds a simple cookie banner to your website. It gives your users the option to allow or deny cookies that contain personal identifiable information (PII). They can change their cookie preferences at any time. Place all scripts on your site trough the Google Tag Manager and run them based on these preferences. 
+### Add a cookie banner
 
-### Features
+Insert a simple banner on your website to inform users about the cookies you are using on your site. Users can give consent, or they can choose to block all or specific cookies. 
 
-This simple and lightweight plugin helps you to comply with the EU cookie law:
+### Place sensitive cookies after consent has been given
 
-1. Insert a simple banner on your website to *inform users* about the cookies you are using, to *obtain consent* for the cookies and to offer them the possibility to *change their preferences*. 
-2. Block cookies for which permission is required until you obtain their consent.
-3. Enable visitors to adjust their *cookie preferences* through a small form on your site.
-4. Enable *implied consent* which means that visitors give consent by clicking to the next page. The cookies will be placed and the banner will disappear.
-5. Cookies that do not require permission are placed immediately. For instance *Google Analytics* under certain conditions, affiliate cookies and functional cookies.
+Cookies that require consent will not be placed before consent has been given. This feature is essential to comply with the EU cookie law. Sadly, this is the part where many other cookie banner plugins fall short. 
 
-This plugin offers some unique characteristics:
+Of course, cookies which do not require consent are placed immediately.
 
-1. Scripts are placed through the Google Tag Manager
-2. Caching has no influence on this plugin or vice-versa
-3. PII cookies are blocked until visitors give consent
-4. Functional and non-PII cookies are placed immediately
-5. Implied consent is optional
+### Privacy settings
 
-### Installation 
+Users can adjust their privacy settings at any time through a small form on your site. Even after they have given consent.
 
-Read the [installation page](https://wordpress.org/plugins/hayona-cookies/installation/) for a step by step guide.
+### Built for speed
+
+Caching plugins will not interfere with the Hayona Cookie Consent plugin. 
+
+### Implied consent (optional)
+
+When you enable implied consent, clicking to the next page will count as consent; cookies are placed and the banner disappears.
+
+### Google Tag Manager
+
+This plugin does not handle the actual loading of tracking scripts but uses [Google Tag Manager](https://www.google.com/analytics/tag-manager/). Read more about this in the [FAQ](https://wordpress.org/plugins/hayona-cookies/faq/).
+
+### Installation
+
+Read the [installation page](https://wordpress.org/plugins/hayona-cookies/installation/) for a step by step guide.
 
 ### About the cookie law in the EU
 
-**IMPORTANT NOTICE**: Implementing this plugin will NOT automatically make your website in compliance with the EU cookie law. It gives you all the functionality you need, but you will have to use it correctly:
-
-1. Place your cookies in the right category
-2. Provide complete and correct information in the banner
-3. Provide complete and correct information on the page with your privacy policy
-4. Do not place any scripts that place cookies outside the Google Tag manager
-
 Compliance with the EU cookie law comes down to three basic steps:
 
-1. Make sure you know exactly which cookies your site sets, what they are used for and if they are privacy sensitive, which means that they contain personal identifiable information (PII).
-2. Inform your visitors precisely how you use cookies.
-3. Obtain the visitor’s consent and give them some control over their preferences.
+1.  Make sure you know exactly which cookies your site sets, what they are used for and if they are privacy sensitive, which means that they contain personal identifiable information (PII).
+2.  Inform your visitors precisely how you use cookies.
+3.  Obtain the visitor’s consent and give them some control over their preferences.
 
-PII stands for Personable Identifiable Information and is a key element of the EU cookie law.
+Read the [installation page](https://wordpress.org/plugins/hayona-cookies/installation/) for more information.
 
 ### Detect your cookies
 
-This plugin does not block scripts that you have placed directly in your website. This includes all default youtube videos and most social media buttons. Here are some suggestions on how to work around this issue: 
+This plugin uses Google Tag Manager to place tracking scripts / cookies. Therefore the plugin itself does not block scripts that you have placed directly in your website. This includes all default youtube videos and many social media buttons. Here are some suggestions on how to work around this issue:
 
 - Enable privacy mode when embedding a YouTube video. This way the embedded video will not place cookies.
-- Do not use social media share buttons. Many well-known solutions place heaps of cookies. Some common examples are the Facebook like button and the AddThis toolbar.
+- Do not use social media share buttons that place cookies. This includes many well-known solutions like the Facebook like button and the AddThis toolbar.
+- We suggest that you use the [ghostery browser add-on](https://www.ghostery.com/en/our-solutions/ghostery-add-on/) to measure which other cookies are placed on your website.
 
-WordPress plugins are powerful tools to build amazing things in relatively short time. The downside of using someone else’s scripts is that you don't always know exactly what is happening when someone visits your website and which cookies are placed. We suggest that you use the [ghostery browser add-on](https://www.ghostery.com/en/our-solutions/ghostery-add-on/) to measure which cookies are placed on your website. 
+### Disclaimer
 
-### Are you sure you want to use cookies?
-
-If you don't comply you risk enforcement action from regulators, including a very high fine. However, non-compliance could also have other consequences. There is evidence that consumers avoid engaging with websites where they believe their privacy is at risk. In general, consumers just don’t like cookies and they don’t like being tracked.
-
-Hayona, the developer of this plugin, therefore believes that the ideal situation is a website that does not need this plugin at all! Most websites do not need PII cookies and without PII cookies the only thing you need is a page describing your privacy policy. No banner or visitor consent is needed.
-
-Be therefore very critical towards your website builder and online marketing people; don’t accept any cookie-placing scripts unless you are absolutely sure it is needed for your business. Implement Google Analytics in non-PII mode by masking ip addresses and not sharing your data with Google or others. Do not use social media buttons with scripts; why would you help the social media to follow and track your website visitors? Use simple hyperlinks instead; it even improves the performance of your site. Think twice about remarketing; consumers will get the feeling they are being tracked. And if you embed YouTube videos, always enable the privacy mode!
+IMPORTANT NOTICE: Implementing this plugin will NOT automatically make your website in compliance with the EU cookie law. It gives you all the functionality you need, but you will have to use it correctly.
 
 ### Credits
 
-Thanks to David from [Admin Columns](https://www.admincolumns.com/) for his technical review and advice. 
+Thanks to David from [Admin Columns](https://www.admincolumns.com/) for his technical review and advice.
 
-### Translations
+### Translation
 
-We currently have support for two languages: English and Dutch. Would you like to help translating this plugin? Please contact us trough [this page](http://www.hayona.com).
+We currently have support for two languages: English and Dutch. Would you like to help translating this plugin? Please contact us trough [this page](http://www.hayona.com/).
 
-### Development
+### Developers
 
-Development for this plugin takes place at [GitHub](https://github.com/Hayona/hayona-cookies). Please let us know if you have any feature requests / bugs or if you would like to contribute. 
+Development for this plugin takes place at [GitHub](https://github.com/Hayona/hayona-cookies). Please let us know if you have any feature requests / bugs or if you would like to contribute.
 
 == Installation ==
 
