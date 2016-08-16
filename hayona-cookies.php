@@ -4,7 +4,7 @@
  * Plugin URI: 
  * Description: Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
  * Author: Hayona
- * Version: 1.1
+ * Version: 1.1.1
  * Author URI: http://www.hayona.nl
  * License: GPLv2
  * Domain Path: /languages
@@ -402,7 +402,7 @@ class Hayona_Cookies {
 		register_setting( 'hc_cookies', 'hc_consent_timestamp' );
 		register_setting( 'hc_cookies', 'hc_reset_consent_timestamp' );
 		add_settings_field('hc_cookielist_consent_not_required', __( 'No permission required', 'hayona-cookies' ), array( $this, 'field_cookielist_consent_not_required_callback'), 'hc_cookies', 'hc_section_cookie');
-		add_settings_field('hc_cookielist_consent_required', __( 'No permission required', 'hayona-cookies' ), array( $this, 'field_cookielist_consent_required_callback'), 'hc_cookies', 'hc_section_cookie');
+		add_settings_field('hc_cookielist_consent_required', __( 'Permission required', 'hayona-cookies' ), array( $this, 'field_cookielist_consent_required_callback'), 'hc_cookies', 'hc_section_cookie');
 		add_settings_field('hc_cookie_expiration', __( 'Cookie expiration time', 'hayona-cookies' ), array( $this, 'field_cookie_expiration_callback'), 'hc_cookies', 'hc_section_cookie');
 		add_settings_field('hc_reset_consent_timestamp', __( 'Reset permissions', 'hayona-cookies' ), array( $this, 'field_reset_consent_timestamp_callback'), 'hc_cookies', 'hc_section_cookie');
 	}
