@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Hayona Cookie Consent
  * Plugin URI: 
- * Description: Comply with EU cookie law: tell your visitors how you use cookies, obtain their consent and give them some control.
+ * Description: A straightforward plugin to comply with the EU cookie law, including implied consent. 
  * Author: Hayona
  * Version: 1.1.2
  * Author URI: http://www.hayona.nl
@@ -63,7 +63,7 @@ class Hayona_Cookies {
 		}
 
 		// Activation
-		register_activation_hook( __FILE__, 		array( $this, 'invalidate_consent' ) );
+		register_activation_hook( __FILE__, 		array( $this, 'activate_plugin' ) );
 	}
 
 
@@ -92,6 +92,23 @@ class Hayona_Cookies {
 			false, 
 			basename( dirname( __FILE__ ) ) . '/languages' 
 		);
+	}
+
+
+	/**
+	 * Activate plugin
+	 */
+	public function activate_plugin() {
+
+		// Check if plugin has been activated before
+		$timestamp = esc_attr( get_option( 'hc_consent_timestamp' ) );
+
+		if( ! isset( $timestamp ) ) {
+			// Set some defaults
+			$this->invalidate_consent();
+			update_option( 'hc_implied_consent_enabled', 'on' );
+			update_option( 'hc_banner_text', __('This site uses cookies. By continuing to browse the site or clicking OK, you are agreeing to our use of cookies. Select ‘Change settings’ for more information.', 'hayona-cookies'));
+		}
 	}
 
 
@@ -697,4 +714,4 @@ class Hayona_Cookies {
 }
 
 // Instantiate our class
-$Hayona_cookies = Hayona_cookies::getInstance();
+$Hayona_Cookies = Hayona_Cookies::getInstance();

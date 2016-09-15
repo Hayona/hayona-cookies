@@ -206,7 +206,7 @@ CookieBanner.prototype.hasConsent = function () {
  * @description: Hide the banner
  */
 CookieBanner.prototype.closeBanner = function() {
-	this.banner[0].style.display = 'none';
+	this.removeClass( this.banner[0], 'js-visible' );
 	this.fauxPadding.style.height = '0px';
 };
 
@@ -232,7 +232,7 @@ CookieBanner.prototype.showBanner = function() {
 	if( typeof self.banner[0] !== 'undefined' ) {
 
 		// Show banner
-		self.banner[0].style.display = 'block';
+		self.addClass( self.banner[0], 'js-visible' );
 
 		// Push page down or add mask
 		self.fauxPadding.className = 'hc-banner__faux-padding';

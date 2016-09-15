@@ -1,75 +1,85 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Hayona Cookies\n"
-"POT-Creation-Date: 2016-08-16 09:49+0200\n"
-"PO-Revision-Date: 2016-08-16 09:49+0200\n"
+"POT-Creation-Date: 2016-09-15 15:49+0200\n"
+"PO-Revision-Date: 2016-09-15 15:50+0200\n"
 "Last-Translator: Leon Korteweg <lkorteweg@hayona.nl>\n"
 "Language-Team: Hayona <info@hayona.nl>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: hayona-cookies.php:212
+#: hayona-cookies.php:106
+msgid ""
+"This site uses cookies. By continuing to browse the site or clicking OK, you "
+"are agreeing to our use of cookies. Select ‘Change settings’ for more "
+"information."
+msgstr ""
+"Deze website gebruikt cookies. Door OK te kiezen of gebruik te maken van "
+"deze website geeft u hiervoor toestemming. Kies 'Instellingen wijzigen' voor "
+"meer informatie."
+
+#: hayona-cookies.php:224
 msgid "All right, close"
 msgstr "Oké, sluiten"
 
-#: hayona-cookies.php:213
+#: hayona-cookies.php:225
 msgid "Change your settings"
 msgstr "Instellingen wijzigen"
 
-#: hayona-cookies.php:216
+#: hayona-cookies.php:228
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: hayona-cookies.php:257 hayona-cookies.php:262 hayona-cookies.php:269
+#: hayona-cookies.php:269 hayona-cookies.php:274 hayona-cookies.php:281
 msgid "Allowed"
 msgstr "Toegestaan"
 
-#: hayona-cookies.php:274
+#: hayona-cookies.php:286
 msgid "Not Allowed"
 msgstr "Niet toegestaan"
 
-#: hayona-cookies.php:283
+#: hayona-cookies.php:295
 msgid "Cookie preferences"
 msgstr "Cookie voorkeuren"
 
-#: hayona-cookies.php:285
+#: hayona-cookies.php:297
 msgid "Please select which cookies you want to accept from this website."
 msgstr "Selecteer welke cookies u wilt accepteren van deze website."
 
-#: hayona-cookies.php:291
+#: hayona-cookies.php:303
 msgid "Option 1"
 msgstr "Optie 1"
 
-#: hayona-cookies.php:294 hayona-cookies.php:300
+#: hayona-cookies.php:306 hayona-cookies.php:312
 msgid "Allow all cookies"
 msgstr "Alle cookies toestaan"
 
-#: hayona-cookies.php:303 hayona-cookies.php:320
+#: hayona-cookies.php:315 hayona-cookies.php:332
 msgid "You've picked this option."
 msgstr "Je hebt deze optie gekozen"
 
-#: hayona-cookies.php:308
+#: hayona-cookies.php:320
 msgid "Option 2"
 msgstr "Optie 2"
 
-#: hayona-cookies.php:311
+#: hayona-cookies.php:323
 msgid "Accept only functional and non privacy sensitive cookies (no PII)"
 msgstr ""
 "Accepteer alleen functionele en niet-privacygevoelige cookies (geen PII)"
 
-#: hayona-cookies.php:317
+#: hayona-cookies.php:329
 msgid "Allow some cookies"
 msgstr "Sommige cookies toestaan"
 
-#: hayona-cookies.php:357
+#: hayona-cookies.php:369
 #, php-format
 msgid ""
 "The cookie banner is not visible yet. Go to the <a href=\"%s\">plugin "
@@ -78,77 +88,77 @@ msgstr ""
 "De cookiebanner is nog niet zichtbaar. Ga naar de <a href=\"%s\">plugin "
 "instellingen</a> om de plugin te configureren en in te schakelen."
 
-#: hayona-cookies.php:366
+#: hayona-cookies.php:378
 msgid "Dismiss this notice."
 msgstr "Verberg deze melding."
 
-#: hayona-cookies.php:380 hayona-cookies.php:659
+#: hayona-cookies.php:392 hayona-cookies.php:671
 msgid "General settings"
 msgstr "Algemene instellingen"
 
-#: hayona-cookies.php:383
+#: hayona-cookies.php:395
 msgid "Privacy statement"
 msgstr "Privacy verklaring"
 
-#: hayona-cookies.php:384 hayona-cookies.php:469 hayona-cookies.php:472
+#: hayona-cookies.php:396 hayona-cookies.php:481 hayona-cookies.php:484
 msgid "Enable plugin"
 msgstr "Plugin aanzetten"
 
-#: hayona-cookies.php:387 hayona-cookies.php:662
+#: hayona-cookies.php:399 hayona-cookies.php:674
 msgid "Banner settings"
 msgstr "Banner instellingen"
 
-#: hayona-cookies.php:392
+#: hayona-cookies.php:404
 msgid "Banner text"
 msgstr "Banner tekst"
 
-#: hayona-cookies.php:393
+#: hayona-cookies.php:405
 msgid "Implied consent"
 msgstr "Impliciete toestemming"
 
-#: hayona-cookies.php:394
+#: hayona-cookies.php:406
 msgid "Color scheme"
 msgstr "Kleurenschema"
 
-#: hayona-cookies.php:395
+#: hayona-cookies.php:407
 msgid "Banner type"
 msgstr "Banner type"
 
-#: hayona-cookies.php:398 hayona-cookies.php:665
+#: hayona-cookies.php:410 hayona-cookies.php:677
 msgid "Cookie settings"
 msgstr "Cookie instellingen"
 
-#: hayona-cookies.php:404
+#: hayona-cookies.php:416
 msgid "No permission required"
 msgstr "Geen toestemming vereist"
 
-#: hayona-cookies.php:405
+#: hayona-cookies.php:417
 msgid "Permission required"
 msgstr "Toestemming vereist"
 
-#: hayona-cookies.php:406
+#: hayona-cookies.php:418
 msgid "Cookie expiration time"
 msgstr "Cookie vervaltijd"
 
-#: hayona-cookies.php:407 hayona-cookies.php:630
+#: hayona-cookies.php:419 hayona-cookies.php:642
 msgid "Reset permissions"
 msgstr "Wis alle toestemmingen"
 
-#: hayona-cookies.php:433
+#: hayona-cookies.php:445
 msgid "You're almost there!"
 msgstr "Je bent er bijna!"
 
-#: hayona-cookies.php:436
+#: hayona-cookies.php:448
 #, php-format
 msgid ""
 "Please go through our step by step <a href=\"%1$s\">installation guide</a>"
 msgstr "Volg onze <a href=\"%1$s\">installatie handleiding</a> stap voor stap"
 
-#: hayona-cookies.php:440
+#: hayona-cookies.php:452
 msgid "and enable the plugin if you're done."
 msgstr "en schakel de plugin in als je klaar bent."
 
-#: hayona-cookies.php:459
+#: hayona-cookies.php:471
 msgid ""
 "Please select the page that contains your privacy statement. A small cookie "
 "preferences form will be placed at the top of this page. This way your "
@@ -158,12 +168,12 @@ msgstr ""
 "formulier op geplaatst worden, bovenaan de pagina. Op deze manier kunnen je "
 "bezoekers hun privacy instellingen op elk moment aanpassen."
 
-#: hayona-cookies.php:476
+#: hayona-cookies.php:488
 msgid "You can enable the plugin if you have done the steps listed above."
 msgstr ""
 "Je kunt de plugin aanzetten als je bovenstaande stappen hebt doorlopen."
 
-#: hayona-cookies.php:482
+#: hayona-cookies.php:494
 msgid ""
 "Informing your visitors about cookies on your website is an important part "
 "of conforming to the EU cookie law. Use the banner text to provide this "
@@ -173,7 +183,7 @@ msgstr ""
 "deel van het voldoen aan de EU cookiewet. Gebruik de bannertekst om uw "
 "bezoekers van deze informatie te voorzien."
 
-#: hayona-cookies.php:485
+#: hayona-cookies.php:497
 #, php-format
 msgid ""
 "See the <a href=\"%1$s\">documentation</a> for various examples in different "
@@ -182,16 +192,16 @@ msgstr ""
 "Zie de <a href=\"%1$s\">documentatie</a> voor een aantal voorbeelden in "
 "verschillende situaties."
 
-#: hayona-cookies.php:498 hayona-cookies.php:598 hayona-cookies.php:612
+#: hayona-cookies.php:510 hayona-cookies.php:610 hayona-cookies.php:624
 #, php-format
 msgid "Need some examples? See <a href=\"%1$s\">documentation</a>."
 msgstr "Voorbeelden nodig? Zie de <a href=\"%1$s\">documentatie</a>."
 
-#: hayona-cookies.php:508 hayona-cookies.php:511
+#: hayona-cookies.php:520 hayona-cookies.php:523
 msgid "Enable implied consent"
 msgstr "Impliciete toestemming inschakelen"
 
-#: hayona-cookies.php:515
+#: hayona-cookies.php:527
 msgid ""
 "Implied consent means if a user clicks through to the next page, it will "
 "count as permission."
@@ -199,7 +209,7 @@ msgstr ""
 "Impliciete toestemming betekent dat als een gebruiker doorklikt naar de "
 "volgende pagina, dat ook telt als toestemming."
 
-#: hayona-cookies.php:516
+#: hayona-cookies.php:528
 msgid ""
 "If this option is enabled you'll have to notify your site visitors about it "
 "throught the banner text."
@@ -207,19 +217,19 @@ msgstr ""
 "Als deze optie is ingeschakeld dan moet je jouw bezoekers hierover inlichten "
 "via de banner tekst."
 
-#: hayona-cookies.php:528
+#: hayona-cookies.php:540
 msgid "Dark color scheme"
 msgstr "Donker kleurenschema"
 
-#: hayona-cookies.php:535
+#: hayona-cookies.php:547
 msgid "Light color scheme"
 msgstr "Licht kleurenschema"
 
-#: hayona-cookies.php:542
+#: hayona-cookies.php:554
 msgid "No color scheme"
 msgstr "Geen kleurenschema"
 
-#: hayona-cookies.php:546
+#: hayona-cookies.php:558
 msgid ""
 "We'll add more in time. Select 'No color scheme' if you prefer to write your "
 "own CSS."
@@ -227,15 +237,15 @@ msgstr ""
 "Naar verloop van tijd zullen we er meer toevoegen. Selecteer 'Geen "
 "kleurenschema' als je liever je eigen CSS schrijft."
 
-#: hayona-cookies.php:558
+#: hayona-cookies.php:570
 msgid "Default banner"
 msgstr "Standaard banner"
 
-#: hayona-cookies.php:565
+#: hayona-cookies.php:577
 msgid "Cookie wall"
 msgstr "Cookiemuur"
 
-#: hayona-cookies.php:569
+#: hayona-cookies.php:581
 msgid ""
 "Default banner is recommended, because the website remains accessible from "
 "the first pageview."
@@ -243,18 +253,18 @@ msgstr ""
 "De standaardbanner is aanbevolen, omdat de website dan toegankelijk blijft "
 "vanaf de eerste paginaweergave."
 
-#: hayona-cookies.php:571
+#: hayona-cookies.php:583
 msgid ""
 "However, the default banner sometimes conflicts with styles from within a "
 "theme."
 msgstr ""
 "De standaard banner conflicteert alleen soms met stijl vanuit een thema."
 
-#: hayona-cookies.php:573
+#: hayona-cookies.php:585
 msgid "In those cases, use the cookie wall."
 msgstr "Gebruik in die gevallen de cookiemuur."
 
-#: hayona-cookies.php:579
+#: hayona-cookies.php:591
 msgid ""
 "List all the cookies you use on your website. Place every cookie on a new "
 "line."
@@ -262,11 +272,11 @@ msgstr ""
 "Noem alle cookies op die je gebruikt op je website. Plaats elk cookie op een "
 "nieuwe regel."
 
-#: hayona-cookies.php:581
+#: hayona-cookies.php:593
 msgid "We distinguish between two different kinds of cookies."
 msgstr "We maken onderscheid tussen twee verschillende cookies."
 
-#: hayona-cookies.php:583
+#: hayona-cookies.php:595
 msgid ""
 "The first category contains cookies that don't require permission (usually "
 "functional and non-PII cookies)."
@@ -274,7 +284,7 @@ msgstr ""
 "De eerste categorie bevat cookies die geen toestemming vereisen (normaal "
 "gesproken zijn dit functionele cookies en niet-PII cookies)."
 
-#: hayona-cookies.php:585
+#: hayona-cookies.php:597
 msgid ""
 "The second category contains cookies that do require permission. These are "
 "cookies used for tracking, profiling, advertising and cookies that store PII."
@@ -283,12 +293,12 @@ msgstr ""
 "cookies die gebruikt worden voor tracken, profileren, advertenties en "
 "cookies die PII opslaan."
 
-#: hayona-cookies.php:596 hayona-cookies.php:610
+#: hayona-cookies.php:608 hayona-cookies.php:622
 msgid "List your cookies one by one. Place each cookie on a new line."
 msgstr ""
 "Geef je cookies één voor één op. Plaats elke cookie op een nieuwe regel."
 
-#: hayona-cookies.php:623
+#: hayona-cookies.php:635
 msgid ""
 "How long would you like to remember the cookie consent of your users?  "
 "Default is 365 days."
@@ -296,7 +306,7 @@ msgstr ""
 "Hoe lang wil je de toestemmingen van jouw bezoekers onthouden? De "
 "standaardinstelling is 365 dagen."
 
-#: hayona-cookies.php:634
+#: hayona-cookies.php:646
 msgid ""
 "Did you just change anything to the cookies on your site? This means you'll "
 "need to ask every visitor for their consent again, even if they gave consent "
@@ -306,27 +316,27 @@ msgstr ""
 "je elke bezoeker opnieuw om toestemming moet vragen, zelfs als ze al "
 "toestemming hebben gegeven."
 
-#: hayona-cookies.php:636
+#: hayona-cookies.php:648
 msgid "Check this box and press save to do this."
 msgstr "Selecteer de checkbox en sla op om dit te doen."
 
-#: hayona-cookies.php:638
+#: hayona-cookies.php:650
 msgid "Warning: this option will delete all cookie consents. "
 msgstr "Waarschuwing: deze optie verwijdert alle cookie toestemmingen."
 
-#: hayona-cookies.php:655
+#: hayona-cookies.php:667
 msgid "Hayona Cookie Consent"
 msgstr "Hayona Cookie Consent"
 
-#: hayona-cookies.php:684
+#: hayona-cookies.php:696
 msgid "Documentation"
 msgstr "Documentatie"
 
-#: hayona-cookies.php:687
+#: hayona-cookies.php:699
 msgid "Installation guide"
 msgstr "Installatie handleiding"
 
-#: hayona-cookies.php:690
+#: hayona-cookies.php:702
 msgid "Plugin by Hayona"
 msgstr "Plugin door Hayona"
 

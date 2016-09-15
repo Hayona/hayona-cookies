@@ -47,7 +47,7 @@ body.hc-styling {
 	.hc-settings {
 		background-color: #f5f5f5;
 		color: #333;
-		font: 16px/1.5 BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
+		font: 14px/1.5 BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
 		
 
 		&, & * {
@@ -150,38 +150,26 @@ body.hc-styling {
 			margin: 0;
 			padding: 0;
 			list-style: none;
-
-			&:after {
-				content: ".";
-				display: block;
-				height: 0;
-				visibility: hidden;
-				clear: both;
-			}
+			display: flex;
+			align-items: baseline;
 
 			a {
 				display: block;
-				line-height: 40px;
 				transition: all 0.1s linear 0s;
+				white-space: nowrap;
 			}
 
 			li {
-				float: left;
-				margin-left: 20px;
+				margin-right: 20px;
 				list-style: none;
 
-				&:first-child {
-					margin-left: 0;
+				&:last-child {
+					margin-right: 0;
 				}
 
 				@include lt-s {
-					margin-left: 10px;
+					margin-right: 10px;
 				}
-			}
-
-			.hc-button {
-				padding-top: 0;
-				padding-bottom: 0;
 			}
 		}
 
@@ -213,11 +201,21 @@ body.hc-styling {
 	.hc-banner {
 		display: none;			/* It is set to block by JavaScript */
 		position: absolute;
-		padding: 40px;
+		padding: 20px;
 		top: 0;
 		right: 0;
 		left: 0;
 		z-index: 100;
+
+		&.js-visible {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			@include lt-m {
+				display: block;
+			}
+		}
 
 		&__faux-padding {
 			clear: both;
@@ -233,7 +231,12 @@ body.hc-styling {
 		}
 
 		.hc-banner__body {
-			margin: 0 0 20px;
+			margin: 0;
+			padding-right: 20px;
+
+			@include lt-m {
+				margin: 0 0 20px;
+			}
 
 			@include lt-s {
 				margin: 0 0 10px;
