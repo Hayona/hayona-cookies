@@ -4,7 +4,7 @@ Donate link: http://www.hayona.com
 Tags: eu cookie law, cookie consent, cookie banner, privacy settings, google tag manager
 Requires at least: 4.0
 Tested up to: 4.6
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
