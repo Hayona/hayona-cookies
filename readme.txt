@@ -131,15 +131,15 @@ Save you tag and click 'Publish'.
 
 ### Banner text examples
 
-Here are some examples of content you can place in your banner. The parts with **bold emphasis** depend on your settings. Edit them to suit your situation. 
+Here are some examples of content you can place in your banner. 
 
 English example:
 
-> We use cookies to ensure that we give you the best experience on our website. The European Law differentiates between functional or non-privacy sensitive cookies and cookies which could be privacy sensitive (PII). **This websites only uses functional or non-privacy sensitive cookies. / This website uses both types of cookies.** By clicking ‘OK, close’ **or by continuing to use our website,** you accept the cookies of our website. Choose ‘change settings’ if you want more information or to change your cookie preferences.
+> This site uses cookies. By continuing to browse the site or clicking OK, you are agreeing to our use of cookies. Select ‘Change settings’ for more information.
 
 Dutch example: 
 
-> Wij gebruiken cookies om deze website zo gebruiksvriendelijk mogelijk te maken en u te voorzien van de beste informatie. De Europese wetgeving maakt onderscheid tussen cookies die functioneel of niet privacygevoelig zijn en cookies die mogelijk wel privacygevoelig kunnen zijn (PII). **Deze website gebruikt alleen functionele of niet-privacygevoelige cookies.  / Deze website gebruikt beide soorten cookies.** Door hiernaast op ‘OK, sluiten’ te klikken **of door gebruik te blijven maken van deze website,** geeft u toestemming voor het plaatsen van cookies. Klik op 'Instellingen wijzigen' om uw cookievoorkeuren aan te passen en voor meer informatie over het gebruik van cookies op deze website.
+> Deze website gebruikt cookies. Door OK te kiezen of gebruik te maken van deze website geeft u hiervoor toestemming. Kies 'Instellingen wijzigen' voor meer informatie.
 
 ### Cookie examples
 
@@ -225,3 +225,8 @@ This plugin does not handle the actual loading of tracking scripts. We use a ded
 
 = 1.1.2 =
 * Add compatibility for PHP 5.3
+
+= 1.1.3 =
+* Added 100% width to privacy settings table
+* Banner is now smaller
+* Edit banner examples on readme.txt
