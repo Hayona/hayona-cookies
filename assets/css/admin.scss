@@ -2,18 +2,21 @@
  * Admin styles
  */
 
-form h2 {
-	display: none;
-}
+body.settings_page_hayona-cookies {
 
-.wrap h2.nav-tab-wrapper {
-	margin-bottom: 30px;
-}
+	form h2 {
+		display: none;
+	}
 
-p.larger {
-	font-size: larger;
-}
+	.wrap h2.nav-tab-wrapper {
+		margin-bottom: 30px;
+	}
 
-.hc-admin__header {
-	padding: 10px 0;
+	p.larger {
+		font-size: larger;
+	}
+
+	.hc-admin__header {
+		padding: 10px 0;
+	}
 }

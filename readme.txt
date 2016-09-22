@@ -4,7 +4,7 @@ Donate link: http://www.hayona.com
 Tags: eu cookie law, cookie consent, cookie banner, privacy settings, google tag manager
 Requires at least: 4.0
 Tested up to: 4.6
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -230,3 +230,6 @@ This plugin does not handle the actual loading of tracking scripts. We use a ded
 * Added 100% width to privacy settings table
 * Banner is now smaller
 * Edit banner examples on readme.txt
+
+= 1.1.4 =
+* Remove admin css conflict
