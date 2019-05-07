@@ -1,0 +1,27 @@
+@mixin lt-l {
+	@media only screen and (max-width: 1000px / 16px * 1em) {
+		@content;
+	}
+}
+
+@mixin lt-m {
+	@media only screen and (max-width: 800px / 16px * 1em) {
+		@content;
+	}
+}
+
+@mixin lt-s {
+	@media only screen and (max-width: 500px / 16px * 1em) {
+		@content;
+	}
+}
+
+@mixin lt-xs {
+	@media only screen and (max-width: 380px / 16px * 1em) {
+		@content;
+	}
+}
+
+@import 'base.scss';
+@import 'banner.scss';
+@import 'form.scss';

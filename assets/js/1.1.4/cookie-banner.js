@@ -257,8 +257,8 @@ CookieBanner.prototype.showBanner = function() {
  * @description: Displays selected options on privacy settings form
  */
 CookieBanner.prototype.setSelectedState = function() {
-	const statusAccept = document.getElementsByClassName( 'hc-status--accept' )[0];
-	const statusReject = document.getElementsByClassName( 'hc-status--reject' )[0];
+	var statusAccept = document.getElementsByClassName( 'hc-status--accept' )[0];
+	var statusReject = document.getElementsByClassName( 'hc-status--reject' )[0];
 
 	if( this.settings.isSettingsPage &&
 			this.hasConsent() === true ) {

@@ -4,7 +4,7 @@
  * Plugin URI: 
  * Description: A straightforward plugin to comply with the EU cookie law, including implied consent. 
  * Author: Hayona
- * Version: 1.1.4
+ * Version: 2.0.0
  * Author URI: http://www.hayona.nl
  * License: GPLv2
  * Domain Path: /languages
@@ -54,6 +54,7 @@ class Hayona_Cookies {
 		}
 
 		// Back end
+		add_action( 'upgrader_process_complete', 	array( $this, 'plugin_updated' ) );
 		add_action( 'plugins_loaded', 				array( $this, 'load_translations' ) );
 		add_action( 'admin_init', 					array( $this, 'admin_register_settings' ) );
 		add_action( 'admin_head', 					array( $this, 'admin_assets' ) );
@@ -95,11 +96,35 @@ class Hayona_Cookies {
 		);
 	}
 
+	private function plugin_updated( $upgrader_object, $data ) {
+		$hc_plugin = plugin_basename( __FILE__ );
+
+		if ( $options['action'] == 'update' &&
+			$options['type'] == 'plugin' &&
+			isset( $options['plugins'] ) ) {
+			
+			foreach ( $options['plugins'] as $plugin ) {
+				if ( $plugin == $hc_plugin ) {
+					set_transient( 'hc_updated', 1 );
+				}
+			}
+		}
+	}
+
 
 	/**
 	 * Activate plugin
 	 */
 	public function activate_plugin() {
+
+		// Check whether the plugin got updated. If not, set a installed transient
+		// variable to tag it as a new installation.
+		if ( !get_transient( 'hc_updated' ) ) {
+			set_transient( 'hc_installed', 1 );
+			// update_option( 'hc_legacy_mode_enabled', 'on' ); // for debugging
+		} else {
+			update_option( 'hc_legacy_mode_enabled', 'on' );
+		}
 
 		// Check if plugin has been activated before
 		$timestamp = esc_attr( get_option( 'hc_consent_timestamp' ) );
@@ -140,7 +165,6 @@ class Hayona_Cookies {
 		return $get_cookies;
 	}
 
-
 	/**
 	 * Get color scheme  
 	 *
@@ -149,6 +173,7 @@ class Hayona_Cookies {
 	public function get_color_scheme( $classes ) {
 		// Get color scheme
 		$color_scheme = esc_attr( get_option( 'hc_banner_color_scheme' ) );
+
 		switch ($color_scheme) {
 			case 'light':
 				$classes[] = 'hc-styling';
@@ -175,31 +200,122 @@ class Hayona_Cookies {
 	 */
 	public function front_end_assets() {
 
-		wp_enqueue_style( 
-			'hayona-cookies', 
-			plugins_url( 'assets/css/min/style.css', __FILE__ ), 
-			array(), 
-			'1.1', 
-			'screen' 
-		);
-		
-		wp_enqueue_script( 
-			'hayona-cookies', 
-			plugins_url( 'assets/js/min/cookie-banner.min.js', __FILE__ ), 
-			array(), 
-			'1.1', 
-			true 
-		);
+		// Check if it isn't a new installation
+		if ( !get_transient( 'hc_installed' ) ) {
+			$hc_legacy_mode_enabled = esc_attr( get_option( 'hc_legacy_mode_enabled' ) );
+
+			// Load in the proper css and javascript based on the
+			// current hc_legacy_mode_enabled option
+			if ( $hc_legacy_mode_enabled == 'on' ) {
+				wp_enqueue_style(
+					'hayona-cookies',
+					plugins_url( 'assets/css/1.1.4/min/style.css', __FILE__ ),
+					array(),
+					'1.1',
+					'screen'
+				);
+	
+				wp_enqueue_script(
+					'hayona-cookies',
+					plugins_url( 'assets/js/1.1.4/min/cookie-banner.min.js', __FILE__ ),
+					array(),
+					'1.1',
+					true
+				);
+			} else {
+				wp_enqueue_style(
+					'hayona-cookies',
+					plugins_url( 'assets/css/2.0/min/style.css', __FILE__ ),
+					array(),
+					'2.0',
+					'screen'
+				);
+
+				wp_enqueue_script(
+					'hayona-cookies',
+					plugins_url( 'assets/js/2.0/min/cookie-banner.min.js', __FILE__ ),
+					array(),
+					'2.0',
+					true
+				);
+			}
+		} else {
+			wp_enqueue_style(
+				'hayona-cookies',
+				plugins_url( 'assets/css/2.0/min/style.css', __FILE__ ),
+				array(),
+				'2.0',
+				'screen'
+			);
+
+			wp_enqueue_script(
+				'hayona-cookies',
+				plugins_url( 'assets/js/2.0/min/cookie-banner.min.js', __FILE__ ),
+				array(),
+				'2.0',
+				true
+			);
+		}
+
+		// for debugging purpose:
+		// $hc_legacy_mode_enabled = esc_attr( get_option( 'hc_legacy_mode_enabled' ) );
+
+		// if ( $hc_legacy_mode_enabled == 'on' ) {
+		// 	wp_enqueue_style(
+		// 		'hayona-cookies',
+		// 		plugins_url( 'assets/css/1.1.4/min/style.css', __FILE__ ),
+		// 		array(),
+		// 		'1.1.4',
+		// 		'screen'
+		// 	);
+
+		// 	wp_enqueue_script(
+		// 		'hayona-cookies',
+		// 		plugins_url( 'assets/js/1.1.4/min/cookie-banner.min.js', __FILE__ ),
+		// 		array(),
+		// 		'1.1.4',
+		// 		true
+		// 	);
+		// } else {
+		// 	wp_enqueue_style(
+		// 		'hayona-cookies-style',
+		// 		plugins_url( 'assets/css/2.0/min/style.css', __FILE__ ),
+		// 		array(),
+		// 		'2.0',
+		// 		'screen'
+		// 	);
+
+		// 	wp_enqueue_style(
+		// 		'hayona-cookies-style-settings',
+		// 		plugins_url( 'assets/css/2.0/settings.css', __FILE__ ),
+		// 		array(),
+		// 		'2.0',
+		// 		'screen'
+		// 	);
+
+		// 	wp_enqueue_script(
+		// 		'hayona-cookies-banner',
+		// 		plugins_url( 'assets/js/2.0/min/cookie-banner.min.js', __FILE__ ),
+		// 		array(),
+		// 		'2.0',
+		// 		true
+		// 	);
+
+		// 	wp_enqueue_script(
+		// 		'hayona-cookies-settings',
+		// 		plugins_url( 'assets/js/2.0/settings.js', __FILE__ ),
+		// 		array(),
+		// 		'2.0'
+		// 	);
+		// }
 	}
 
-
 	/**
-	 * Cookie banner
-	 *
-	 * @description: Insert cookie banner to page
+	 * Cookie legacy banner
+	 * 
+	 * Description: Shows the legacy banner
 	 */
-	public function cookie_banner() {
-
+	private function cookie_legacy_banner() {
 		// Get permission timestamp
 		$permission_timestamp = esc_attr( get_option('hc_consent_timestamp') );
 
@@ -215,6 +331,7 @@ class Hayona_Cookies {
 		// Are we on a settings page?
 		$settings_page_id = esc_attr( get_option( 'hc_privacy_statement_url' ) );
 		$current_page_id = get_the_id();
+
 		if( $settings_page_id == $current_page_id ) {
 			$is_settings_page = "true";
 		} else {
@@ -251,6 +368,138 @@ class Hayona_Cookies {
 		echo $banner_markup . $banner_script;
 	}
 
+	/**
+	 * Cookie new banner
+	 * 
+	 * Description: Shows the new banner
+	 */
+	private function cookie_new_banner() {
+
+		$privacy_statement_url = get_permalink( esc_attr( get_option( 'hc_privacy_statement_url' ) ) );
+
+		$cookie_expiration = esc_attr( get_option( 'hc_cookie_expiration' ) );
+
+		$form_placement_before = esc_attr( get_option( 'hc_form_placement_before' ) );
+
+		$use_body_offset = esc_attr( get_option( 'hc_banner_use_body_offset' ) ) ? 'true' : 'false';
+
+		$offset_header_selector = esc_attr( get_option( 'hc_banner_offset_header_selector' ) );
+
+		if ( empty( $offset_header_selector ) )
+			$offset_header_selector = 'undefined';
+
+		$hc_banner_button_yes_text = esc_attr( get_option( 'hc_banner_text_button_yes' ) );
+		$hc_banner_button_no_text = esc_attr( get_option( 'hc_banner_text_button_no' ) );
+
+		$implied_consent_enabled = esc_attr( get_option( 'hc_implied_consent_enabled' ) ) ? 'true' : 'false';
+
+		$hc_banner_text = esc_attr( get_option( 'hc_banner_text' ) );
+		$form_head_text = esc_attr( get_option( 'hc_form_head_text' ) );
+		$form_subtitle_text = esc_attr( get_option( 'hc_form_subtitle_text' ) );
+		$form_option_one_button_text = esc_attr( get_option( 'hc_form_option_one_button_text' ) );
+		$form_option_two_button_text = esc_attr( get_option( 'hc_form_option_two_button_text' ) );
+		$form_allowed_text = esc_attr( get_option( 'hc_form_allowed_text' ) );
+		$form_disallowed_text = esc_attr( get_option( 'hc_form_disallowed_text' ) );
+
+		$cookies = $this->get_cookies();
+
+		if ( $use_body_offset == 'true' ) {
+			if ( is_admin_bar_showing() ) {
+				$banner_markup = "
+				.gtmcc-banner {
+					position: fixed !important;
+					top: 31px !important;
+					left: 0 !important;
+					right: 0 !important;
+					z-index: 21 !important;
+				}";
+			} else {
+				$banner_markup = "
+				.gtmcc-banner {
+					position: fixed !important;
+					top: 0 !important;
+					left: 0 !important;
+					right: 0 !important;
+					z-index: 21 !important;
+				}";
+			}
+		} else {
+			$banner_markup = "
+			.gtmcc-banner {
+				position: fixed !important;
+				bottom: 0 !important;
+				left: 0 !important;
+				right: 0 !important;
+				z-index: 21 !important;
+			}";
+		}
+
+		$banner_script = "var cookieConsentSettings = {
+				
+					/* Edit general settings */
+					privacyStatementUrl: '$privacy_statement_url',
+					cookies: [
+						['test'],
+						['test2']
+					],
+			resetAllBeforeTimestamp: 1530021013000,
+			consentExpiration: $cookie_expiration,
+			gtmEventName: 'consent',
+			gtmTrackEventName: 'track_consent',
+			formPlacementBefore: '$form_placement_before',
+			useBodyOffset: $use_body_offset,\n\t\t\t";
+
+			if ( $offset_header_selector != 'undefined' ) {
+				$banner_script .= "offsetHeaderSelector: '$offset_header_selector',\n\t\t\t";
+			} else {
+				$banner_script .= "offsetHeaderSelector: $offset_header_selector,\n\t\t\t";
+			}
+
+			$banner_script .= " implicitConsentEnabled: $implied_consent_enabled,
+
+			/* Edit banner text */
+			explanation: '$hc_banner_text',
+			buttonYes: '$hc_banner_button_yes_text',
+			buttonNo: '$hc_banner_button_no_text',
+
+			/* Edit form text */
+			formHead: '$form_head_text',
+			formSubtitle: '$form_subtitle_text',
+			optionOneButton: '$form_option_one_button_text',
+			optionTwoButton: '$form_option_two_button_text',
+			allowed: '$form_allowed_text',
+			disallowed: '$form_disallowed_text'
+		};";
+
+		$banner_markup = apply_filters( 'hc_banner_markup', $banner_markup );
+		$banner_script = apply_filters( 'hc_banner_script', $banner_script );
+
+		file_put_contents( plugin_dir_path( __FILE__ ) . 'assets/css/2.0/settings.css', $banner_markup );
+		file_put_contents( plugin_dir_path( __FILE__ ) . 'assets/js/2.0/settings.js', $banner_script );
+	}
+
+
+	/**
+	 * Cookie banner
+	 *
+	 * @description: Insert cookie banner to page
+	 */
+	public function cookie_banner() {
+
+		if ( !get_transient( 'hc_installed' ) ) {
+		// if ( get_transient( 'hc_installed' ) ) { // for debugging purpose
+			$hc_legacy_mode_enabled = esc_attr( get_option( 'hc_legacy_mode_enabled' ) );
+
+			if ( $hc_legacy_mode_enabled == 'on' ) {
+				$this->cookie_legacy_banner();
+			} else {
+				$this->cookie_new_banner();
+			}
+		} else {
+			$this->cookie_new_banner();
+		}
+	}
+
 
 	/**
 	 * Privacy settings form
@@ -261,8 +510,9 @@ class Hayona_Cookies {
 
 		$settings_page_id = esc_attr( get_option('hc_privacy_statement_url') );
 		$current_page_id = get_the_id();
+		$legacy_mode_enabled = esc_attr( get_option( 'hc_legacy_mode_enabled' ) );
 
-		if( $settings_page_id == $current_page_id ) {
+		if( $settings_page_id == $current_page_id && $legacy_mode_enabled != false ) {
 
 			// Get all cookies
 			$cookies = $this->get_cookies();
@@ -386,6 +636,68 @@ class Hayona_Cookies {
 				</div>"; 
 	}
 
+	/**
+	 * Admin legacy settings
+	 * 
+	 * registers all legacy settings
+	 */
+	public function admin_register_legacy_settings() {
+		// Banner settings 
+		add_settings_section( 'hc_section_banner', __('Banner settings', 'hayona-cookies'), array( $this, 'section_banner_callback'), 'hc_banner' );
+		register_setting( 'hc_banner', 'hc_implied_consent_enabled' );
+		register_setting( 'hc_banner', 'hc_banner_text' );
+		register_setting( 'hc_banner', 'hc_banner_color_scheme' );
+		register_setting( 'hc_banner', 'hc_banner_type' );
+		add_settings_field( 'hc_banner_text', __( 'Banner text', 'hayona-cookies' ), array( $this, 'field_banner_text_callback'), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_implied_consent_enabled', __( 'Implied consent', 'hayona-cookies' ), array( $this, 'field_implied_consent_enabled_callback'), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_banner_color_scheme', __( 'Color scheme', 'hayona-cookies' ), array( $this, 'field_banner_color_scheme_callback'), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_banner_type', __( 'Banner type', 'hayona-cookies' ), array( $this, 'field_banner_type_callback'), 'hc_banner', 'hc_section_banner' );
+	}
+
+	/**
+	 * Admin new settings
+	 * 
+	 * registers all new settings
+	 */
+	public function admin_register_new_settings() {
+		// Banner settings
+		add_settings_section( 'hc_section_banner', __( 'Banner settings', 'hayona-cookies'), array( $this, 'section_new_banner_callback'), 'hc_banner' );
+
+		register_setting( 'hc_banner', 'hc_implied_consent_enabled' );
+		register_setting( 'hc_banner', 'hc_banner_text' );
+		register_setting( 'hc_banner', 'hc_banner_color' );
+		register_setting( 'hc_banner', 'hc_banner_text_button_yes' );
+		register_setting( 'hc_banner', 'hc_banner_text_button_no' );
+		register_setting( 'hc_banner', 'hc_banner_use_body_offset' );
+		register_setting( 'hc_banner', 'hc_banner_offset_header_selector' );
+
+		add_settings_field( 'hc_banner_text', __( 'Banner text', 'hayona-cookies' ), array( $this, 'field_banner_text_callback' ), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_implied_consent_enabled', __( 'Implied consent', 'hayona-cookies' ), array( $this, 'field_implied_consent_enabled_callback' ), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_banner_color', __( 'Banner color', 'hayona-cookies' ), array( $this, 'field_banner_color_callback' ), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_banner_text_button_yes', __( 'Banner Yes button text', 'hayona-cookies' ), array( $this, 'field_banner_text_button_yes_callback' ), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_banner_text_button_no', __( 'Banner No button text', 'hayona-cookies' ), array( $this, 'field_banner_text_button_no_callback' ), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_banner_use_body_offset', __( 'Use body offset', 'hayona-cookies' ), array( $this, 'field_banner_use_body_offset_callback' ), 'hc_banner', 'hc_section_banner' );
+		add_settings_field( 'hc_banner_offset_header_selector', __( 'Offset header selector', 'hayona-cookies' ), array( $this, 'field_banner_offset_header_selector_callback' ), 'hc_banner', 'hc_section_banner' );
+
+		// Form settings
+		add_settings_section( 'hc_section_form', __( 'Form settings', 'hayona-cookies' ), array( $this, 'section_form_callback'), 'hc_form' );
+
+		register_setting( 'hc_form', 'hc_form_placement_before' );
+		register_setting( 'hc_form', 'hc_form_head_text' );
+		register_setting( 'hc_form', 'hc_form_subtitle_text' );
+		register_setting( 'hc_form', 'hc_form_option_one_button_text' );
+		register_setting( 'hc_form', 'hc_form_option_two_button_text' );
+		register_setting( 'hc_form', 'hc_form_allowed_text' );
+		register_setting( 'hc_form', 'hc_form_disallowed_text' );
+
+		add_settings_field( 'hc_form_placement_before', __( 'Form placement before', 'hayona-cookies' ), array( $this, 'field_form_placement_before_callback' ), 'hc_form', 'hc_section_form' );
+		add_settings_field( 'hc_form_head_text', __( 'Form head text', 'hayona-cookies' ), array( $this, 'field_form_head_text_callback' ), 'hc_form', 'hc_section_form' );
+		add_settings_field( 'hc_form_subtitle_text', __( 'Form subtitle text', 'hayona-cookies' ), array( $this, 'field_form_subtitle_text_callback' ), 'hc_form', 'hc_section_form' );
+		add_settings_field( 'hc_form_option_one_button_text', __( 'Form option one button text', 'hayona-cookies' ), array( $this, 'field_form_option_one_button_text_callback' ), 'hc_form', 'hc_section_form' );
+		add_settings_field( 'hc_form_option_two_button_text', __( 'Form option two button text', 'hayona-cookies' ), array( $this, 'field_form_option_two_button_text_callback' ), 'hc_form', 'hc_section_form' );
+		add_settings_field( 'hc_form_allowed_text', __( 'Form allowed text', 'hayona-cookies' ), array( $this, 'field_form_allowed_text_callback' ), 'hc_form', 'hc_section_form' );
+		add_settings_field( 'hc_form_disallowed_text', __( 'Form disallowed text', 'hayona-cookies' ), array( $this, 'field_form_disallowed_text_callback' ), 'hc_form', 'hc_section_form' );
+	}
 
 	/**
 	 * Admin register settings
@@ -398,19 +710,16 @@ class Hayona_Cookies {
 		add_settings_section( 'hc_section_general', __('General settings', 'hayona-cookies'), array( $this, 'section_general_callback' ), 'hc_general' );
 		register_setting( 'hc_general', 'hc_privacy_statement_url' );
 		register_setting( 'hc_general', 'hc_is_enabled' );
-		add_settings_field('hc_privacy_statement_url', __( 'Privacy statement', 'hayona-cookies' ), array( $this, 'field_privacy_statement_url_callback' ), 'hc_general', 'hc_section_general');
-		add_settings_field('hc_is_enabled', __( 'Enable plugin', 'hayona-cookies' ), array( $this, 'field_is_enabled_callback'), 'hc_general', 'hc_section_general');
+		add_settings_field( 'hc_privacy_statement_url', __( 'Privacy statement', 'hayona-cookies' ), array( $this, 'field_privacy_statement_url_callback' ), 'hc_general', 'hc_section_general' );
+		add_settings_field( 'hc_is_enabled', __( 'Enable plugin', 'hayona-cookies' ), array( $this, 'field_is_enabled_callback'), 'hc_general', 'hc_section_general' );
 
-		// Banner settings 
-		add_settings_section( 'hc_section_banner', __('Banner settings', 'hayona-cookies'), array( $this, 'section_banner_callback'), 'hc_banner' );
-		register_setting( 'hc_banner', 'hc_implied_consent_enabled' );
-		register_setting( 'hc_banner', 'hc_banner_text' );
-		register_setting( 'hc_banner', 'hc_banner_color_scheme' );
-		register_setting( 'hc_banner', 'hc_banner_type' );
-		add_settings_field('hc_banner_text', __( 'Banner text', 'hayona-cookies' ), array( $this, 'field_banner_text_callback'), 'hc_banner', 'hc_section_banner');
-		add_settings_field('hc_implied_consent_enabled', __( 'Implied consent', 'hayona-cookies' ), array( $this, 'field_implied_consent_enabled_callback'), 'hc_banner', 'hc_section_banner');
-		add_settings_field('hc_banner_color_scheme', __( 'Color scheme', 'hayona-cookies' ), array( $this, 'field_banner_color_scheme_callback'), 'hc_banner', 'hc_section_banner');
-		add_settings_field('hc_banner_type', __( 'Banner type', 'hayona-cookies' ), array( $this, 'field_banner_type_callback'), 'hc_banner', 'hc_section_banner');
+		$legacy_mode_enabled = esc_attr( get_option( 'hc_legacy_mode_enabled' ) );
+
+		if ( $legacy_mode_enabled != false ) {
+			$this->admin_register_legacy_settings();
+		} else {
+			$this->admin_register_new_settings();
+		}
 
 		// Cookie settings 
 		add_settings_section( 'hc_section_cookie', __('Cookie settings', 'hayona-cookies'), array( $this, 'section_cookie_callback'), 'hc_cookies' );
@@ -423,6 +732,13 @@ class Hayona_Cookies {
 		add_settings_field('hc_cookielist_consent_required', __( 'Permission required', 'hayona-cookies' ), array( $this, 'field_cookielist_consent_required_callback'), 'hc_cookies', 'hc_section_cookie');
 		add_settings_field('hc_cookie_expiration', __( 'Cookie expiration time', 'hayona-cookies' ), array( $this, 'field_cookie_expiration_callback'), 'hc_cookies', 'hc_section_cookie');
 		add_settings_field('hc_reset_consent_timestamp', __( 'Reset permissions', 'hayona-cookies' ), array( $this, 'field_reset_consent_timestamp_callback'), 'hc_cookies', 'hc_section_cookie');
+
+		// Only add the legacy mode option if the user updated to the latest version
+		if ( get_transient( 'hc_updated' ) ) {
+		// if ( get_transient( 'hc_installed' ) ) { // debug
+			register_setting( 'hc_general', 'hc_legacy_mode_enabled' );
+			add_settings_field( 'hc_legacy_mode_enabled', __( 'Enable legacy mode', 'hayona-cookies' ), array( $this, 'field_legacy_mode_enabled_callback' ), 'hc_general', 'hc_section_general' );
+		}
 	}
 
 
@@ -476,7 +792,7 @@ class Hayona_Cookies {
 		echo '<p class="description">';
 			_e( "Please select the page that contains your privacy statement. A small cookie preferences form will be placed at the top of this page. This way your visitors can change their privacy settings on any given moment.", 'hayona-cookies' );
 		echo '</p>';
-	} 
+	}
 
 	public function field_is_enabled_callback() {
 		$hc_is_enabled = esc_attr( get_option('hc_is_enabled') );
@@ -495,6 +811,23 @@ class Hayona_Cookies {
 		echo '</p>';
 	}
 
+	public function field_legacy_mode_enabled_callback() {
+		$hc_legacy_mode_enabled = esc_attr( get_option( 'hc_legacy_mode_enabled' ) );
+
+		echo '<label for="hc_legacy_mode_enabled">';
+		if ( $hc_legacy_mode_enabled == 'on' ) {
+			echo '<input type="checkbox" name="hc_legacy_mode_enabled" checked="checked"/>';
+		} else {
+			echo '<input type="checkbox" name="hc_legacy_mode_enabled"/>';
+		}
+		_e( 'Enable legacy mode', 'hayona-cookies' );
+		echo '</label>';
+
+		echo '<p class="description">';
+		echo __( 'Legacy mode enables you to switch back to the old banner, switching this off gives you the new banner and settings', 'hayona-cookies' );
+		echo '</p>';
+	}
+
 	public function section_banner_callback() {
 		echo '<p class="larger">';
 			_e( "Informing your visitors about cookies on your website is an important part of conforming to the EU cookie law. Use the banner text to provide this information.", 'hayona-cookies' );
@@ -502,6 +835,16 @@ class Hayona_Cookies {
 			printf( wp_kses(
 				__( 'See the <a href="%1$s">documentation</a> for various examples in different situations.', 'hayona-cookies' ), array(  'a' => array( 'href' => array() ) ) ),
 				esc_url('https://wordpress.org/plugins/hayona-cookies/installation/') ); 
+		echo '</p>';
+	}
+
+	public function section_new_banner_callback() {
+		echo '<p class="larger">';
+			_e( "Informing your visitors about cookies on your website is an important part of conforming to the EU cookie law. Use the banner text to provide this information.", 'hayona-cookies' );
+			echo ' ';
+			printf( wp_kses(
+				__( 'See the <a href="%1$s">documentation</a> for various examples in different situations.', 'hayona-cookies' ), array( 'a' => array( 'href' => array() ) ) ),
+				esc_url( 'https://wordpress.org/plugins/hayona-cookies/installation/') );
 		echo '</p>';
 	}
 
@@ -565,8 +908,13 @@ class Hayona_Cookies {
 		echo '</p>';
 	}
 
+	public function field_banner_color_callback() {
+		// TODO
+	}
+
 	public function field_banner_type_callback() {
 		$hc_color_scheme = esc_attr( get_option('hc_banner_type') );
+
 		echo '<select name="hc_banner_type">';
 		echo '<option value="default" ';
 			if( $hc_color_scheme == "default" ) {
@@ -589,6 +937,152 @@ class Hayona_Cookies {
 			_e( "However, the default banner sometimes conflicts with styles from within a theme.", 'hayona-cookies' ); 
 			echo ' ';
 			_e( "In those cases, use the cookie wall.", 'hayona-cookies' ); 
+		echo '</p>';
+	}
+
+	public function field_banner_text_button_yes_callback() {
+		$hc_banner_text_button_yes = esc_attr( get_option( 'hc_banner_text_button_yes' ) );
+
+		echo "<input type='text' name='hc_banner_text_button_yes' value='$hc_banner_text_button_yes'>";
+	}
+
+	public function field_banner_text_button_no_callback() {
+		$hc_banner_text_button_no = esc_attr( get_option( 'hc_banner_text_button_no' ) );
+
+		echo "<input type='text' name='hc_banner_text_button_no' value='$hc_banner_text_button_no'>";
+	}
+
+	public function field_banner_use_body_offset_callback() {
+		$useBodyOffset = esc_attr( get_option( 'hc_banner_use_body_offset' ) );
+
+		echo '<label>';
+
+		if ( $useBodyOffset == 'on' ) {
+			echo '<input type="checkbox" name="hc_banner_use_body_offset" checked="checked">';
+			_e( 'Use a body offset for the banner.', 'hayona_cookies' );
+		} else {
+			echo '<input type="checkbox" name="hc_banner_use_body_offset">';
+			_e( 'Use a body offset for the banner.', 'hayona-cookies' );
+		}
+
+		echo '</label>';
+	}
+
+	public function field_banner_offset_header_selector_callback() {
+		$hc_offset_header_selector = esc_attr( get_option( 'hc_banner_offset_header_selector' ) );
+
+		if ( !empty( $hc_offset_header_selector ) ) {
+			echo "<input type='text' name='hc_banner_offset_header_selector' value='$hc_offset_header_selector'>";
+		} else {
+			echo '<input type="text" name="hc_banner_offset_header_selector" value="">';
+		}
+
+		echo '<p>';
+		_e( 'The selector to use as offset. (Leave empty for no offset)', 'hayona-cookies' );
+		echo '</p>';
+	}
+
+	public function section_form_callback() {
+		echo '<p class="larger">';
+			_e( "Form settings section placeholder text.", 'hayona-cookies' );
+		echo '</p>';
+	}
+
+	public function field_form_placement_before_callback() {
+		$hc_form_placement_before = esc_attr( get_option( 'hc_form_placement_before' ) );
+
+		if ( !empty( $hc_form_placement_before ) ) {
+			echo "<input type='text' name='hc_form_placement_before' value='$hc_form_placement_before'>";
+		} else {
+			echo '<input type="text" name="hc_form_placement_before" value="">';
+		}
+
+		echo '<p>';
+		_e( 'The element to place the consent form', 'hayona-cookies' );
+		echo '</p>';
+	}
+
+	public function field_form_head_text_callback() {
+		$hc_form_head_text = esc_attr( get_option( 'hc_form_head_text' ) );
+
+		if ( !empty( $hc_form_head_text ) ) {
+			echo "<input type='text' name='hc_form_head_text' value='$hc_form_head_text'>";
+		} else {
+			echo '<input type="text" name="hc_form_head_text" value="">';
+		}
+
+		echo '<p>';
+		_e( 'The text for the form header.', 'hayona-cookies' );
+		echo '</p>';
+	}
+
+	public function field_form_subtitle_text_callback() {
+		$hc_form_subtitle_text = esc_attr( get_option( 'hc_form_subtitle_text' ) );
+
+		if ( !empty( $hc_form_subtitle_text ) ) {
+			echo "<input type='text' name='hc_form_subtitle_text' value='$hc_form_subtitle_text'>";
+		} else {
+			echo '<input type="text" name="hc_form_subtitle_text" value="">';
+		}
+
+		echo '<p>';
+		_e( 'The text for the form footer', 'hayona-cookies' );
+		echo '</p>';
+	}
+
+	public function field_form_option_one_button_text_callback() {
+		$hc_form_option_one_button_text = esc_attr( get_option( 'hc_form_option_one_button_text' ) );
+
+		if ( !empty( $hc_form_option_one_button_text ) ) {
+			echo "<input type='text' name='hc_form_option_one_button_text' value='$hc_form_option_one_button_text'>";
+		} else {
+			echo '<input type="text" name="hc_form_option_one_button_text" value="">';
+		}
+
+		echo '<p>';
+		_e( 'Option one button text.', 'hayona-cookies' );
+		echo '</p>';
+	}
+
+	public function field_form_option_two_button_text_callback() {
+		$hc_form_option_two_button_text = esc_attr( get_option( 'hc_form_option_two_button_text' ) );
+
+		if ( !empty( $hc_form_option_two_button_text ) ) {
+			echo "<input type='text' name='hc_form_option_two_button_text' value='$hc_form_option_two_button_text'>";
+		} else {
+			echo '<input type="text" name="hc_form_option_two_button_text" value="">';
+		}
+
+		echo '<p>';
+		_e( 'Option two button text.', 'hayona-cookies' );
+		echo '</p>';
+	}
+
+	public function field_form_allowed_text_callback() {
+		$hc_form_allowed_text = esc_attr( get_option( 'hc_form_allowed_text' ) );
+
+		if ( !empty( $hc_form_allowed_text ) ) {
+			echo "<input type='text' name='hc_form_allowed_text' value='$hc_form_allowed_text'>";
+		} else {
+			echo "<input type='text' name='hc_form_allowed_text' value=''>";
+		}
+
+		echo '<p>';
+		_e( 'Text to show under the allowed cookies.', 'hayona-cookies' );
+		echo '</p>';
+	}
+
+	public function field_form_disallowed_text_callback() {
+		$hc_form_disallowed_text = esc_attr( get_option( 'hc_form_disallowed_text' ) );
+
+		if ( !empty( $hc_form_disallowed_text ) ) {
+			echo "<input type='text' name='hc_form_disallowed_text' value='$hc_form_disallowed_text'>";
+		} else {
+			echo "<input type='text' name='hc_form_disallowed_text' value=''>";
+		}
+
+		echo '<p>';
+		_e( 'Text to show under the disallowed cookies.', 'hayona-cookies' );
 		echo '</p>';
 	}
 
@@ -669,6 +1163,8 @@ class Hayona_Cookies {
 			update_option( 'hc_reset_consent_timestamp', "" );
 		}
 
+		$legacy_mode_enabled = esc_attr( get_option( 'hc_legacy_mode_enabled' ) );
+
 		// The HTML of our options page
 		echo '<div class="wrap"><div class="hc-admin__header"><h1>' . __( 'Hayona Cookie Consent', 'hayona-cookies') . '</h1></div>';
 		echo '<h2 class="nav-tab-wrapper">';
@@ -676,8 +1172,13 @@ class Hayona_Cookies {
 					echo $active_tab == 'general' ? ' nav-tab-active' : '';
 					echo '">' . __( 'General settings', 'hayona-cookies' ) . '</a>';
 			echo '<a href="?page=hayona-cookies&tab=banner" class="nav-tab';
-					echo $active_tab == 'banner' ? ' nav-tab-active' : '';
-					echo '">' . __( 'Banner settings', 'hayona-cookies' ) . '</a>';
+				echo $active_tab == 'banner' ? ' nav-tab-active' : '';
+				echo '">' . __( 'Banner settings', 'hayona-cookies' ) . '</a>';
+			if ( $legacy_mode_enabled == false ) {
+				echo '<a href="?page=hayona-cookies&tab=form" class="nav-tab';
+					echo $active_tab == 'form' ? ' nav-tab-active' : '';
+					echo '">' . __( 'Form settings', 'hayona-cookies' ) . '</a>';
+			}
 			echo '<a href="?page=hayona-cookies&tab=cookies" class="nav-tab';
 					echo $active_tab == 'cookies' ? ' nav-tab-active' : '';
 					echo '">' . __( 'Cookie settings', 'hayona-cookies' ) . '</a>';
@@ -690,6 +1191,9 @@ class Hayona_Cookies {
 		} elseif( $active_tab == 'banner' ) {
 			settings_fields( 'hc_banner' ); 
 			do_settings_sections( 'hc_banner' );
+		} elseif( $legacy_mode_enabled == false && $active_tab == 'form' ) {
+			settings_fields( 'hc_form' );
+			do_settings_sections( 'hc_form' );
 		} elseif( $active_tab == 'cookies' ) {
 			settings_fields( 'hc_cookies' ); 
 			do_settings_sections( 'hc_cookies' );

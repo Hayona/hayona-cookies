@@ -1,0 +1,61 @@
+.gtmcc-banner-offset {
+	transition: all 0.4s cubic-bezier(0.37, 1.13, 0.99, 0.98);
+}
+
+.gtmcc-banner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 15px 20px;
+	background-color: #fff;
+	font: inherit;
+	font-size: 16px;
+	line-height: 1.3;
+	color: #333;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.1), 0 10px 30px rgba(0,0,0,0.05);
+
+	@include lt-m {
+		display: block;
+		position: relative;
+	}
+
+	@include lt-s {
+		padding: 20px;
+		font-size: 12px;
+	}
+
+	&, & * {
+		box-sizing: border-box;
+		font-family: inherit;
+	}
+
+	&__info {
+		margin: 0;
+		padding-right: 20px;
+
+		@include lt-m {
+			margin: 0 0 10px;
+		}
+
+		a {
+			color: inherit;
+		}
+	}
+
+	&__toolbar {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		align-items: center;
+
+		li {
+			margin-right: 10px;
+			list-style: none;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+}
