@@ -9,6 +9,7 @@
  * License: GPLv2
  * Domain Path: /languages
  * Text Domain: hayona-cookies
+ * GitHub Plugin URI: https://github.com/hayona/hayona-cookies
  * 
  * Hayona Cookie Consent is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
