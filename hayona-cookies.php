@@ -224,36 +224,66 @@ class Hayona_Cookies {
 				);
 			} else {
 				wp_enqueue_style(
-					'hayona-cookies',
+					'hayona-cookies-style',
 					plugins_url( 'assets/css/2.0/min/style.css', __FILE__ ),
 					array(),
 					'2.0',
 					'screen'
 				);
 
+				wp_enqueue_style(
+					'hayona-cookies-style-settings',
+					plugins_url( 'assets/css/2.0/settings.css', __FILE__ ),
+					array(),
+					'2.0',
+					'screen'
+				);
+
 				wp_enqueue_script(
-					'hayona-cookies',
+					'hayona-cookies-banner',
 					plugins_url( 'assets/js/2.0/min/cookie-banner.min.js', __FILE__ ),
 					array(),
 					'2.0',
 					true
 				);
+
+				wp_enqueue_style(
+					'hayona-cookies-settings',
+					plugins_url( 'assets/js/2.0/settings.js', __FILE__ ),
+					array(),
+					'2.0'
+				);
 			}
 		} else {
 			wp_enqueue_style(
-				'hayona-cookies',
+				'hayona-cookies-style',
 				plugins_url( 'assets/css/2.0/min/style.css', __FILE__ ),
 				array(),
 				'2.0',
 				'screen'
 			);
 
+			wp_enqueue_style(
+				'hayona-cookies-style-settings',
+				plugins_url( 'assets/css/2.0/settings.css', __FILE__ ),
+				array(),
+				'2.0',
+				'screen'
+			);
+
 			wp_enqueue_script(
-				'hayona-cookies',
+				'hayona-cookies-banner',
 				plugins_url( 'assets/js/2.0/min/cookie-banner.min.js', __FILE__ ),
 				array(),
 				'2.0',
 				true
+			);
+
+			wp_enqueue_script(
+				'hayona-cookies-settings',
+				plugins_url( 'assets/js/2.0/settings.js', __FILE__ ),
+				array(),
+				'2.0'
 			);
 		}
 
@@ -313,7 +343,7 @@ class Hayona_Cookies {
 	/**
 	 * Cookie legacy banner
 	 * 
-	 * Description: Shows the legacy banner
+	 * Description: Shows the legacy banner on the page
 	 */
 	private function cookie_legacy_banner() {
 		// Get permission timestamp
@@ -371,7 +401,7 @@ class Hayona_Cookies {
 	/**
 	 * Cookie new banner
 	 * 
-	 * Description: Shows the new banner
+	 * Description: Shows the new banner on the page
 	 */
 	private function cookie_new_banner() {
 
@@ -403,6 +433,9 @@ class Hayona_Cookies {
 
 		$cookies = $this->get_cookies();
 
+		// If the use body offset setting is on true, display
+		// the banner on the top of the page. If false, display
+		// it on the bottom.
 		if ( $use_body_offset == 'true' ) {
 			if ( is_admin_bar_showing() ) {
 				$banner_markup = "
@@ -434,6 +467,7 @@ class Hayona_Cookies {
 			}";
 		}
 
+		// The new banner settings
 		$banner_script = "var cookieConsentSettings = {
 				
 					/* Edit general settings */
@@ -474,6 +508,7 @@ class Hayona_Cookies {
 		$banner_markup = apply_filters( 'hc_banner_markup', $banner_markup );
 		$banner_script = apply_filters( 'hc_banner_script', $banner_script );
 
+		// Write the settings to the setting files
 		file_put_contents( plugin_dir_path( __FILE__ ) . 'assets/css/2.0/settings.css', $banner_markup );
 		file_put_contents( plugin_dir_path( __FILE__ ) . 'assets/js/2.0/settings.js', $banner_script );
 	}
@@ -486,6 +521,7 @@ class Hayona_Cookies {
 	 */
 	public function cookie_banner() {
 
+		// Check if the plugin got updated instead of installed
 		if ( !get_transient( 'hc_installed' ) ) {
 		// if ( get_transient( 'hc_installed' ) ) { // for debugging purpose
 			$hc_legacy_mode_enabled = esc_attr( get_option( 'hc_legacy_mode_enabled' ) );
@@ -976,10 +1012,6 @@ class Hayona_Cookies {
 		} else {
 			echo '<input type="text" name="hc_banner_offset_header_selector" value="">';
 		}
-
-		echo '<p>';
-		_e( 'The selector to use as offset. (Leave empty for no offset)', 'hayona-cookies' );
-		echo '</p>';
 	}
 
 	public function section_form_callback() {
@@ -998,7 +1030,7 @@ class Hayona_Cookies {
 		}
 
 		echo '<p>';
-		_e( 'The element to place the consent form', 'hayona-cookies' );
+		_e( 'The element to place the consent form above', 'hayona-cookies' );
 		echo '</p>';
 	}
 
@@ -1012,7 +1044,7 @@ class Hayona_Cookies {
 		}
 
 		echo '<p>';
-		_e( 'The text for the form header.', 'hayona-cookies' );
+		_e( 'The text for the consent form header.', 'hayona-cookies' );
 		echo '</p>';
 	}
 
@@ -1026,7 +1058,7 @@ class Hayona_Cookies {
 		}
 
 		echo '<p>';
-		_e( 'The text for the form footer', 'hayona-cookies' );
+		_e( 'The text for the consent form subtitle', 'hayona-cookies' );
 		echo '</p>';
 	}
 
@@ -1038,10 +1070,6 @@ class Hayona_Cookies {
 		} else {
 			echo '<input type="text" name="hc_form_option_one_button_text" value="">';
 		}
-
-		echo '<p>';
-		_e( 'Option one button text.', 'hayona-cookies' );
-		echo '</p>';
 	}
 
 	public function field_form_option_two_button_text_callback() {
@@ -1052,10 +1080,6 @@ class Hayona_Cookies {
 		} else {
 			echo '<input type="text" name="hc_form_option_two_button_text" value="">';
 		}
-
-		echo '<p>';
-		_e( 'Option two button text.', 'hayona-cookies' );
-		echo '</p>';
 	}
 
 	public function field_form_allowed_text_callback() {
@@ -1068,7 +1092,7 @@ class Hayona_Cookies {
 		}
 
 		echo '<p>';
-		_e( 'Text to show under the allowed cookies.', 'hayona-cookies' );
+		_e( 'Text to show next to the allowed cookies.', 'hayona-cookies' );
 		echo '</p>';
 	}
 
@@ -1082,7 +1106,7 @@ class Hayona_Cookies {
 		}
 
 		echo '<p>';
-		_e( 'Text to show under the disallowed cookies.', 'hayona-cookies' );
+		_e( 'Text to show next to the disallowed cookies.', 'hayona-cookies' );
 		echo '</p>';
 	}
 
